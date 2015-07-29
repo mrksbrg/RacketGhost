@@ -1,4 +1,4 @@
-package com.markusborg.test;
+package com.markusborg.ui;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
