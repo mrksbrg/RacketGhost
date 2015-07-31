@@ -18,7 +18,8 @@
             android:orientation="horizontal"
             android:layout_width="117dp"
             android:layout_height="112dp"
-            android:background="@android:color/holo_blue_light">
+            android:background="@android:color/darker_gray"
+            android:id="@+id/leftFront">
 
         </LinearLayout>
 
@@ -26,20 +27,22 @@
             android:orientation="horizontal"
             android:layout_width="118dp"
             android:layout_height="99dp"
-            android:background="@android:color/holo_green_light"></LinearLayout>
+            android:background="@android:color/darker_gray"
+            android:id="@+id/leftMid"></LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="120dp"
             android:layout_height="110dp"
-            android:background="@android:color/holo_red_light"></LinearLayout>
+            android:background="@android:color/darker_gray"
+            android:id="@+id/leftBack"></LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="2 /15 (Set 1)"
-            android:id="@+id/textView6"
+            android:id="@+id/lblProgress"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.35" />
 
@@ -47,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Stop"
-            android:id="@+id/button"
+            android:id="@+id/btnStop"
             android:layout_gravity="center_horizontal" />
     </LinearLayout>
 
@@ -57,28 +60,31 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:weightSum="1"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="125dp"
             android:layout_height="112dp"
-            android:background="@android:color/holo_blue_light"
-            android:layout_gravity="right" />
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="right"
+            android:id="@+id/rightFront" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="122dp"
             android:layout_height="99dp"
-            android:background="@android:color/holo_green_light"
-            android:layout_gravity="right" />
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="right"
+            android:id="@+id/RightMid" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="122dp"
             android:layout_height="110dp"
-            android:background="@android:color/holo_red_light"
-            android:layout_gravity="right" />
+            android:background="@android:color/darker_gray"
+            android:layout_gravity="right"
+            android:id="@+id/rightBack" />
 
         <LinearLayout
             android:orientation="vertical"
