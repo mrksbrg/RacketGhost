@@ -1,5 +1,6 @@
 package com.markusborg.ui;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,12 +8,17 @@ import android.view.MenuItem;
 
 import com.markusborg.ui.R;
 
+import java.util.ArrayList;
+
 public class GhostingActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
+
+        GhostingTask gTask = new GhostingTask();
+        gTask.execute(setting);
     }
 
     @Override
@@ -35,5 +41,28 @@ public class GhostingActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public class GhostingTask extends AsyncTask<ArrayList<Integer>, Void, String[]> {
+
+        protected String[] doInBackground(ArrayList<Integer>... params) {
+
+            int simulatedDelay = 5000;
+            try {
+                // Pretend downloading takes a long time
+                Thread.sleep(simulatedDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return new String[0];
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(String[] result) {
+
+        }
     }
 }

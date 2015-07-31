@@ -1,4 +1,4 @@
-package logic;
+package com.markusborg.logic;
 
 import java.util.Random;
 
