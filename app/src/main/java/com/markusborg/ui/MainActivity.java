@@ -2,16 +2,22 @@ package com.markusborg.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+
+import com.markusborg.logic.Setting;
 
 public class MainActivity extends ActionBarActivity {
 
     private Context appContext;
+    private EditText txtSets, txtReps, txtInterval, txtBreak;
+    private CheckBox chk6Points, chkAudio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,17 +25,22 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         appContext = getApplicationContext();
+        SetGUIComponents();
 
         final Button button = (Button) findViewById(R.id.btnGo);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-
                 Intent ghostingIntent = new Intent(appContext, GhostingActivity.class);
+                ghostingIntent.putExtra("NBR_SETS", Integer.parseInt(txtSets.getText().toString()));
+                ghostingIntent.putExtra("NBR_REPS", Integer.parseInt(txtSets.getText().toString()));
+                ghostingIntent.putExtra("TIME_INTERVALS", Integer.parseInt(txtSets.getText().toString()));
+                ghostingIntent.putExtra("TIME_BREAKS", Integer.parseInt(txtSets.getText().toString()));
+                ghostingIntent.putExtra("IS_6POINTS", Integer.parseInt(txtSets.getText().toString()));
+                ghostingIntent.putExtra("IS_AUDIO", Integer.parseInt(txtSets.getText().toString()));
                 startActivity(ghostingIntent);
             }
         });
-
     }
 
     @Override
@@ -52,5 +63,14 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void SetGUIComponents(){
+        txtSets = (EditText) findViewById(R.id.txtSets);
+        txtReps = (EditText) findViewById(R.id.txtReps);
+        txtInterval = (EditText) findViewById(R.id.txtInterval);
+        txtBreak = (EditText) findViewById(R.id.txtBreak);
+        chk6Points = (CheckBox) findViewById(R.id.chk6Point);
+        chkAudio = (CheckBox) findViewById(R.id.chkAudio);
     }
 }

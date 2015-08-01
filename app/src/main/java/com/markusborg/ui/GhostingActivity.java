@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.markusborg.logic.Setting;
 import com.markusborg.ui.R;
 
 import java.util.ArrayList;
@@ -17,8 +18,17 @@ public class GhostingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
 
+        Bundle extras = getIntent().getExtras();
+        Setting theSetting = new Setting(extras.getInt("NBR_SETS"),
+                                         extras.getInt("NBR_REPS"),
+                                         extras.getInt("TIME_INTERVALS"),
+                                         extras.getInt("TIME_BREAK"),
+                                         extras.getBoolean("IS_6POINTS"),
+                                         extras.getBoolean("IS_AUDIO"));
+
         GhostingTask gTask = new GhostingTask();
-        gTask.execute(setting);
+
+        gTask.execute(theSetting);
     }
 
     @Override
@@ -43,9 +53,9 @@ public class GhostingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class GhostingTask extends AsyncTask<ArrayList<Integer>, Void, String[]> {
+    public class GhostingTask extends AsyncTask<Setting, Void, String[]> {
 
-        protected String[] doInBackground(ArrayList<Integer>... params) {
+        protected String[] doInBackground(Setting... params) {
 
             int simulatedDelay = 5000;
             try {
