@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.markusborg.logic.Ghost;
 import com.markusborg.logic.Setting;
-import com.markusborg.ui.R;
-
-import java.util.ArrayList;
 
 public class GhostingActivity extends ActionBarActivity {
 
@@ -53,18 +51,19 @@ public class GhostingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class GhostingTask extends AsyncTask<Setting, Void, String[]> {
+    public class GhostingTask extends AsyncTask<Setting, Void, Void> {
 
-        protected String[] doInBackground(Setting... params) {
+        protected Void doInBackground(Setting... params) {
+            Setting theSetting = params[0];
+            Ghost theGhost = new Ghost();
 
-            int simulatedDelay = 5000;
             try {
                 // Pretend downloading takes a long time
-                Thread.sleep(simulatedDelay);
+                Thread.sleep(theSetting.getInterval());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return new String[0];
+            return null;
         }
 
         protected void onProgressUpdate(Integer... progress) {
