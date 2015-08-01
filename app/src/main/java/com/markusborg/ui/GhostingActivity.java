@@ -1,28 +1,26 @@
 package com.markusborg.ui;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.markusborg.logic.GhostPlayer;
 import com.markusborg.logic.Setting;
 
-public class GhostingActivity extends ActionBarActivity {
+public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
+
+    private GhostingFinishedListener mainActivityCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
-
-
-
         Bundle extras = getIntent().getExtras();
         Setting theSetting = new Setting(extras.getInt("NBR_SETS"),
                                          extras.getInt("NBR_REPS"),
@@ -30,9 +28,8 @@ public class GhostingActivity extends ActionBarActivity {
                                          extras.getInt("TIME_BREAK"),
                                          extras.getBoolean("IS_6POINTS"),
                                          extras.getBoolean("IS_AUDIO"));
-
         GhostingTask gTask = new GhostingTask();
-
+        gTask.delegate = this;
         gTask.execute(theSetting);
     }
 
@@ -58,12 +55,20 @@ public class GhostingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class GhostingTask extends AsyncTask<Setting, String, Void> {
+    @Override
+    public void notifyGhostingFinished() {
+        Intent summaryIntent = new Intent(this, ResultsActivity.class);
+        startActivity(summaryIntent);
+    }
 
+    public class GhostingTask extends AsyncTask<Setting, String, String> {
+
+        public GhostingFinishedListener delegate = null;
         private volatile boolean running = true;
         private TextView lblProgress;
 
-        protected Void doInBackground(Setting... params) {
+        @Override
+        protected String doInBackground(Setting... params) {
             Setting theSetting = params[0];
             GhostPlayer theGhost = new GhostPlayer(theSetting.isSixPoints());
 
@@ -90,9 +95,10 @@ public class GhostingActivity extends ActionBarActivity {
             } // end sets loop
             finish();
 
-            return null;
+            return "Done";
         }
 
+        @Override
         protected void onProgressUpdate(String... progress) {
             if (progress.length == 1) {
                 lblProgress.setText(progress[0]);
@@ -129,8 +135,9 @@ public class GhostingActivity extends ActionBarActivity {
             }
         }
 
-        protected void onPostExecute(String[] result) {
-                lblProgress.setText("Set done!");
+        @Override
+        protected void onPostExecute(String result) {
+            delegate.notifyGhostingFinished();
         }
 
         @Override
