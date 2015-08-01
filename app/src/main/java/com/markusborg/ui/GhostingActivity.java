@@ -1,10 +1,12 @@
 package com.markusborg.ui;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.markusborg.logic.GhostPlayer;
@@ -63,15 +65,18 @@ public class GhostingActivity extends ActionBarActivity {
             lblProgress = (TextView) findViewById(R.id.lblProgress);
 
             // Loop the sets
-            for (int i = 0; i < theSetting.getSets(); i++) {
+            for (int i = 1; i <= theSetting.getSets(); i++) {
 
                 displayCountDown();
 
                 // Loop the reps
-                for (int j = 0; j < theSetting.getReps(); j++) {
+                for (int j = 1; j <= theSetting.getReps(); j++) {
+
+                    String progress = new String(i + " / " + j);
+                    publishProgress(progress, theGhost.nextCorner());
 
                     try {
-                        Thread.sleep(theSetting.getInterval());
+                        Thread.sleep(theSetting.getInterval()*1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -82,7 +87,38 @@ public class GhostingActivity extends ActionBarActivity {
         }
 
         protected void onProgressUpdate(String... progress) {
-            lblProgress.setText(progress[0]);
+            if (progress.length == 1) {
+                lblProgress.setText(progress[0]);
+            }
+            else if (progress.length == 2) {
+                lblProgress.setText(progress[0]);
+                String cornerToFlash = progress[1];
+
+                if (cornerToFlash.equals("L_FRONT")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
+                    corner.setBackgroundColor(Color.BLUE);
+                }
+                else if (cornerToFlash.equals("R_FRONT")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
+                    corner.setBackgroundColor(Color.BLUE);
+                }
+                else if (cornerToFlash.equals("L_BACK")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
+                    corner.setBackgroundColor(Color.BLUE);
+                }
+                else if (cornerToFlash.equals("R_BACK")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
+                    corner.setBackgroundColor(Color.BLUE);
+                }
+                else if (cornerToFlash.equals("L_VOLLEY")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
+                    corner.setBackgroundColor(Color.BLUE);
+                }
+                else {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
+                    corner.setBackgroundColor(Color.BLUE);
+                }
+            }
         }
 
         protected void onPostExecute(String[] result) {
