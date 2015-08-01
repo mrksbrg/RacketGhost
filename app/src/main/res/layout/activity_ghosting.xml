@@ -76,7 +76,7 @@
             android:layout_height="99dp"
             android:background="@android:color/darker_gray"
             android:layout_gravity="right"
-            android:id="@+id/RightMid" />
+            android:id="@+id/rightMid" />
 
         <LinearLayout
             android:orientation="horizontal"

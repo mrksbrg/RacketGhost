@@ -33,11 +33,11 @@ public class MainActivity extends ActionBarActivity {
                 // Perform action on click
                 Intent ghostingIntent = new Intent(appContext, GhostingActivity.class);
                 ghostingIntent.putExtra("NBR_SETS", Integer.parseInt(txtSets.getText().toString()));
-                ghostingIntent.putExtra("NBR_REPS", Integer.parseInt(txtSets.getText().toString()));
-                ghostingIntent.putExtra("TIME_INTERVALS", Integer.parseInt(txtSets.getText().toString()));
-                ghostingIntent.putExtra("TIME_BREAKS", Integer.parseInt(txtSets.getText().toString()));
-                ghostingIntent.putExtra("IS_6POINTS", Integer.parseInt(txtSets.getText().toString()));
-                ghostingIntent.putExtra("IS_AUDIO", Integer.parseInt(txtSets.getText().toString()));
+                ghostingIntent.putExtra("NBR_REPS", Integer.parseInt(txtReps.getText().toString()));
+                ghostingIntent.putExtra("TIME_INTERVALS", Integer.parseInt(txtInterval.getText().toString()));
+                ghostingIntent.putExtra("TIME_BREAKS", Integer.parseInt(txtBreak.getText().toString()));
+                ghostingIntent.putExtra("IS_6POINTS", chk6Points.isChecked());
+                ghostingIntent.putExtra("IS_AUDIO", chkAudio.isChecked());
                 startActivity(ghostingIntent);
             }
         });

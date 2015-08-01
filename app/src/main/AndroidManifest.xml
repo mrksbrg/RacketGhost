@@ -20,6 +20,10 @@
             android:name=".GhostingActivity"
             android:label="@string/title_activity_ghosting" >
         </activity>
+        <activity
+            android:name=".ResultsActivity"
+            android:label="@string/title_activity_results" >
+        </activity>
     </application>
 
 </manifest>

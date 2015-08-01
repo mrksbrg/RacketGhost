@@ -38,7 +38,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtSets"
-                android:text="1" />
+                android:text="2" />
         </LinearLayout>
 
         <LinearLayout
@@ -60,7 +60,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtReps"
-                android:text="5" />
+                android:text="4" />
         </LinearLayout>
 
         <LinearLayout
@@ -110,7 +110,8 @@
             android:layout_height="wrap_content"
             android:text="6 points"
             android:id="@+id/chk6Point"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:checked="true" />
 
         <CheckBox
             android:layout_width="wrap_content"

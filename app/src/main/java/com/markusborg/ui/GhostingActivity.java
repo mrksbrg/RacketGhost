@@ -6,6 +6,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ public class GhostingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
+
+
 
         Bundle extras = getIntent().getExtras();
         Setting theSetting = new Setting(extras.getInt("NBR_SETS"),
@@ -56,6 +60,7 @@ public class GhostingActivity extends ActionBarActivity {
 
     public class GhostingTask extends AsyncTask<Setting, String, Void> {
 
+        private volatile boolean running = true;
         private TextView lblProgress;
 
         protected Void doInBackground(Setting... params) {
@@ -83,6 +88,8 @@ public class GhostingActivity extends ActionBarActivity {
                 } // end reps loop
 
             } // end sets loop
+            finish();
+
             return null;
         }
 
@@ -91,6 +98,7 @@ public class GhostingActivity extends ActionBarActivity {
                 lblProgress.setText(progress[0]);
             }
             else if (progress.length == 2) {
+                clearCorners();
                 lblProgress.setText(progress[0]);
                 String cornerToFlash = progress[1];
 
@@ -122,7 +130,12 @@ public class GhostingActivity extends ActionBarActivity {
         }
 
         protected void onPostExecute(String[] result) {
+                lblProgress.setText("Set done!");
+        }
 
+        @Override
+        protected void onCancelled() {
+            running = false;
         }
 
         private void displayCountDown() {
@@ -145,6 +158,21 @@ public class GhostingActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             publishProgress("");
+        }
+
+        private void clearCorners() {
+            LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
+            corner.setBackgroundColor(Color.DKGRAY);
+            corner = (LinearLayout) findViewById(R.id.rightFront);
+            corner.setBackgroundColor(Color.DKGRAY);
+            corner = (LinearLayout) findViewById(R.id.leftMid);
+            corner.setBackgroundColor(Color.DKGRAY);
+            corner = (LinearLayout) findViewById(R.id.rightMid);
+            corner.setBackgroundColor(Color.DKGRAY);
+            corner = (LinearLayout) findViewById(R.id.leftBack);
+            corner.setBackgroundColor(Color.DKGRAY);
+            corner = (LinearLayout) findViewById(R.id.rightBack);
+            corner.setBackgroundColor(Color.DKGRAY);
         }
     }
 }
