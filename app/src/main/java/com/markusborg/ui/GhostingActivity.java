@@ -5,8 +5,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-import com.markusborg.logic.Ghost;
+import com.markusborg.logic.GhostPlayer;
 import com.markusborg.logic.Setting;
 
 public class GhostingActivity extends ActionBarActivity {
@@ -51,27 +52,63 @@ public class GhostingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class GhostingTask extends AsyncTask<Setting, Void, Void> {
+    public class GhostingTask extends AsyncTask<Setting, String, Void> {
+
+        private TextView lblProgress;
 
         protected Void doInBackground(Setting... params) {
             Setting theSetting = params[0];
-            Ghost theGhost = new Ghost();
+            GhostPlayer theGhost = new GhostPlayer(theSetting.isSixPoints());
 
-            try {
-                // Pretend downloading takes a long time
-                Thread.sleep(theSetting.getInterval());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            lblProgress = (TextView) findViewById(R.id.lblProgress);
+
+            // Loop the sets
+            for (int i = 0; i < theSetting.getSets(); i++) {
+
+                displayCountDown();
+
+                // Loop the reps
+                for (int j = 0; j < theSetting.getReps(); j++) {
+
+                    try {
+                        Thread.sleep(theSetting.getInterval());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                } // end reps loop
+
+            } // end sets loop
             return null;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-
+        protected void onProgressUpdate(String... progress) {
+            lblProgress.setText(progress[0]);
         }
 
         protected void onPostExecute(String[] result) {
 
+        }
+
+        private void displayCountDown() {
+            publishProgress("3");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            publishProgress("2");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            publishProgress("1");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            publishProgress("");
         }
     }
 }

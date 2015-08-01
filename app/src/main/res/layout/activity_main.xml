@@ -37,7 +37,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/txtSets" />
+                android:id="@+id/txtSets"
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,7 +59,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/txtReps" />
+                android:id="@+id/txtReps"
+                android:text="5" />
         </LinearLayout>
 
         <LinearLayout
@@ -78,7 +80,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/txtInterval" />
+                android:id="@+id/txtInterval"
+                android:text="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -98,7 +101,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:ems="10"
-                android:id="@+id/txtBreak" />
+                android:id="@+id/txtBreak"
+                android:text="3" />
         </LinearLayout>
 
         <CheckBox

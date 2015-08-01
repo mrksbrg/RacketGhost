@@ -7,27 +7,15 @@ import java.util.Random;
  * @author Markus Borg
  *
  */
-public class Ghost {
+public class GhostPlayer {
 
-    private int speed;
     private boolean sixPoint;
     private Random rand;
 
-    public Ghost(int iSpeed, boolean iSixPoint)
+    public GhostPlayer(boolean iSixPoint)
     {
-        speed = iSpeed;
         sixPoint = iSixPoint;
         rand = new Random();
-    }
-
-    public int getSpeed()
-    {
-        return speed;
-    }
-
-    public void setSpeed(int newSpeed)
-    {
-        speed = newSpeed;
     }
 
     public String nextCorner()
