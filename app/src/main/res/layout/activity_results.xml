@@ -12,11 +12,11 @@
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <TextView android:text="Sets-Reps-Interval-Break" android:layout_width="362dp"
+        <TextView android:text="Date: Sets-Reps;Interval;Break" android:layout_width="362dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="20dp"
-            android:id="@+id/" />
+            android:id="@+id/txtLegend" />
 
         <TextView
             android:layout_width="match_parent"
@@ -25,7 +25,9 @@
             android:text="Large Text"
             android:id="@+id/txtHistory"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="0.70" />
+            android:layout_weight="0.70"
+            android:textIsSelectable="true"
+            android:textSize="18dp" />
 
     </LinearLayout>
 

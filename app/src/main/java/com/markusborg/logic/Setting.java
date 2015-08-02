@@ -24,12 +24,13 @@ public class Setting {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer(getSets() + "-" + getReps() + ";" + getInterval() + ";" + getBreakTime());
-        if (isSixPoints()) {
+        /*if (isSixPoints()) {
             sb.append(";Six points");
         }
         else {
             sb.append(";Four points");
         }
+        */
         return sb.toString();
     }
 

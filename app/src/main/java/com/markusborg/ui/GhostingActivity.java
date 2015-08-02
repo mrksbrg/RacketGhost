@@ -88,18 +88,37 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
                 // Loop the reps
                 for (int j = 1; j <= theSetting.getReps(); j++) {
+                    String corner = theGhost.nextCorner();
 
-                    String progress = new String(i + " / " + j);
-                    publishProgress(progress, theGhost.nextCorner());
+                    String progress = new String(j + " / " + theSetting.getReps() +
+                            " (Set " + i + ")");
 
+                    // Turn on corner
+                    publishProgress(progress, corner);
                     try {
-                        Thread.sleep(theSetting.getInterval()*1000);
+                        Thread.sleep((theSetting.getInterval() / 2) * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Turn off corner
+                    publishProgress(progress, corner, "OFF");
+                    try {
+                        Thread.sleep((theSetting.getInterval() / 2) * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 } // end reps loop
+                publishProgress("Rest...");
+
+                try {
+                    Thread.sleep(theSetting.getBreakTime() * 1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             } // end sets loop
+
             finish();
 
             return "Done";
@@ -140,10 +159,39 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.BLUE);
                 }
             }
+            else if (progress.length == 3) {
+                String cornerToTurnOff = progress[1];
+
+                if (cornerToTurnOff.equals("L_FRONT")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
+                    corner.setBackgroundColor(Color.DKGRAY);
+                }
+                else if (cornerToTurnOff.equals("R_FRONT")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
+                    corner.setBackgroundColor(Color.DKGRAY);
+                }
+                else if (cornerToTurnOff.equals("L_BACK")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
+                    corner.setBackgroundColor(Color.DKGRAY);
+                }
+                else if (cornerToTurnOff.equals("R_BACK")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
+                    corner.setBackgroundColor(Color.DKGRAY);
+                }
+                else if (cornerToTurnOff.equals("L_VOLLEY")) {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
+                    corner.setBackgroundColor(Color.DKGRAY);
+                }
+                else {
+                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
+                    corner.setBackgroundColor(Color.DKGRAY);
+                }
+            }
         }
 
         @Override
         protected void onPostExecute(String result) {
+            clearCorners();
             delegate.notifyGhostingFinished();
         }
 

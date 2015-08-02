@@ -30,13 +30,14 @@ public class ResultsActivity extends AppCompatActivity {
 
         TextView txtHistory = (TextView) findViewById(R.id.txtHistory);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HHmmss");
-        String currentDateandTime = sdf.format(new Date());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currentDate = sdf.format(new Date());
 
-        String currentGhosting = currentDateandTime + ": " + theSetting.toString();
+        String currentGhosting = currentDate + ": " + theSetting.toString();
 
         txtHistory.setText(currentGhosting);
 
+        printHistory();
     }
 
     @Override
@@ -59,5 +60,9 @@ public class ResultsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void printHistory() {
+        // TODO: Print 10 previous ghosting sessions
     }
 }
