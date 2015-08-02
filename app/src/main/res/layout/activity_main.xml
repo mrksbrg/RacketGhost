@@ -81,7 +81,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtInterval"
-                android:text="1" />
+                android:text="10" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +102,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtBreak"
-                android:text="3" />
+                android:text="5" />
         </LinearLayout>
 
         <CheckBox
@@ -135,7 +135,8 @@
             android:id="@+id/txtHistory"
             android:layout_weight="0.60"
             android:text="History:"
-            android:textAlignment="textStart" />
+            android:textAlignment="textStart"
+            android:enabled="false" />
     </LinearLayout>
 
 </RelativeLayout>

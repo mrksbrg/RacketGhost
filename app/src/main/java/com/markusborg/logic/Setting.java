@@ -21,6 +21,18 @@ public class Setting {
         this.audio = audio;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer(getSets() + "-" + getReps() + ";" + getInterval() + ";" + getBreakTime());
+        if (isSixPoints()) {
+            sb.append(";Six points");
+        }
+        else {
+            sb.append(";Four points");
+        }
+        return sb.toString();
+    }
+
     public int getSets() {
         return sets;
     }

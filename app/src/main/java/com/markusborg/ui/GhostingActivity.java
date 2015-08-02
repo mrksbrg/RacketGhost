@@ -64,6 +64,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         summaryIntent.putExtra("TIME_INTERVALS", theSetting.getInterval());
         summaryIntent.putExtra("TIME_BREAKS", theSetting.getBreakTime());
         summaryIntent.putExtra("IS_6POINTS", theSetting.isSixPoints());
+        summaryIntent.putExtra("IS_AUDIO", theSetting.isAudio());
         startActivity(summaryIntent);
     }
 

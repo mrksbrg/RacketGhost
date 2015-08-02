@@ -12,17 +12,18 @@
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <TextView android:text="Done!" android:layout_width="362dp"
+        <TextView android:text="Sets-Reps-Interval-Break" android:layout_width="362dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:textSize="@dimen/abc_text_size_display_3_material" />
+            android:textSize="20dp"
+            android:id="@+id/" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
-            android:id="@+id/textView6"
+            android:id="@+id/txtHistory"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.70" />
 
