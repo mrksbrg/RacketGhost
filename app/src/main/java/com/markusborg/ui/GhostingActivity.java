@@ -16,18 +16,19 @@ import com.markusborg.logic.Setting;
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
 
     private GhostingFinishedListener mainActivityCallback;
+    private Setting theSetting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
-        Setting theSetting = new Setting(extras.getInt("NBR_SETS"),
-                                         extras.getInt("NBR_REPS"),
-                                         extras.getInt("TIME_INTERVALS"),
-                                         extras.getInt("TIME_BREAK"),
-                                         extras.getBoolean("IS_6POINTS"),
-                                         extras.getBoolean("IS_AUDIO"));
+        theSetting = new Setting(extras.getInt("NBR_SETS"),
+                extras.getInt("NBR_REPS"),
+                extras.getInt("TIME_INTERVALS"),
+                extras.getInt("TIME_BREAK"),
+                extras.getBoolean("IS_6POINTS"),
+                extras.getBoolean("IS_AUDIO"));
         GhostingTask gTask = new GhostingTask();
         gTask.delegate = this;
         gTask.execute(theSetting);
@@ -58,6 +59,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     @Override
     public void notifyGhostingFinished() {
         Intent summaryIntent = new Intent(this, ResultsActivity.class);
+        summaryIntent.putExtra("NBR_SETS", theSetting.getSets());
+        summaryIntent.putExtra("NBR_REPS", theSetting.getReps());
+        summaryIntent.putExtra("TIME_INTERVALS", theSetting.getInterval());
+        summaryIntent.putExtra("TIME_BREAKS", theSetting.getBreakTime());
+        summaryIntent.putExtra("IS_6POINTS", theSetting.isSixPoints());
         startActivity(summaryIntent);
     }
 
