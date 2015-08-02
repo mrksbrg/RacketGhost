@@ -78,6 +78,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         protected String doInBackground(Setting... params) {
             Setting theSetting = params[0];
             GhostPlayer theGhost = new GhostPlayer(theSetting.isSixPoints());
+            clearCorners();
 
             lblProgress = (TextView) findViewById(R.id.lblProgress);
 
@@ -136,27 +137,27 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
                 if (cornerToFlash.equals("L_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
-                    corner.setBackgroundColor(Color.BLUE);
+                    corner.setBackgroundColor(Color.rgb(255,102,102));
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
-                    corner.setBackgroundColor(Color.BLUE);
+                    corner.setBackgroundColor(Color.rgb(153,255,153));
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
-                    corner.setBackgroundColor(Color.BLUE);
+                    corner.setBackgroundColor(Color.rgb(255,102,102));
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
-                    corner.setBackgroundColor(Color.BLUE);
+                    corner.setBackgroundColor(Color.rgb(153,255,153));
                 }
                 else if (cornerToFlash.equals("L_VOLLEY")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
-                    corner.setBackgroundColor(Color.BLUE);
+                    corner.setBackgroundColor(Color.rgb(255,102,102));
                 }
                 else {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
-                    corner.setBackgroundColor(Color.BLUE);
+                    corner.setBackgroundColor(Color.rgb(153,255,153));
                 }
             }
             else if (progress.length == 3) {
