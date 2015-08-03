@@ -13,9 +13,15 @@ import android.widget.TextView;
 import com.markusborg.logic.GhostPlayer;
 import com.markusborg.logic.Setting;
 
+/**
+ * The GhostingActivity displays a ghosting session.
+ * The actual ghosting session is implemented as an AsyncTask.
+ *
+ * @author  Markus Borg
+ * @since   2015-07-30
+ */
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
 
-    private GhostingFinishedListener mainActivityCallback;
     private Setting theSetting;
 
     @Override
@@ -68,6 +74,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         startActivity(summaryIntent);
     }
 
+    /**
+     * Parallel task that manages the actual ghosting session.
+     */
     public class GhostingTask extends AsyncTask<Setting, String, String> {
 
         public GhostingFinishedListener delegate = null;

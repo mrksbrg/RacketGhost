@@ -10,8 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
+/**
+ * Main activity that displays the initial settings dialog.
+ *
+ * @author  Markus Borg
+ * @version 0.5
+ * @since   2015-07-29
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Context appContext;
