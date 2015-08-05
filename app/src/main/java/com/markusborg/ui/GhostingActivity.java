@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.markusborg.logic.GhostPlayer;
 import com.markusborg.logic.Setting;
@@ -119,7 +120,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                         e.printStackTrace();
                     }
                 } // end reps loop
-                publishProgress("Rest...");
+
+                // Create a toast message when a set is completed
+                publishProgress(null);
 
                 try {
                     Thread.sleep(theSetting.getBreakTime() * 1000);
@@ -136,7 +139,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         @Override
         protected void onProgressUpdate(String... progress) {
-            if (progress.length == 1) {
+            if (progress == null) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Set completed!", Toast.LENGTH_LONG);
+                toast.show();
+            }
+            else if (progress.length == 1) {
                 lblProgress.setText(progress[0]);
             }
             else if (progress.length == 2) {
