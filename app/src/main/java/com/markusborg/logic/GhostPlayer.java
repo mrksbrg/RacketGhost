@@ -11,6 +11,7 @@ public class GhostPlayer {
 
     private boolean sixPoint;
     private Random rand;
+    private CourtPosition prevPos;
 
     public GhostPlayer(boolean iSixPoint)
     {
@@ -18,48 +19,108 @@ public class GhostPlayer {
         rand = new Random();
     }
 
-    public String nextCorner()
+    /***
+     *
+     * Generate a first position from the racket ghost, i.e., the serve.
+     *
+     * @return The first position.
+     */
+    public CourtPosition serve()
     {
-        String corner = "";
+        CourtPosition servePos = null;
         if (sixPoint) {
             switch (rand.nextInt(6)) {
                 case 0:
-                    corner = "L_FRONT";
+                    servePos = new CourtPosition(CourtPosition.L_FRONT);
                     break;
                 case 1:
-                    corner = "R_FRONT";
+                    servePos = new CourtPosition(CourtPosition.R_FRONT);
                     break;
                 case 2:
-                    corner = "L_BACK";
+                    servePos = new CourtPosition(CourtPosition.L_BACK);
                     break;
                 case 3:
-                    corner = "R_BACK";
+                    servePos = new CourtPosition(CourtPosition.R_BACK);
                     break;
                 case 4:
-                    corner = "L_VOLLEY";
+                    servePos = new CourtPosition(CourtPosition.L_MID);
                     break;
                 case 5:
-                    corner = "R_VOLLEY";
+                    servePos = new CourtPosition(CourtPosition.R_MID);
                     break;
             }
         }
         else {
             switch (rand.nextInt(4)) {
                 case 0:
-                    corner = "L_FRONT";
+                    servePos = new CourtPosition(CourtPosition.L_FRONT);
                     break;
                 case 1:
-                    corner = "R_FRONT";
+                    servePos = new CourtPosition(CourtPosition.R_FRONT);
                     break;
                 case 2:
-                    corner = "L_BACK";
+                    servePos = new CourtPosition(CourtPosition.L_BACK);
                     break;
                 case 3:
-                    corner = "R_BACK";
+                    servePos = new CourtPosition(CourtPosition.R_BACK);
                     break;
             }
         }
-        return corner;
+        prevPos = servePos;
+        return servePos;
+    }
+
+    /***
+     *
+     * Generate the next position from the racket ghost.
+     *
+     * TODO: Model propoer rallies instead of pure random distribution.
+     *
+     * @return The next position.
+     */
+    public CourtPosition nextStrike()
+    {
+        CourtPosition strikePos = null;
+        if (sixPoint) {
+            switch (rand.nextInt(6)) {
+                case 0:
+                    strikePos = new CourtPosition(CourtPosition.L_FRONT);
+                    break;
+                case 1:
+                    strikePos = new CourtPosition(CourtPosition.R_FRONT);
+                    break;
+                case 2:
+                    strikePos = new CourtPosition(CourtPosition.L_BACK);
+                    break;
+                case 3:
+                    strikePos = new CourtPosition(CourtPosition.R_BACK);
+                    break;
+                case 4:
+                    strikePos = new CourtPosition(CourtPosition.L_MID);
+                    break;
+                case 5:
+                    strikePos = new CourtPosition(CourtPosition.R_MID);
+                    break;
+            }
+        }
+        else {
+            switch (rand.nextInt(4)) {
+                case 0:
+                    strikePos = new CourtPosition(CourtPosition.L_FRONT);
+                    break;
+                case 1:
+                    strikePos = new CourtPosition(CourtPosition.R_FRONT);
+                    break;
+                case 2:
+                    strikePos = new CourtPosition(CourtPosition.L_BACK);
+                    break;
+                case 3:
+                    strikePos = new CourtPosition(CourtPosition.R_BACK);
+                    break;
+            }
+        }
+        prevPos = strikePos;
+        return strikePos;
     }
 
     public boolean isSixPoint() {

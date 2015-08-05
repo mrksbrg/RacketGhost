@@ -23,7 +23,7 @@ public class ResultsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         theSetting = new Setting(extras.getInt("NBR_SETS"),
                 extras.getInt("NBR_REPS"),
-                extras.getInt("TIME_INTERVALS"),
+                extras.getInt("TIME_INTERVAL"),
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));

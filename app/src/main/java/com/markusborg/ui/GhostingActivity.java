@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.markusborg.logic.CourtPosition;
 import com.markusborg.logic.GhostPlayer;
 import com.markusborg.logic.Setting;
 
@@ -32,7 +33,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         Bundle extras = getIntent().getExtras();
         theSetting = new Setting(extras.getInt("NBR_SETS"),
                 extras.getInt("NBR_REPS"),
-                extras.getInt("TIME_INTERVALS"),
+                extras.getInt("TIME_INTERVAL"),
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
@@ -68,8 +69,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         Intent summaryIntent = new Intent(this, ResultsActivity.class);
         summaryIntent.putExtra("NBR_SETS", theSetting.getSets());
         summaryIntent.putExtra("NBR_REPS", theSetting.getReps());
-        summaryIntent.putExtra("TIME_INTERVALS", theSetting.getInterval());
-        summaryIntent.putExtra("TIME_BREAKS", theSetting.getBreakTime());
+        summaryIntent.putExtra("TIME_INTERVAL", theSetting.getInterval());
+        summaryIntent.putExtra("TIME_BREAK", theSetting.getBreakTime());
         summaryIntent.putExtra("IS_6POINTS", theSetting.isSixPoints());
         summaryIntent.putExtra("IS_AUDIO", theSetting.isAudio());
         startActivity(summaryIntent);
@@ -93,29 +94,38 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             lblProgress = (TextView) findViewById(R.id.lblProgress);
 
             // Loop the sets
+            boolean finalSet = false;
             for (int i = 1; i <= theSetting.getSets(); i++) {
 
                 displayCountDown();
 
+                if (i >= theSetting.getSets())
+                    finalSet = true;
                 // Loop the reps
                 for (int j = 1; j <= theSetting.getReps(); j++) {
-                    String corner = theGhost.nextCorner();
+                    CourtPosition pos = theGhost.serve(); // TODO: only serve the first time
 
                     String progress = new String(j + " / " + theSetting.getReps() +
                             " (Set " + i + ")");
 
+                    // increase the speed if the ghost ball didn't go to a corner
+                    int sleepTime = theSetting.getInterval();
+                    if (!pos.isCornerPos()) {
+                        sleepTime = (sleepTime * 2) / 3;
+                    }
+
                     // Turn on corner
-                    publishProgress(progress, corner);
+                    publishProgress(progress, pos.toString());
                     try {
-                        Thread.sleep((theSetting.getInterval() / 2) * 1000);
+                        Thread.sleep((sleepTime / 2) * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
 
                     // Turn off corner
-                    publishProgress(progress, corner, "OFF");
+                    publishProgress(progress, pos.toString(), "OFF");
                     try {
-                        Thread.sleep((theSetting.getInterval() / 2) * 1000);
+                        Thread.sleep((sleepTime / 2) * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -124,10 +134,13 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 // Create a toast message when a set is completed
                 publishProgress(null);
 
-                try {
-                    Thread.sleep(theSetting.getBreakTime() * 1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                // No rest between sets if there are none left
+                if (!finalSet) {
+                    try {
+                        Thread.sleep(theSetting.getBreakTime() * 1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             } // end sets loop
@@ -140,7 +153,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         @Override
         protected void onProgressUpdate(String... progress) {
             if (progress == null) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Set completed!", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getApplicationContext(), "Set completed!", Toast.LENGTH_SHORT);
                 toast.show();
             }
             else if (progress.length == 1) {
