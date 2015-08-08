@@ -1,13 +1,17 @@
 package com.markusborg.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.markusborg.logic.LogHandler;
 import com.markusborg.logic.Setting;
 
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -17,7 +21,9 @@ import java.util.Date;
  */
 public class ResultsActivity extends AppCompatActivity {
 
+    private TextView txtHistory;
     private Setting theSetting;
+    private LogHandler logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,23 +31,16 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         Bundle extras = getIntent().getExtras();
-        theSetting = new Setting(extras.getInt("NBR_SETS"),
+        theSetting = new Setting(extras.getString("DATE"),
+                extras.getInt("NBR_SETS"),
                 extras.getInt("NBR_REPS"),
                 extras.getInt("TIME_INTERVAL"),
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
 
-        TextView txtHistory = (TextView) findViewById(R.id.txtHistory);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String currentDate = sdf.format(new Date());
-
-        String currentGhosting = currentDate + ": " + theSetting.toString();
-
-        txtHistory.setText(currentGhosting);
-
-        printHistory();
+        txtHistory = (TextView) findViewById(R.id.txtHistory);
+        displayHistory();
     }
 
     @Override
@@ -66,7 +65,9 @@ public class ResultsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void printHistory() {
+    private void displayHistory() {
         // TODO: Print 10 previous ghosting sessions
+        LogHandler logger = new LogHandler(getApplicationContext());
+        txtHistory.setText("History:\n" + logger.getFromLog(10));
     }
 }

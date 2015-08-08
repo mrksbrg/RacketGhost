@@ -1,10 +1,15 @@
 package com.markusborg.logic;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * @author  Markus Borg
  * @since   2015-07-30
  */
 public class Setting {
+
+    private String date;
 
     private int sets;
     private int reps;
@@ -14,6 +19,19 @@ public class Setting {
     private boolean audio;
 
     public Setting(int sets, int reps, int interval, int breakTime, boolean sixPoints, boolean audio) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
+
+        this.sets = sets;
+        this.reps = reps;
+        this.interval = interval;
+        this.breakTime = breakTime;
+        this.sixPoints = sixPoints;
+        this.audio = audio;
+    }
+
+    public Setting(String date, int sets, int reps, int interval, int breakTime, boolean sixPoints, boolean audio) {
+        this.date = date;
         this.sets = sets;
         this.reps = reps;
         this.interval = interval;
@@ -24,7 +42,7 @@ public class Setting {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer(getSets() + "-" + getReps() + ";" + getInterval() + ";" + getBreakTime());
+        StringBuffer sb = new StringBuffer(getDate() + ": " + getSets() + "-" + getReps() + "; " + getInterval() + "; " + getBreakTime());
         /*if (isSixPoints()) {
             sb.append(";Six points");
         }
@@ -34,6 +52,8 @@ public class Setting {
         */
         return sb.toString();
     }
+
+    public String getDate() { return date; }
 
     public int getSets() {
         return sets;

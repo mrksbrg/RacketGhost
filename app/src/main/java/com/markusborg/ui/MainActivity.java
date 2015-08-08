@@ -4,12 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+
+import com.markusborg.logic.LogHandler;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Main activity that displays the initial settings dialog.
@@ -21,8 +31,12 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private Context appContext;
-    private EditText txtSets, txtReps, txtInterval, txtBreak;
+    private EditText txtSets, txtReps, txtInterval, txtBreak, txtHistory;
     private CheckBox chk6Points, chkAudio;
+
+    private LogHandler logger;
+
+    public final static String FILENAME = "history.log";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         appContext = getApplicationContext();
-        SetGUIComponents();
+        setGUIComponents();
+        logger = new LogHandler(appContext);
+        displayHistory();
 
         final Button button = (Button) findViewById(R.id.btnGo);
         button.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +86,22 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void SetGUIComponents(){
+    public LogHandler getLogHandler() {
+        return logger;
+    }
+
+    private void setGUIComponents(){
         txtSets = (EditText) findViewById(R.id.txtSets);
         txtReps = (EditText) findViewById(R.id.txtReps);
         txtInterval = (EditText) findViewById(R.id.txtInterval);
         txtBreak = (EditText) findViewById(R.id.txtBreak);
         chk6Points = (CheckBox) findViewById(R.id.chk6Point);
         chkAudio = (CheckBox) findViewById(R.id.chkAudio);
+        txtHistory = (EditText) findViewById(R.id.txtHistory);
+    }
+
+    private void displayHistory() {
+        txtHistory.setText(logger.getFromLog(3));
     }
 
 }

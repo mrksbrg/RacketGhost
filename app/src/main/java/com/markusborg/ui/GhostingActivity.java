@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.markusborg.logic.CourtPosition;
 import com.markusborg.logic.GhostPlayer;
+import com.markusborg.logic.LogHandler;
 import com.markusborg.logic.Setting;
 
 /**
@@ -31,6 +32,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
+        // Create a new setting - it gets a date
         theSetting = new Setting(extras.getInt("NBR_SETS"),
                 extras.getInt("NBR_REPS"),
                 extras.getInt("TIME_INTERVAL"),
@@ -66,7 +68,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
     @Override
     public void notifyGhostingFinished() {
+        printSessionToFile();
         Intent summaryIntent = new Intent(this, ResultsActivity.class);
+        summaryIntent.putExtra("DATE", theSetting.getDate());
         summaryIntent.putExtra("NBR_SETS", theSetting.getSets());
         summaryIntent.putExtra("NBR_REPS", theSetting.getReps());
         summaryIntent.putExtra("TIME_INTERVAL", theSetting.getInterval());
@@ -74,6 +78,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         summaryIntent.putExtra("IS_6POINTS", theSetting.isSixPoints());
         summaryIntent.putExtra("IS_AUDIO", theSetting.isAudio());
         startActivity(summaryIntent);
+    }
+
+    private void printSessionToFile() {
+        LogHandler logger = new LogHandler(getApplicationContext());
+        logger.addSessionToLog(theSetting);
     }
 
     /**
