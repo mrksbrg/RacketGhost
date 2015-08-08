@@ -11,6 +11,10 @@ import com.markusborg.logic.Setting;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/***
+ * @author  Markus Borg
+ * @since   2015-07-30
+ */
 public class ResultsActivity extends AppCompatActivity {
 
     private Setting theSetting;

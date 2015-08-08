@@ -1,7 +1,8 @@
 package com.markusborg.logic;
 
 /**
- * Created by Markus Borg on 2015-07-31.
+ * @author  Markus Borg
+ * @since   2015-07-30
  */
 public class Setting {
 
@@ -12,7 +13,7 @@ public class Setting {
     private boolean sixPoints;
     private boolean audio;
 
-    public Setting(int sets, int reps, int interval, int breakTime, boolean sixPoints, boolean audio){
+    public Setting(int sets, int reps, int interval, int breakTime, boolean sixPoints, boolean audio) {
         this.sets = sets;
         this.reps = reps;
         this.interval = interval;

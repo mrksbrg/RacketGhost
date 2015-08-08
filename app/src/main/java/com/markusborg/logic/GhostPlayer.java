@@ -4,7 +4,8 @@ import java.util.Random;
 
 /**
  *
- * @author Markus Borg
+ * @author  Markus Borg
+ * @since   2015-07-30
  *
  */
 public class GhostPlayer {

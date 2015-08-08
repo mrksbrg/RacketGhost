@@ -1,7 +1,8 @@
 package com.markusborg.ui;
 
 /**
- * Created by Markus Borg on 2015-08-01.
+ * @author  Markus Borg
+ * @since   2015-07-30
  */
 public interface GhostingFinishedListener {
 

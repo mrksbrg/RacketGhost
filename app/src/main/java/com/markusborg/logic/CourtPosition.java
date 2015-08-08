@@ -1,9 +1,10 @@
 package com.markusborg.logic;
 
 /**
- * Created by Markus Borg on 2015-08-05.
- *
  * Represents one out of six positions on the court.
+ *
+ * @author  Markus Borg
+ * @since   2015-07-30
  */
 public class CourtPosition {
 
@@ -28,6 +29,10 @@ public class CourtPosition {
         this.position = position;
     }
 
+    /***
+     * Check if the current position is in one of the corners.
+     * @return true if it is a corner
+     */
     public boolean isCornerPos() {
         return (position == L_FRONT || position == R_FRONT
                 || position == L_BACK || position == R_BACK);
