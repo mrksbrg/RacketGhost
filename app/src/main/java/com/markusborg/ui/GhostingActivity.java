@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +41,18 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
-        String test = theSetting.getDate();
-        GhostingTask gTask = new GhostingTask();
+
+        final GhostingTask gTask = new GhostingTask();
         gTask.delegate = this;
         gTask.execute(theSetting);
+
+        final Button btnStop = (Button) findViewById(R.id.btnStop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+               gTask.onCancelled();
+            }
+        });
     }
 
     @Override
@@ -92,7 +102,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     public class GhostingTask extends AsyncTask<Setting, String, String> {
 
         public GhostingFinishedListener delegate = null;
-        private volatile boolean running = true;
         private TextView lblProgress;
 
         @Override
@@ -147,7 +156,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 // No rest between sets if there are none left
                 if (!finalSet) {
                     try {
-                        Thread.sleep(theSetting.getBreakTime());
+                        Thread.sleep(theSetting.getBreakTime() * 1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -237,7 +246,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         @Override
         protected void onCancelled() {
-            running = false;
+            cancel(true);
         }
 
         private void displayCountDown() {

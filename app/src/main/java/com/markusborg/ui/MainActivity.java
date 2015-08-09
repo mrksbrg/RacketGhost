@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         logger = new LogHandler(appContext);
         displayHistory();
 
-        final Button button = (Button) findViewById(R.id.btnGo);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button btnGo = (Button) findViewById(R.id.btnGo);
+        btnGo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 Intent ghostingIntent = new Intent(appContext, GhostingActivity.class);
