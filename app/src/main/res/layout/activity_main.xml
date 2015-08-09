@@ -39,7 +39,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtSets"
-                android:text="2" />
+                android:text="3" />
         </LinearLayout>
 
         <LinearLayout
@@ -61,7 +61,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtReps"
-                android:text="4" />
+                android:text="15" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Interval:"
+                android:text="Interval (ms):"
                 android:id="@+id/textView4" />
 
             <EditText
@@ -82,7 +82,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtInterval"
-                android:text="6" />
+                android:text="5500" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Break:"
+                android:text="Break betw. sets (s):"
                 android:id="@+id/textView5" />
 
             <EditText
@@ -103,7 +103,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtBreak"
-                android:text="5" />
+                android:text="15" />
         </LinearLayout>
 
         <CheckBox

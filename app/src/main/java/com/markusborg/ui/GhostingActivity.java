@@ -39,6 +39,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
+        String test = theSetting.getDate();
         GhostingTask gTask = new GhostingTask();
         gTask.delegate = this;
         gTask.execute(theSetting);
@@ -126,7 +127,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     // Turn on corner
                     publishProgress(progress, pos.toString());
                     try {
-                        Thread.sleep((sleepTime / 2) * 1000);
+                        Thread.sleep((sleepTime / 2));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -134,7 +135,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     // Turn off corner
                     publishProgress(progress, pos.toString(), "OFF");
                     try {
-                        Thread.sleep((sleepTime / 2) * 1000);
+                        Thread.sleep((sleepTime / 2) );
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -146,7 +147,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 // No rest between sets if there are none left
                 if (!finalSet) {
                     try {
-                        Thread.sleep(theSetting.getBreakTime() * 1000);
+                        Thread.sleep(theSetting.getBreakTime());
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

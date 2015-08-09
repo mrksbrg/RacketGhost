@@ -20,7 +20,7 @@ public class Setting {
 
     public Setting(int sets, int reps, int interval, int breakTime, boolean sixPoints, boolean audio) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sdf.format(new Date());
+        date = sdf.format(new Date());
 
         this.sets = sets;
         this.reps = reps;
