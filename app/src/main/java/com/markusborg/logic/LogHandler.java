@@ -19,9 +19,9 @@ import java.io.UnsupportedEncodingException;
 public class LogHandler {
 
     private Context appContext;
-    private String[] history;
+    private static String[] history; // all LogHandlers should share the same history
     private int n;
-    private final int MAX_HISTORY = 10;
+    public final int MAX_HISTORY = 20;
 
     public LogHandler(Context appContext) {
         this.appContext = appContext;
@@ -56,13 +56,25 @@ public class LogHandler {
     public void addSessionToLog(Setting theSetting) {
 
         // move all history items one position
-        for (int i=n-1; i>=0; i--) {
-            history[i+1] = history[i];
+        if (n == 1) {
+            history[1] = history[0];
+        }
+        else if (n == MAX_HISTORY) {
+            for (int i=MAX_HISTORY-1; i>=1; i--) {
+                history[i] = history[i-1];
+            }
+        }
+        else {
+            for (int i=n; i>=1; i--) {
+                history[i] = history[i-1];
+            }
         }
 
         // add new item
         history[0] = theSetting.toString();
-        n++;
+        if (n < MAX_HISTORY) {
+            n++;
+        }
 
         // print them to file
         try {

@@ -66,8 +66,8 @@ public class ResultsActivity extends AppCompatActivity {
     }
 
     private void displayHistory() {
-        // TODO: Print 10 previous ghosting sessions
+        // TODO: Print MAX_HISTORY previous ghosting sessions
         LogHandler logger = new LogHandler(getApplicationContext());
-        txtHistory.setText("History:\n" + logger.getFromLog(10));
+        txtHistory.setText("History:\n" + logger.getFromLog(logger.MAX_HISTORY));
     }
 }

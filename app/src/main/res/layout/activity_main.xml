@@ -119,7 +119,8 @@
             android:layout_height="wrap_content"
             android:text="Audio"
             android:id="@+id/chkAudio"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"
+            android:enabled="false" />
 
         <Button
             android:layout_width="wrap_content"
@@ -134,10 +135,11 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:id="@+id/txtHistory"
-            android:layout_weight="0.60"
-            android:text="History:"
+            android:layout_weight="0.58"
+            android:text="Recent history:"
             android:textAlignment="textStart"
             android:enabled="false" />
+
     </LinearLayout>
 
 </RelativeLayout>

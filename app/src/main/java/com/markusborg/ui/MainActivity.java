@@ -86,6 +86,12 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayHistory();
+    }
+
     public LogHandler getLogHandler() {
         return logger;
     }
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayHistory() {
-        txtHistory.setText(logger.getFromLog(3));
+        txtHistory.setText("Recent history:\n" + logger.getFromLog(3));
     }
 
 }

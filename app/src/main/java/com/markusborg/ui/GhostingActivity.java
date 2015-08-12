@@ -122,6 +122,12 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     finalSet = true;
                 // Loop the reps
                 for (int j = 1; j <= theSetting.getReps(); j++) {
+
+                    // before each rep, check if it has been canceled
+                    if (isCancelled()) {
+                        return null;
+                    }
+
                     CourtPosition pos = theGhost.serve(); // TODO: only serve the first time
 
                     String progress = new String(j + " / " + theSetting.getReps() +
@@ -246,8 +252,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         @Override
         protected void onCancelled() {
-            finish();
-            //cancel(true);
+            cancel(true);
 
         }
 
