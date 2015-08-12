@@ -13,8 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:weightSum="1"
-        android:orientation="vertical"
-        android:screenOrientation="portrait">
+        android:orientation="vertical">
 
         <LinearLayout
             android:orientation="horizontal"

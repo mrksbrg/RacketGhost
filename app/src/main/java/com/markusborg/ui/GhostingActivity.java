@@ -246,7 +246,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         @Override
         protected void onCancelled() {
-            cancel(true);
+            finish();
+            //cancel(true);
+
         }
 
         private void displayCountDown() {

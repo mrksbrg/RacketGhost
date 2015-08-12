@@ -18,7 +18,8 @@
         </activity>
         <activity
             android:name=".GhostingActivity"
-            android:label="@string/title_activity_ghosting" >
+            android:label="@string/title_activity_ghosting"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".ResultsActivity"
