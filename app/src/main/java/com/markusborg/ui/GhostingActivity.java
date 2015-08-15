@@ -46,7 +46,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
 
-        if (theSetting.isAudio()) {
+        if (theSetting.isAudio() && theSetting.getInterval() > 2000) {
             // the counter will help us recognize the stream id of the sound played now
             int counter = 0;
 
@@ -75,7 +75,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         btnStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-               gTask.onCancelled();
+                gTask.onCancelled();
             }
         });
     }
@@ -195,26 +195,44 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 if (cornerToFlash.equals("L_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
+                    if (loaded) {
+                        soundPool.play(soundIDs[0], 1, 1, 1, 0, 1f);
+                    }
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
+                    if (loaded) {
+                        soundPool.play(soundIDs[1], 1, 1, 1, 0, 1f);
+                    }
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
+                    if (loaded) {
+                        soundPool.play(soundIDs[4], 1, 1, 1, 0, 1f);
+                    }
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
+                    if (loaded) {
+                        soundPool.play(soundIDs[3], 1, 1, 1, 0, 1f);
+                    }
                 }
-                else if (cornerToFlash.equals("L_VOLLEY")) {
+                else if (cornerToFlash.equals("L_MID")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
+                    if (loaded) {
+                        soundPool.play(soundIDs[5], 1, 1, 1, 0, 1f);
+                    }
                 }
                 else {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
+                    if (loaded) {
+                        soundPool.play(soundIDs[2], 1, 1, 1, 0, 1f);
+                    }
                 }
             }
             else if (progress.length == 3) {
@@ -236,7 +254,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
                     corner.setBackgroundColor(Color.DKGRAY);
                 }
-                else if (cornerToTurnOff.equals("L_VOLLEY")) {
+                else if (cornerToTurnOff.equals("L_MID")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
                     corner.setBackgroundColor(Color.DKGRAY);
                 }
