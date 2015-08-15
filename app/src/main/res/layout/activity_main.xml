@@ -120,7 +120,8 @@
             android:text="Audio"
             android:id="@+id/chkAudio"
             android:layout_gravity="center_horizontal"
-            android:enabled="false" />
+            android:enabled="true"
+            android:clickable="true" />
 
         <Button
             android:layout_width="wrap_content"

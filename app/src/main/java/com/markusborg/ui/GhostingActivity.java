@@ -2,6 +2,8 @@ package com.markusborg.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,10 @@ import com.markusborg.logic.Setting;
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
 
     private Setting theSetting;
+    private SoundPool soundPool;
+    private int[] soundIDs;     // six sounds, clockwise from front left
+    private boolean plays;
+    private boolean loaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +45,27 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
+
+        if (theSetting.isAudio()) {
+            // the counter will help us recognize the stream id of the sound played now
+            int counter = 0;
+
+            // Load the sounds
+            soundIDs = new int[6];
+            soundPool = new SoundPool(10, AudioManager.MODE_NORMAL, 0);
+            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                @Override
+                public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                    loaded = true;
+                }
+            });
+            soundIDs[0] = soundPool.load(this, R.raw.frontleft, 1);
+            soundIDs[1] = soundPool.load(this, R.raw.frontright, 1);
+            soundIDs[2] = soundPool.load(this, R.raw.volleyright, 1);
+            soundIDs[3] = soundPool.load(this, R.raw.backright, 1);
+            soundIDs[4] = soundPool.load(this, R.raw.backleft, 1);
+            soundIDs[5] = soundPool.load(this, R.raw.volleyleft, 1);
+        }
 
         final GhostingTask gTask = new GhostingTask();
         gTask.delegate = this;

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:weightSum="1">
 
-        <TextView android:text="Date: Sets-Reps;Interval;Break" android:layout_width="362dp"
+        <TextView android:text="Date: Sets; Reps; Interval; Break" android:layout_width="362dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:textSize="20dp"
