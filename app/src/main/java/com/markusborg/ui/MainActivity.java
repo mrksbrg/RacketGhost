@@ -85,12 +85,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        final SpannableString s = new SpannableString("www.google.com");
+        final SpannableString s = new SpannableString("github.com/mrksbrg/RacketGhost");
 
         switch (id) {
             case R.id.action_help :
+                // create help dialog
                 final TextView tx1 = new TextView(this);
-                tx1.setText("Quick instructions:\n" +
+                tx1.setText("\nQuick instructions for squash:\n\n" +
                             "1. Configure your ghosting session.\n" +
                             "2. Place device approx. 2 m in front of T.\n" +
                             "3. Click 'Go' button.\n\n" +
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Linkify.addLinks(s, Linkify.WEB_URLS);
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setTitle("About")
+                builder1.setTitle("Help")
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
@@ -114,10 +115,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.action_about :
                 // create about dialog
-
-
                 final TextView tx2 = new TextView(this);
-                tx2.setText("Made by Borg\n" + s);
+                tx2.setText("\nRacketGhost v. 1.0\n" +
+                            "Open Source Ghosting Coach\n" +
+                            "Copyright (c) 2015 Markus Borg under MIT License\n\n" +
+                            "Please fork, report bugs, and request features\n" + s);
                 tx2.setAutoLinkMask(RESULT_OK);
                 tx2.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -135,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
                         .setView(tx2).show();
                 break;
         }
-
 
         return super.onOptionsItemSelected(item);
     }

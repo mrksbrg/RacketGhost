@@ -42,7 +42,7 @@ public class Setting {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer(getDate() + ": " + getSets() + "-" + getReps() + "; " + getInterval() + "; " + getBreakTime());
+        StringBuffer sb = new StringBuffer(getDate() + ": " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
         /*if (isSixPoints()) {
             sb.append(";Six points");
         }

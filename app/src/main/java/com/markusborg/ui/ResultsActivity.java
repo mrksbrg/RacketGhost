@@ -1,19 +1,11 @@
 package com.markusborg.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
-
 import com.markusborg.logic.LogHandler;
 import com.markusborg.logic.Setting;
 
-import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /***
  * @author  Markus Borg
@@ -22,8 +14,6 @@ import java.util.Date;
 public class ResultsActivity extends AppCompatActivity {
 
     private TextView txtHistory;
-    private Setting theSetting;
-    private LogHandler logger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +21,7 @@ public class ResultsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         Bundle extras = getIntent().getExtras();
-        theSetting = new Setting(extras.getString("DATE"),
+        Setting theSetting = new Setting(extras.getString("DATE"),
                 extras.getInt("NBR_SETS"),
                 extras.getInt("NBR_REPS"),
                 extras.getInt("TIME_INTERVAL"),

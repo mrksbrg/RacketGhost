@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -231,7 +229,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         @Override
         protected void onCancelled() {
             cancel(true);
-
         }
 
         private void displayCountDown() {

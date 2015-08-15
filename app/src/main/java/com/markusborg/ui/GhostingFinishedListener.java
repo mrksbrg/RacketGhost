@@ -7,5 +7,4 @@ package com.markusborg.ui;
 public interface GhostingFinishedListener {
 
     void notifyGhostingFinished();
-
 }
