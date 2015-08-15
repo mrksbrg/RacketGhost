@@ -1,9 +1,14 @@
 package com.markusborg.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.markusborg.logic.LogHandler;
 
@@ -79,9 +85,57 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        final SpannableString s = new SpannableString("www.google.com");
+
+        switch (id) {
+            case R.id.action_help :
+                final TextView tx1 = new TextView(this);
+                tx1.setText("Quick instructions:\n" +
+                            "1. Configure your ghosting session.\n" +
+                            "2. Place device approx. 2 m in front of T.\n" +
+                            "3. Click 'Go' button.\n\n" +
+                            "Full instructions available on\n" +
+                            s);
+                tx1.setAutoLinkMask(RESULT_OK);
+                tx1.setMovementMethod(LinkMovementMethod.getInstance());
+
+                Linkify.addLinks(s, Linkify.WEB_URLS);
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setTitle("About")
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                    }
+                                })
+
+                        .setView(tx1).show();
+                break;
+            case R.id.action_about :
+                // create about dialog
+
+
+                final TextView tx2 = new TextView(this);
+                tx2.setText("Made by Borg\n" + s);
+                tx2.setAutoLinkMask(RESULT_OK);
+                tx2.setMovementMethod(LinkMovementMethod.getInstance());
+
+                Linkify.addLinks(s, Linkify.WEB_URLS);
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setTitle("About")
+                        .setCancelable(false)
+                        .setPositiveButton("OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                    }
+                                })
+
+                        .setView(tx2).show();
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
