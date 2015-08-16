@@ -1,4 +1,4 @@
-package com.markusborg.ui;
+package com.mrksbrg.ui;
 
 /**
  * @author  Markus Borg

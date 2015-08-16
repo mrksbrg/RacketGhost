@@ -1,9 +1,9 @@
-package com.markusborg.logic;
+package com.mrksbrg.logic;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.markusborg.ui.MainActivity;
+import com.mrksbrg.ui.MainActivity;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

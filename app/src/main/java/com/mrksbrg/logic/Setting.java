@@ -1,4 +1,4 @@
-package com.markusborg.logic;
+package com.mrksbrg.logic;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

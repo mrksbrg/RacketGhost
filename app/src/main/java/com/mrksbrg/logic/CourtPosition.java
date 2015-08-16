@@ -1,4 +1,4 @@
-package com.markusborg.logic;
+package com.mrksbrg.logic;
 
 /**
  * Represents one out of six positions on the court.

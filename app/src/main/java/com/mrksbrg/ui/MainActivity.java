@@ -1,4 +1,4 @@
-package com.markusborg.ui;
+package com.mrksbrg.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,14 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.markusborg.logic.LogHandler;
-
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import com.mrksbrg.logic.LogHandler;
 
 /**
  * Main activity that displays the initial settings dialog.
@@ -116,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about :
                 // create about dialog
                 final TextView tx2 = new TextView(this);
-                tx2.setText("\nRacketGhost v. 1.0\n" +
+                tx2.setText("\nRacketGhost v. 1.1\n" +
                             "Open Source Ghosting Coach\n" +
                             "Copyright (c) 2015 Markus Borg under MIT License\n\n" +
                             "Please fork, report bugs, and request features\n" + s);

@@ -1,10 +1,10 @@
-package com.markusborg.ui;
+package com.mrksbrg.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-import com.markusborg.logic.LogHandler;
-import com.markusborg.logic.Setting;
+import com.mrksbrg.logic.LogHandler;
+import com.mrksbrg.logic.Setting;
 
 
 /***
