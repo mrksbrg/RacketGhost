@@ -28,6 +28,8 @@ import com.markusborg.logic.Setting;
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
 
     private Setting theSetting;
+    private AudioManager audioManager;
+    private float streamVolume;
     private SoundPool soundPool;
     private int[] soundIDs;     // six sounds, clockwise from front left
     private boolean plays;
@@ -52,7 +54,14 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
             // Load the sounds
             soundIDs = new int[6];
-            soundPool = new SoundPool(10, AudioManager.MODE_NORMAL, 0);
+
+            audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+            streamVolume = (float) audioManager
+                    .getStreamVolume(AudioManager.STREAM_MUSIC)
+                    / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+
+            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                 @Override
                 public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
@@ -196,42 +205,42 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
                     if (loaded) {
-                        soundPool.play(soundIDs[0], 1, 1, 1, 0, 1f);
+                        soundPool.play(soundIDs[0], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
                     if (loaded) {
-                        soundPool.play(soundIDs[1], 1, 1, 1, 0, 1f);
+                        soundPool.play(soundIDs[1], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
                     if (loaded) {
-                        soundPool.play(soundIDs[4], 1, 1, 1, 0, 1f);
+                        soundPool.play(soundIDs[4], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
                     if (loaded) {
-                        soundPool.play(soundIDs[3], 1, 1, 1, 0, 1f);
+                        soundPool.play(soundIDs[3], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("L_MID")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
                     if (loaded) {
-                        soundPool.play(soundIDs[5], 1, 1, 1, 0, 1f);
+                        soundPool.play(soundIDs[5], 1, 1, 0, 0, 1f);
                     }
                 }
                 else {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
                     if (loaded) {
-                        soundPool.play(soundIDs[2], 1, 1, 1, 0, 1f);
+                        soundPool.play(soundIDs[2], 1, 1, 0, 0, 1f);
                     }
                 }
             }
