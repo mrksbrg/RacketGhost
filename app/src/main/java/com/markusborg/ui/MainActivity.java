@@ -1,4 +1,4 @@
-package com.mrksbrg.ui;
+package com.markusborg.ui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -17,7 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.mrksbrg.logic.LogHandler;
+import com.markusborg.logic.LogHandler;
 
 /**
  * Main activity that displays the initial settings dialog.

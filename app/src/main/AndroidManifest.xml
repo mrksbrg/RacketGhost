@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mrksbrg.ui" >
+    package="com.markusborg.ui"
+    android:versionCode="2"
+    android:versionName="1.1">
 
     <application
         android:allowBackup="true"
@@ -8,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mrksbrg.ui.MainActivity"
+            android:name="com.markusborg.ui.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mrksbrg.ui.GhostingActivity"
+            android:name="com.markusborg.ui.GhostingActivity"
             android:label="@string/title_activity_ghosting"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.mrksbrg.ui.ResultsActivity"
+            android:name="com.markusborg.ui.ResultsActivity"
             android:label="@string/title_activity_results" >
         </activity>
     </application>

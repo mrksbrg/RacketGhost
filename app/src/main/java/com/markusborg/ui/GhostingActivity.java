@@ -1,4 +1,4 @@
-package com.mrksbrg.ui;
+package com.markusborg.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,10 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.mrksbrg.logic.CourtPosition;
-import com.mrksbrg.logic.GhostPlayer;
-import com.mrksbrg.logic.LogHandler;
-import com.mrksbrg.logic.Setting;
+import com.markusborg.logic.CourtPosition;
+import com.markusborg.logic.GhostPlayer;
+import com.markusborg.logic.LogHandler;
+import com.markusborg.logic.Setting;
 
 /**
  * The GhostingActivity displays a ghosting session.
