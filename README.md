@@ -2,6 +2,13 @@
 
 - Ghosting Coach for Squash & Badminton 
 
+## Version History
+< 1.0 - Initial development
+
+1.0 - Release on Amazon Appstore for Android
+
+1.1 - Audio added
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
