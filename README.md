@@ -24,9 +24,10 @@ Using RacketGhost means following these steps:
 1. Configure your ghosting session.
 2. Put your mobile device in front of you on the court.
 3. Press "GO!" to start your ghosting session. 
-4. RacketGhost highlights court positions for you to reach.
-5. Compare your recent session with your ghosting history.
-6. Press "Back" to return to the main screen.
+4. Move to the starting position (mid court).
+5. RacketGhost highlights court positions for you to reach.
+6. Compare your recent session with your ghosting history.
+7. Press "Back" to return to the main screen.
 
 In the main screen you get to set the following parameters for your next ghosting session:
 
