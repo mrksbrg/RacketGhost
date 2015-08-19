@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 tx1.setText("\nQuick instructions for squash:\n\n" +
                             "1. Configure your ghosting session.\n" +
                             "2. Place device approx. 2 m in front of T.\n" +
-                            "3. Click 'Go' button.\n\n" +
+                            "3. Click 'GO!' button.\n\n" +
                             "Full instructions available on\n" +
                             s);
                 tx1.setAutoLinkMask(RESULT_OK);
