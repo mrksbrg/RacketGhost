@@ -1,6 +1,6 @@
 # RacketGhost
 
-- Ghosting Coach for Squash & Badminton 
+- Open Source Ghosting Coach for Squash & Badminton 
 
 ## Version History
 < 1.0 - Initial development
