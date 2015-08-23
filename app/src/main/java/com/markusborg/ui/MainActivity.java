@@ -28,11 +28,11 @@ import com.markusborg.logic.LogHandler;
  */
 public class MainActivity extends AppCompatActivity {
 
-    private Context appContext;
-    private EditText txtSets, txtReps, txtInterval, txtBreak, txtHistory;
-    private CheckBox chk6Points, chkAudio;
+    private Context mAppContext;
+    private EditText mTxtSets, mTxtReps, mTxtInterval, mTxtBreak, mTxtHistory;
+    private CheckBox mChk6Points, mChkAudio;
 
-    private LogHandler logger;
+    private LogHandler mLogger;
 
     public final static String FILENAME = "history.log";
 
@@ -41,22 +41,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        appContext = getApplicationContext();
+        mAppContext = getApplicationContext();
         setGUIComponents();
-        logger = new LogHandler(appContext);
+        mLogger = new LogHandler(mAppContext);
         displayHistory();
 
         final Button btnGo = (Button) findViewById(R.id.btnGo);
         btnGo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                Intent ghostingIntent = new Intent(appContext, GhostingActivity.class);
-                ghostingIntent.putExtra("NBR_SETS", Integer.parseInt(txtSets.getText().toString()));
-                ghostingIntent.putExtra("NBR_REPS", Integer.parseInt(txtReps.getText().toString()));
-                ghostingIntent.putExtra("TIME_INTERVAL", Integer.parseInt(txtInterval.getText().toString()));
-                ghostingIntent.putExtra("TIME_BREAK", Integer.parseInt(txtBreak.getText().toString()));
-                ghostingIntent.putExtra("IS_6POINTS", chk6Points.isChecked());
-                ghostingIntent.putExtra("IS_AUDIO", chkAudio.isChecked());
+                Intent ghostingIntent = new Intent(mAppContext, GhostingActivity.class);
+                ghostingIntent.putExtra("NBR_SETS", Integer.parseInt(mTxtSets.getText().toString()));
+                ghostingIntent.putExtra("NBR_REPS", Integer.parseInt(mTxtReps.getText().toString()));
+                ghostingIntent.putExtra("TIME_INTERVAL", Integer.parseInt(mTxtInterval.getText().toString()));
+                ghostingIntent.putExtra("TIME_BREAK", Integer.parseInt(mTxtBreak.getText().toString()));
+                ghostingIntent.putExtra("IS_6POINTS", mChk6Points.isChecked());
+                ghostingIntent.putExtra("IS_AUDIO", mChkAudio.isChecked());
                 startActivity(ghostingIntent);
             }
         });
@@ -140,21 +140,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public LogHandler getLogHandler() {
-        return logger;
+        return mLogger;
     }
 
     private void setGUIComponents(){
-        txtSets = (EditText) findViewById(R.id.txtSets);
-        txtReps = (EditText) findViewById(R.id.txtReps);
-        txtInterval = (EditText) findViewById(R.id.txtInterval);
-        txtBreak = (EditText) findViewById(R.id.txtBreak);
-        chk6Points = (CheckBox) findViewById(R.id.chk6Point);
-        chkAudio = (CheckBox) findViewById(R.id.chkAudio);
-        txtHistory = (EditText) findViewById(R.id.txtHistory);
+        mTxtSets = (EditText) findViewById(R.id.txtSets);
+        mTxtReps = (EditText) findViewById(R.id.txtReps);
+        mTxtInterval = (EditText) findViewById(R.id.txtInterval);
+        mTxtBreak = (EditText) findViewById(R.id.txtBreak);
+        mChk6Points = (CheckBox) findViewById(R.id.chk6Point);
+        mChkAudio = (CheckBox) findViewById(R.id.chkAudio);
+        mTxtHistory = (EditText) findViewById(R.id.txtHistory);
     }
 
     private void displayHistory() {
-        txtHistory.setText("Recent history:\n" + logger.getFromLog(3));
+        mTxtHistory.setText("Recent history:\n" + mLogger.getFromLog(3));
     }
 
 }

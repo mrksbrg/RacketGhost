@@ -27,13 +27,12 @@ import com.markusborg.logic.Setting;
  */
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
 
-    private Setting theSetting;
-    private AudioManager audioManager;
-    private float streamVolume;
-    private SoundPool soundPool;
-    private int[] soundIDs;     // six sounds, clockwise from front left
-    private boolean plays;
-    private boolean loaded;
+    private Setting mSetting;
+    private AudioManager mAudioManager;
+    private float mStreamVolume;
+    private SoundPool mSoundPool;
+    private int[] mSoundIDs;     // six sounds, clockwise from front left
+    private boolean mLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,44 +40,44 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
         // Create a new setting - it gets a date
-        theSetting = new Setting(extras.getInt("NBR_SETS"),
+        mSetting = new Setting(extras.getInt("NBR_SETS"),
                 extras.getInt("NBR_REPS"),
                 extras.getInt("TIME_INTERVAL"),
                 extras.getInt("TIME_BREAK"),
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
 
-        if (theSetting.isAudio() && theSetting.getInterval() > 2000) {
+        if (mSetting.isAudio() && mSetting.getInterval() > 2000) {
             // the counter will help us recognize the stream id of the sound played now
             int counter = 0;
 
             // Load the sounds
-            soundIDs = new int[6];
+            mSoundIDs = new int[6];
 
-            audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+            mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
 
-            streamVolume = (float) audioManager
+            mStreamVolume = (float) mAudioManager
                     .getStreamVolume(AudioManager.STREAM_MUSIC)
-                    / audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                    / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-            soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+            mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                 @Override
                 public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
-                    loaded = true;
+                    mLoaded = true;
                 }
             });
-            soundIDs[0] = soundPool.load(this, R.raw.frontleft, 1);
-            soundIDs[1] = soundPool.load(this, R.raw.frontright, 1);
-            soundIDs[2] = soundPool.load(this, R.raw.volleyright, 1);
-            soundIDs[3] = soundPool.load(this, R.raw.backright, 1);
-            soundIDs[4] = soundPool.load(this, R.raw.backleft, 1);
-            soundIDs[5] = soundPool.load(this, R.raw.volleyleft, 1);
+            mSoundIDs[0] = mSoundPool.load(this, R.raw.frontleft, 1);
+            mSoundIDs[1] = mSoundPool.load(this, R.raw.frontright, 1);
+            mSoundIDs[2] = mSoundPool.load(this, R.raw.volleyright, 1);
+            mSoundIDs[3] = mSoundPool.load(this, R.raw.backright, 1);
+            mSoundIDs[4] = mSoundPool.load(this, R.raw.backleft, 1);
+            mSoundIDs[5] = mSoundPool.load(this, R.raw.volleyleft, 1);
         }
 
         final GhostingTask gTask = new GhostingTask();
         gTask.delegate = this;
-        gTask.execute(theSetting);
+        gTask.execute(mSetting);
 
         final Button btnStop = (Button) findViewById(R.id.btnStop);
         btnStop.setOnClickListener(new View.OnClickListener() {
@@ -93,19 +92,19 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     public void notifyGhostingFinished() {
         printSessionToFile();
         Intent summaryIntent = new Intent(this, ResultsActivity.class);
-        summaryIntent.putExtra("DATE", theSetting.getDate());
-        summaryIntent.putExtra("NBR_SETS", theSetting.getSets());
-        summaryIntent.putExtra("NBR_REPS", theSetting.getReps());
-        summaryIntent.putExtra("TIME_INTERVAL", theSetting.getInterval());
-        summaryIntent.putExtra("TIME_BREAK", theSetting.getBreakTime());
-        summaryIntent.putExtra("IS_6POINTS", theSetting.isSixPoints());
-        summaryIntent.putExtra("IS_AUDIO", theSetting.isAudio());
+        summaryIntent.putExtra("DATE", mSetting.getDate());
+        summaryIntent.putExtra("NBR_SETS", mSetting.getSets());
+        summaryIntent.putExtra("NBR_REPS", mSetting.getReps());
+        summaryIntent.putExtra("TIME_INTERVAL", mSetting.getInterval());
+        summaryIntent.putExtra("TIME_BREAK", mSetting.getBreakTime());
+        summaryIntent.putExtra("IS_6POINTS", mSetting.isSixPoints());
+        summaryIntent.putExtra("IS_AUDIO", mSetting.isAudio());
         startActivity(summaryIntent);
     }
 
     private void printSessionToFile() {
         LogHandler logger = new LogHandler(getApplicationContext());
-        logger.addSessionToLog(theSetting);
+        logger.addSessionToLog(mSetting);
     }
 
     /**
@@ -204,43 +203,43 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 if (cornerToFlash.equals("L_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
-                    if (loaded) {
-                        soundPool.play(soundIDs[0], 1, 1, 0, 0, 1f);
+                    if (mLoaded) {
+                        mSoundPool.play(mSoundIDs[0], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
-                    if (loaded) {
-                        soundPool.play(soundIDs[1], 1, 1, 0, 0, 1f);
+                    if (mLoaded) {
+                        mSoundPool.play(mSoundIDs[1], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
-                    if (loaded) {
-                        soundPool.play(soundIDs[4], 1, 1, 0, 0, 1f);
+                    if (mLoaded) {
+                        mSoundPool.play(mSoundIDs[4], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
-                    if (loaded) {
-                        soundPool.play(soundIDs[3], 1, 1, 0, 0, 1f);
+                    if (mLoaded) {
+                        mSoundPool.play(mSoundIDs[3], 1, 1, 0, 0, 1f);
                     }
                 }
                 else if (cornerToFlash.equals("L_MID")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
                     corner.setBackgroundColor(Color.rgb(255,102,102));
-                    if (loaded) {
-                        soundPool.play(soundIDs[5], 1, 1, 0, 0, 1f);
+                    if (mLoaded) {
+                        mSoundPool.play(mSoundIDs[5], 1, 1, 0, 0, 1f);
                     }
                 }
                 else {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
                     corner.setBackgroundColor(Color.rgb(153,255,153));
-                    if (loaded) {
-                        soundPool.play(soundIDs[2], 1, 1, 0, 0, 1f);
+                    if (mLoaded) {
+                        mSoundPool.play(mSoundIDs[2], 1, 1, 0, 0, 1f);
                     }
                 }
             }

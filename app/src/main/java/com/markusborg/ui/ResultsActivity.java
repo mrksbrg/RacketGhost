@@ -13,7 +13,7 @@ import com.markusborg.logic.Setting;
  */
 public class ResultsActivity extends AppCompatActivity {
 
-    private TextView txtHistory;
+    private TextView mTxtHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +29,13 @@ public class ResultsActivity extends AppCompatActivity {
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
 
-        txtHistory = (TextView) findViewById(R.id.txtHistory);
+        mTxtHistory = (TextView) findViewById(R.id.txtHistory);
         displayHistory();
     }
 
     private void displayHistory() {
         // Print MAX_HISTORY previous ghosting sessions
         LogHandler logger = new LogHandler(getApplicationContext());
-        txtHistory.setText("History:\n" + logger.getFromLog(logger.MAX_HISTORY));
+        mTxtHistory.setText("History:\n" + logger.getFromLog(logger.MAX_HISTORY));
     }
 }
