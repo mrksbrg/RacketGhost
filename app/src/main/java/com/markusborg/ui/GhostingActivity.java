@@ -55,10 +55,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             mSoundIDs = new int[6];
 
             mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-
-            mStreamVolume = (float) mAudioManager
-                    .getStreamVolume(AudioManager.STREAM_MUSIC)
-                    / mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
 
             mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
