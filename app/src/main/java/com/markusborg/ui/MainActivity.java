@@ -77,12 +77,13 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        final SpannableString s = new SpannableString("github.com/mrksbrg/RacketGhost");
 
         switch (id) {
             case R.id.action_help :
                 // create help dialog
                 final TextView tx1 = new TextView(this);
-                tx1.setText(getString(R.string.menu_help));
+                tx1.setText(getString(R.string.menu_help) + " " + s);
                 tx1.setAutoLinkMask(RESULT_OK);
                 tx1.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about :
                 // create about dialog
                 final TextView tx2 = new TextView(this);
-                tx2.setText(getString(R.string.menu_about));
+                tx2.setText(getString(R.string.menu_about) + " " + s);
                 tx2.setAutoLinkMask(RESULT_OK);
                 tx2.setMovementMethod(LinkMovementMethod.getInstance());
 
