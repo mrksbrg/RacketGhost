@@ -75,7 +75,7 @@ public class GhostPlayer {
      *
      * Generate the next position from the racket ghost.
      *
-     * TODO: Model propoer rallies instead of pure random distribution.
+     * TODO: Model proper rallies instead of pure random distribution.
      *
      * @return The next position.
      */
