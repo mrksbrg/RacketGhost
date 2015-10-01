@@ -82,7 +82,7 @@
                 android:inputType="number"
                 android:ems="10"
                 android:id="@+id/txtInterval"
-                android:text="5500" />
+                android:text="5000" />
         </LinearLayout>
 
         <LinearLayout
