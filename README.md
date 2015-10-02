@@ -5,9 +5,9 @@
 ## Version History
 < 1.0 - Initial development
 
-1.0 - Release on Amazon Appstore for Android
+1.0 - Release on Amazon Appstore for Android: http://www.amazon.com/Markus-Borg-RacketGhost/dp/B013YY2MKE/
 
-1.1 - Audio added
+1.1 - Audio added. Released on Google Play: https://play.google.com/store/apps/details?id=com.markusborg.test&hl=en
 
 ## Background
 
