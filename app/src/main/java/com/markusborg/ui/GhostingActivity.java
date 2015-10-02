@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,16 +49,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getBoolean("IS_AUDIO"));
 
         if (mSetting.isAudio() && mSetting.getInterval() > 2000) {
-            // the counter will help us recognize the stream id of the sound played now
-            int counter = 0;
-
-            // Load the sounds
+            // Load the sounds if enabled and enough time to play them (2 s)
             mSoundIDs = new int[6];
-
             mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
             int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
-
             mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
             mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                 @Override
@@ -200,7 +196,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
                 if (cornerToFlash.equals("L_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
-                    corner.setBackgroundColor(Color.rgb(255,102,102));
+                    corner.setBackgroundColor(Color.rgb(255, 102, 102));
+                    //ImageView ball = (ImageView) corner.findViewById(R.id.ballLeftFront);
+                    //ball.setVisibility(View.VISIBLE);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[0], 1, 1, 0, 0, 1f);
                     }
@@ -283,6 +281,18 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         }
 
         private void displayCountDown() {
+            publishProgress("5");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            publishProgress("4");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             publishProgress("3");
             try {
                 Thread.sleep(1000);
@@ -317,6 +327,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             corner.setBackgroundColor(Color.DKGRAY);
             corner = (LinearLayout) findViewById(R.id.rightBack);
             corner.setBackgroundColor(Color.DKGRAY);
+            //ImageView ball = (ImageView) corner.findViewById(R.id.ballLeftFront);
+            //ball.setVisibility(View.INVISIBLE);
         }
     }
 }
