@@ -9,6 +9,11 @@
 
 1.1 - Audio added. Released on Google Play: https://play.google.com/store/apps/details?id=com.markusborg.test&hl=en
 
+1.2 - Released on Google Play Oct 3, 2015
+- Added picture of squash ball
+- Increased count down from 3 s to 5 s
+- Minor bug fixes
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
