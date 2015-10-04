@@ -11,7 +11,7 @@
 
 1.2 - Released on Google Play Oct 3, 2015
 - Added picture of squash ball
-- Increased count down from 3 s to 5 s
+- Increased countdown from 3 s to 5 s
 - Minor bug fixes
 
 ## Background
