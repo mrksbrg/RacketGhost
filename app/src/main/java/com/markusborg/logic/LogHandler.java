@@ -49,7 +49,7 @@ public class LogHandler {
         }
     }
 
-    /***
+    /**
      * Add a new ghosting session to the log
      * @param theSetting
      */
@@ -91,7 +91,7 @@ public class LogHandler {
         }
     }
 
-    /***
+    /**
      * Get lines from the log.
      * @param nbr number of previous sessions to extract
      * @return The String

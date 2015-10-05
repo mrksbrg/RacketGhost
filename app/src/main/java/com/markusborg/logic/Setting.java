@@ -30,26 +30,9 @@ public class Setting {
         this.audio = audio;
     }
 
-    public Setting(String date, int sets, int reps, int interval, int breakTime, boolean sixPoints, boolean audio) {
-        this.date = date;
-        this.sets = sets;
-        this.reps = reps;
-        this.interval = interval;
-        this.breakTime = breakTime;
-        this.sixPoints = sixPoints;
-        this.audio = audio;
-    }
-
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer(getDate() + ": " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
-        /*if (isSixPoints()) {
-            sb.append(";Six points");
-        }
-        else {
-            sb.append(";Four points");
-        }
-        */
         return sb.toString();
     }
 

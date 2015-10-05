@@ -29,7 +29,7 @@ public class CourtPosition {
         this.position = position;
     }
 
-    /***
+    /**
      * Check if the current position is in one of the corners.
      * @return true if it is a corner
      */

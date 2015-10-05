@@ -131,10 +131,9 @@ public class MainActivity extends AppCompatActivity {
         displayHistory();
     }
 
-    public LogHandler getLogHandler() {
-        return mLogger;
-    }
-
+    /**
+     * Set all GUI components.
+     */
     private void setGUIComponents(){
         mTxtSets = (EditText) findViewById(R.id.txtSets);
         mTxtReps = (EditText) findViewById(R.id.txtReps);
@@ -145,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
         mTxtHistory = (EditText) findViewById(R.id.txtHistory);
     }
 
+    /**
+     * Display the three latest ghosting sessions.
+     */
     private void displayHistory() {
         mTxtHistory.setText("Recent history:\n" + mLogger.getFromLog(3));
     }

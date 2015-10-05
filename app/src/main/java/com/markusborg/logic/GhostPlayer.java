@@ -20,7 +20,7 @@ public class GhostPlayer {
         rand = new Random();
     }
 
-    /***
+    /**
      *
      * Generate a first position from the racket ghost, i.e., the serve.
      *

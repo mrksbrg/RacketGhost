@@ -30,9 +30,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
     private Setting mSetting;
     private AudioManager mAudioManager;
-    private float mStreamVolume;
     private SoundPool mSoundPool;
-    private int[] mSoundIDs;     // six sounds, clockwise from front left
+    private int[] mSoundIDs; // six sounds, clockwise from front left
     private boolean mLoaded;
 
     @Override
@@ -96,6 +95,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         startActivity(summaryIntent);
     }
 
+    /**
+     * Print the session settings to file.
+     */
     private void printSessionToFile() {
         LogHandler logger = new LogHandler(getApplicationContext());
         logger.addSessionToLog(mSetting);
@@ -121,7 +123,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             boolean finalSet = false;
             for (int i = 1; i <= theSetting.getSets(); i++) {
 
-                displayCountDown();
+                displayCountdown();
 
                 if (i >= theSetting.getSets())
                     finalSet = true;
@@ -193,7 +195,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 clearCorners();
                 lblProgress.setText(progress[0]);
                 String cornerToFlash = progress[1];
-                ImageView ball = null;
+                ImageView ball;
 
                 if (cornerToFlash.equals("L_FRONT")) {
                     LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
@@ -247,8 +249,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             }
             else if (progress.length == 3) {
                 String cornerToTurnOff = progress[1];
-                LinearLayout corner = null;
-                ImageView ball = null;
+                LinearLayout corner;
+                ImageView ball;
 
                 // Find the current corner
                 if (cornerToTurnOff.equals("L_FRONT")) {
@@ -293,7 +295,10 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             cancel(true);
         }
 
-        private void displayCountDown() {
+        /**
+         * Display a countdown from 5 s.
+         */
+        private void displayCountdown() {
             publishProgress("5");
             try {
                 Thread.sleep(1000);
@@ -327,6 +332,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             publishProgress("");
         }
 
+        /**
+         * Remove color from all corners.
+         */
         private void clearCorners() {
             LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
             corner.setBackgroundColor(Color.DKGRAY);
