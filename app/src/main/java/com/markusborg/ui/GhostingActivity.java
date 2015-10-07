@@ -1,7 +1,9 @@
 package com.markusborg.ui;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
@@ -47,13 +49,21 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getBoolean("IS_6POINTS"),
                 extras.getBoolean("IS_AUDIO"));
 
+        // Load the sounds if enabled and enough time to play them (2 s)
         if (mSetting.isAudio() && mSetting.getInterval() > 2000) {
-            // Load the sounds if enabled and enough time to play them (2 s)
             mSoundIDs = new int[6];
             mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
             int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
-            mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+
+            // Take care of the deprecated SoundPool constructor
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                createNewSoundPool();
+            }else{
+                createOldSoundPool();
+            }
+
+            // Load the actual sounds
             mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
                 @Override
                 public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
@@ -81,6 +91,31 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         });
     }
 
+    /**
+     * Create a new SoundPool from Lollipop and later Android versions
+     */
+    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
+    protected void createNewSoundPool(){
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        mSoundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
+    }
+
+    /**
+     * Create a new SoundPool using the deprecated constructor for Android versions before Lollipop.
+     */
+    @SuppressWarnings("deprecation")
+    protected void createOldSoundPool(){
+        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+    }
+
+    /**
+     * Notify that a ghosting session has been completed.
+     */
     @Override
     public void notifyGhostingFinished() {
         printSessionToFile();
