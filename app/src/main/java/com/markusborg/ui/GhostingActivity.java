@@ -237,7 +237,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.rgb(255, 102, 102));
                     ball = (ImageView) findViewById(R.id.ballLeftFront);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[0], 1, 1, 0, 0, 1f);
+                        mSoundPool.play(mSoundIDs[0], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
@@ -245,7 +245,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.rgb(153,255,153));
                     ball = (ImageView) findViewById(R.id.ballRightFront);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[1], 1, 1, 0, 0, 1f);
+                        mSoundPool.play(mSoundIDs[1], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
@@ -253,7 +253,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.rgb(255,102,102));
                     ball = (ImageView) findViewById(R.id.ballLeftBack);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[4], 1, 1, 0, 0, 1f);
+                        mSoundPool.play(mSoundIDs[4], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
@@ -261,7 +261,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.rgb(153,255,153));
                     ball = (ImageView) findViewById(R.id.ballRightBack);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[3], 1, 1, 0, 0, 1f);
+                        mSoundPool.play(mSoundIDs[3], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("L_MID")) {
@@ -269,7 +269,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.rgb(255,102,102));
                     ball = (ImageView) findViewById(R.id.ballLeftMid);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[5], 1, 1, 0, 0, 1f);
+                        mSoundPool.play(mSoundIDs[5], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else {
@@ -277,7 +277,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     corner.setBackgroundColor(Color.rgb(153,255,153));
                     ball = (ImageView) findViewById(R.id.ballRightMid);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[2], 1, 1, 0, 0, 1f);
+                        mSoundPool.play(mSoundIDs[2], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 ball.setVisibility(View.VISIBLE);

@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'mrksbrg_AndroidKey'
-            keyPassword 'TQBF!VbL'
+            keyPassword 'XXXXXXXX'
             storeFile file('C:/Users/Markus/Dropbox/_Repo/android.jks')
-            storePassword 'TQBF!VbL'
+            storePassword 'XXXXXXXX'
         }
     }
     compileSdkVersion 22
