@@ -42,12 +42,12 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
         // Create a new setting - it gets a date
-        mSetting = new Setting(extras.getInt("NBR_SETS"),
-                extras.getInt("NBR_REPS"),
-                extras.getInt("TIME_INTERVAL"),
-                extras.getInt("TIME_BREAK"),
-                extras.getBoolean("IS_6POINTS"),
-                extras.getBoolean("IS_AUDIO"));
+        mSetting = new Setting(extras.getInt(MainActivity.SETS),
+                extras.getInt(MainActivity.REPS),
+                extras.getInt(MainActivity.INTERVAL),
+                extras.getInt(MainActivity.BREAK),
+                extras.getBoolean(MainActivity.IS6POINTS),
+                extras.getBoolean(MainActivity.ISAUDIO));
 
         // Load the sounds if enabled and enough time to play them (2 s)
         if (mSetting.isAudio() && mSetting.getInterval() > 2000) {

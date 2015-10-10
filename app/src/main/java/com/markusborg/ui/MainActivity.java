@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -18,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.markusborg.logic.LogHandler;
+import com.markusborg.logic.Setting;
 
 /**
  * Main activity that displays the initial settings dialog.
@@ -31,9 +33,16 @@ public class MainActivity extends AppCompatActivity {
     private Context mAppContext;
     private EditText mTxtSets, mTxtReps, mTxtInterval, mTxtBreak, mTxtHistory;
     private CheckBox mChk6Points, mChkAudio;
-
     private LogHandler mLogger;
+    private SharedPreferences mSharedPrefs;
 
+    private static final String PREFERENCES = "GhostingPrefs" ;
+    public static final String SETS = "NBR_SETS";
+    public static final String REPS = "NBR_REPS";
+    public static final String INTERVAL = "TIME_INTERVAL";
+    public static final String BREAK = "TIME_BREAK";
+    public static final String IS6POINTS = "IS_6POINTS";
+    public static final String ISAUDIO = "IS_AUDIO";
     public final static String FILENAME = "history.log";
 
     @Override
@@ -43,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
 
         mAppContext = getApplicationContext();
         setGUIComponents();
+
+        // Load previous setting
+        loadSharedPrefs();
+
         mLogger = new LogHandler(mAppContext);
         displayHistory();
 
@@ -51,12 +64,29 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
                 Intent ghostingIntent = new Intent(mAppContext, GhostingActivity.class);
-                ghostingIntent.putExtra("NBR_SETS", Integer.parseInt(mTxtSets.getText().toString()));
-                ghostingIntent.putExtra("NBR_REPS", Integer.parseInt(mTxtReps.getText().toString()));
-                ghostingIntent.putExtra("TIME_INTERVAL", Integer.parseInt(mTxtInterval.getText().toString()));
-                ghostingIntent.putExtra("TIME_BREAK", Integer.parseInt(mTxtBreak.getText().toString()));
-                ghostingIntent.putExtra("IS_6POINTS", mChk6Points.isChecked());
-                ghostingIntent.putExtra("IS_AUDIO", mChkAudio.isChecked());
+                int sets = Integer.parseInt(mTxtSets.getText().toString());
+                int reps = Integer.parseInt(mTxtReps.getText().toString());
+                int interval = Integer.parseInt(mTxtInterval.getText().toString());
+                int breakTime = Integer.parseInt(mTxtBreak.getText().toString());
+                boolean is6Points = mChk6Points.isChecked();
+                boolean isAudio = mChkAudio.isChecked();
+                ghostingIntent.putExtra(SETS, sets);
+                ghostingIntent.putExtra(REPS, reps);
+                ghostingIntent.putExtra(INTERVAL, interval);
+                ghostingIntent.putExtra(BREAK, breakTime);
+                ghostingIntent.putExtra(IS6POINTS, is6Points);
+                ghostingIntent.putExtra(ISAUDIO, isAudio);
+
+                // Save the settings as SharedPreferences
+                SharedPreferences.Editor editor = mSharedPrefs.edit();
+                editor.putInt(SETS, sets);
+                editor.putInt(REPS, reps);
+                editor.putInt(INTERVAL, interval);
+                editor.putInt(BREAK, breakTime);
+                editor.putBoolean(IS6POINTS, is6Points);
+                editor.putBoolean(ISAUDIO, isAudio);
+                editor.apply();
+
                 startActivity(ghostingIntent);
             }
         });
@@ -142,6 +172,24 @@ public class MainActivity extends AppCompatActivity {
         mChk6Points = (CheckBox) findViewById(R.id.chk6Point);
         mChkAudio = (CheckBox) findViewById(R.id.chkAudio);
         mTxtHistory = (EditText) findViewById(R.id.txtHistory);
+    }
+
+    /**
+     * Load shared preferences containing the previous setting. If none are available, return false.
+     * @return True if successful, otherwise false.
+     */
+    private boolean loadSharedPrefs() {
+        mSharedPrefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
+        int prevSets = mSharedPrefs.getInt(SETS, -1);
+        if (prevSets != -1) {
+            mTxtSets.setText("" + prevSets);
+            mTxtSets.setText("" + mSharedPrefs.getInt(REPS, 15));
+            mTxtReps.setText("" + mSharedPrefs.getInt(INTERVAL, 5000));
+            mTxtInterval.setText("" + mSharedPrefs.getInt(BREAK, 15));
+            mChk6Points.setChecked(mSharedPrefs.getBoolean(IS6POINTS, true));
+            mChkAudio.setChecked(mSharedPrefs.getBoolean(ISAUDIO, true));
+        }
+        return prevSets != -1;
     }
 
     /**
