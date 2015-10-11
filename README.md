@@ -17,6 +17,10 @@
 1.21 - Released on Google Play Oct 10, 2015
 - Fixed sound bug on Sony Xperia
 
+1.21 - Released on Google Play Oct 11, 2015
+- Changed minSdkVersion to 9
+- Added SharedPreferences to store the latest setting between sessions
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
