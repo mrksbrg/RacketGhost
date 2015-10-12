@@ -17,7 +17,7 @@
 1.21 - Released on Google Play Oct 10, 2015
 - Fixed sound bug on Sony Xperia
 
-1.21 - Released on Google Play Oct 11, 2015
+1.22 - Released on Google Play Oct 11, 2015
 - Changed minSdkVersion to 9
 - Added SharedPreferences to store the latest setting between sessions
 
