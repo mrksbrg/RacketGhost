@@ -28,8 +28,6 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/ballLeftFront"
                 android:src="@drawable/squashball"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -46,8 +44,6 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/ballLeftMid"
                 android:src="@drawable/squashball"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -64,8 +60,6 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/ballLeftBack"
                 android:src="@drawable/squashball"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -107,8 +101,6 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/ballRightFront"
                 android:src="@drawable/squashball"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -125,8 +117,6 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/ballRightMid"
                 android:src="@drawable/squashball"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible" />
         </LinearLayout>
 
@@ -144,15 +134,8 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/ballRightBack"
                 android:src="@drawable/squashball"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"
                 android:visibility="invisible" />
         </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="74dp"></LinearLayout>
 
     </LinearLayout>
 
