@@ -233,48 +233,36 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 ImageView ball;
 
                 if (cornerToFlash.equals("L_FRONT")) {
-                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
-                    corner.setBackgroundColor(Color.rgb(255, 102, 102));
                     ball = (ImageView) findViewById(R.id.ballLeftFront);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[0], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
-                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightFront);
-                    corner.setBackgroundColor(Color.rgb(153,255,153));
                     ball = (ImageView) findViewById(R.id.ballRightFront);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[1], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
-                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftBack);
-                    corner.setBackgroundColor(Color.rgb(255,102,102));
                     ball = (ImageView) findViewById(R.id.ballLeftBack);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[4], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
-                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightBack);
-                    corner.setBackgroundColor(Color.rgb(153,255,153));
                     ball = (ImageView) findViewById(R.id.ballRightBack);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[3], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("L_MID")) {
-                    LinearLayout corner = (LinearLayout) findViewById(R.id.leftMid);
-                    corner.setBackgroundColor(Color.rgb(255,102,102));
                     ball = (ImageView) findViewById(R.id.ballLeftMid);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[5], 1.0f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else {
-                    LinearLayout corner = (LinearLayout) findViewById(R.id.rightMid);
-                    corner.setBackgroundColor(Color.rgb(153,255,153));
                     ball = (ImageView) findViewById(R.id.ballRightMid);
                     if (mLoaded) {
                         mSoundPool.play(mSoundIDs[2], 1.0f, 1.0f, 1, 0, 1.0f);
@@ -289,32 +277,25 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
                 // Find the current corner
                 if (cornerToTurnOff.equals("L_FRONT")) {
-                    corner = (LinearLayout) findViewById(R.id.leftFront);
                     ball = (ImageView) findViewById(R.id.ballLeftFront);
                 }
                 else if (cornerToTurnOff.equals("R_FRONT")) {
-                    corner = (LinearLayout) findViewById(R.id.rightFront);
                     ball = (ImageView) findViewById(R.id.ballRightFront);
                 }
                 else if (cornerToTurnOff.equals("L_BACK")) {
-                    corner = (LinearLayout) findViewById(R.id.leftBack);
                     ball = (ImageView) findViewById(R.id.ballLeftBack);
                 }
                 else if (cornerToTurnOff.equals("R_BACK")) {
-                    corner = (LinearLayout) findViewById(R.id.rightBack);
                     ball = (ImageView) findViewById(R.id.ballRightBack);
                 }
                 else if (cornerToTurnOff.equals("L_MID")) {
-                    corner = (LinearLayout) findViewById(R.id.leftMid);
                     ball = (ImageView) findViewById(R.id.ballLeftMid);
                 }
                 else {
-                    corner = (LinearLayout) findViewById(R.id.rightMid);
                     ball = (ImageView) findViewById(R.id.ballRightMid);
                 }
 
                 // Reset the current corner
-                corner.setBackgroundColor(Color.DKGRAY);
                 ball.setVisibility(View.INVISIBLE);
             }
         }
@@ -371,7 +352,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
          * Remove color from all corners.
          */
         private void clearCorners() {
-            LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
+            /*LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
             corner.setBackgroundColor(Color.DKGRAY);
             corner = (LinearLayout) findViewById(R.id.rightFront);
             corner.setBackgroundColor(Color.DKGRAY);
@@ -383,6 +364,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             corner.setBackgroundColor(Color.DKGRAY);
             corner = (LinearLayout) findViewById(R.id.rightBack);
             corner.setBackgroundColor(Color.DKGRAY);
+            */
         }
     }
 }

@@ -1,142 +1,124 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="fill_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.markusborg.ui.GhostingActivity"
     android:keepScreenOn="true">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:weightSum="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/front"
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/leftFront"
-            android:layout_weight="0.22">
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/ballLeftFront"
-                android:src="@drawable/squashball"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/leftMid"
-            android:layout_weight="0.20">
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/ballLeftMid"
-                android:src="@drawable/squashball"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
-            android:background="@android:color/darker_gray"
-            android:id="@+id/leftBack"
-            android:layout_weight="0.23">
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/ballLeftBack"
-                android:src="@drawable/squashball"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="2 / 15 (Set 1)"
-            android:id="@+id/lblProgress"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.35" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stop"
-            android:id="@+id/btnStop"
-            android:layout_gravity="center_horizontal" />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/ballLeftFront"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/emptyFront"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/ballRightFront"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:weightSum="1"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/mid"
+        android:layout_weight="1">
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="120dp"
-            android:layout_height="112dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="right"
-            android:id="@+id/rightFront" >
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/ballLeftMid"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/ballRightFront"
-                android:src="@drawable/squashball"
-                android:visibility="invisible" />
-        </LinearLayout>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/emptyMid"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="120dp"
-            android:layout_height="99dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="right"
-            android:id="@+id/rightMid" >
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/ballRightMid"
-                android:src="@drawable/squashball"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="120dp"
-            android:layout_height="96dp"
-            android:background="@android:color/darker_gray"
-            android:layout_gravity="right"
-            android:id="@+id/rightBack"
-            android:layout_weight="0.11" >
-
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:id="@+id/ballRightBack"
-                android:src="@drawable/squashball"
-                android:visibility="invisible" />
-        </LinearLayout>
-
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/ballRightMid"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/back"
+        android:layout_weight="1">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/ballLeftBack"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/emptyBack"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:id="@+id/ballRightBack"
+            android:src="@drawable/squashball"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="2 / 15 (Set 1)"
+        android:id="@+id/lblProgress"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.5" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop"
+        android:id="@+id/btnStop"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>
