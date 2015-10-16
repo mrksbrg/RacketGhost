@@ -1,6 +1,6 @@
 # RacketGhost
 
-- Open Source Ghosting Coach for Squash & Badminton 
+- Android Open Source Ghosting Coach for Squash & Badminton 
 
 ## Version History
 < 1.0 - Initial development
