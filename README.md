@@ -1,11 +1,11 @@
 # RacketGhost
 
-- Open Source Ghosting Coach for Squash & Badminton 
+- Android Open Source Ghosting Coach for Squash & Badminton 
 
 ## Version History
 < 1.0 - Initial development
 
-1.0 - Release on Amazon Appstore for Android: http://www.amazon.com/Markus-Borg-RacketGhost/dp/B013YY2MKE/
+1.0 - Released on Amazon Appstore: http://www.amazon.com/Markus-Borg-RacketGhost/dp/B013YY2MKE/
 
 1.1 - Audio added. Released on Google Play: https://play.google.com/store/apps/details?id=com.markusborg.test&hl=en
 
@@ -20,6 +20,13 @@
 1.22 - Released on Google Play Oct 11, 2015
 - Changed minSdkVersion to 9
 - Added SharedPreferences to store the latest setting between sessions
+
+1.3 - Released on Google Play and Amazon Appstore Oct 14, 2015
+- First release with a stable implementation of all basic features
+- Major layout fixes
+
+1.31 - Released on Google Play Oct 18, 2015
+- Updated the layout for ghosting sessions, added the logo in the center
 
 ## Background
 
