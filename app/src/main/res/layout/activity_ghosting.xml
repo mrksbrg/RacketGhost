@@ -13,98 +13,85 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:background="@android:color/darker_gray"
-        android:id="@+id/front"
+        android:id="@+id/leftSide"
         android:layout_weight="1">
 
-        <ImageView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/ballLeftFront"
-            android:src="@drawable/squashball"
-            android:visibility="invisible" />
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/emptyFront"
-            android:visibility="visible"
-            android:background="#ffffff" />
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/ballRightFront"
-            android:src="@drawable/squashball"
-            android:visibility="invisible" />
-    </LinearLayout>
+            android:background="@android:color/white"
+            android:id="@+id/left"
+            android:layout_weight="1">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/mid"
-        android:layout_weight="1">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/ballLeftFront"
+                android:src="@drawable/squashball"
+                android:visibility="invisible" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/ballLeftMid"
+                android:visibility="invisible"
+                android:background="#ffffff" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/ballLeftBack"
+                android:src="@drawable/squashball"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/ballLeftMid"
-            android:src="@drawable/squashball"
-            android:visibility="invisible" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:id="@+id/emptyMid"
+            android:id="@+id/mid"
             android:visibility="visible"
             android:background="#ffffff"
             android:adjustViewBounds="false"
             android:src="@drawable/icon" />
 
-        <ImageView
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/ballRightMid"
-            android:src="@drawable/squashball"
-            android:visibility="invisible" />
-    </LinearLayout>
+            android:background="@android:color/white"
+            android:id="@+id/rightSide"
+            android:layout_weight="1">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:background="@android:color/darker_gray"
-        android:id="@+id/back"
-        android:layout_weight="1">
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/ballRightFront"
+                android:src="@drawable/squashball"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/ballLeftBack"
-            android:src="@drawable/squashball"
-            android:visibility="invisible" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/ballRightMid"
+                android:visibility="visible"
+                android:background="#ffffff" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/emptyBack"
-            android:visibility="visible"
-            android:background="#ffffff" />
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:id="@+id/ballRightBack"
+                android:src="@drawable/squashball"
+                android:visibility="invisible" />
 
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:id="@+id/ballRightBack"
-            android:src="@drawable/squashball"
-            android:visibility="invisible" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView
@@ -114,7 +101,7 @@
         android:text="2 / 15 (Set 1)"
         android:id="@+id/lblProgress"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.5" />
+        android:layout_weight="0.2" />
 
     <Button
         android:layout_width="wrap_content"
