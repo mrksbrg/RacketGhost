@@ -6,5 +6,5 @@
     <string name="title_activity_ghosting">Ghosting!</string>
     <string name="title_activity_results">Ghosting Summary</string>
     <string name="menu_help">Quick instructions for squash:\n\n1. Configure your ghosting session.\n2. Place device approx. 2 m in front of T.\n3. Click \'GO!\' button.\n\nFull instructions available on</string>
-    <string name="menu_about">RacketGhost v. 1.31\n\nOpen Source Ghosting Coach\nCopyright (c) 2015 Markus Borg under MIT License\nPlease fork, report bugs, and request features\n\nFull instructions available on</string>
+    <string name="menu_about">RacketGhost v. 1.32\n\nOpen Source Ghosting Coach\nCopyright (c) 2015 Markus Borg under MIT License\nPlease fork, report bugs, and request features\n\nFull instructions available on</string>
 </resources>

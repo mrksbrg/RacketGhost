@@ -4,9 +4,9 @@ android {
     signingConfigs {
         config {
             keyAlias 'mrksbrg_AndroidKey'
-            keyPassword 'TQBF!VbL'
+            keyPassword 'XXXXXXXX'
             storeFile file('C:/Users/Markus/Dropbox/_Repo/android.jks')
-            storePassword 'TQBF!VbL'
+            storePassword 'XXXXXXXX'
         }
     }
     compileSdkVersion 22
@@ -15,8 +15,8 @@ android {
         applicationId "com.markusborg.test"
         minSdkVersion 9
         targetSdkVersion 22
-        versionCode 7
-        versionName "1.31"
+        versionCode 8
+        versionName "1.32"
     }
     buildTypes {
         release {
