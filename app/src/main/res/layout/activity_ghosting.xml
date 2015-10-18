@@ -56,7 +56,7 @@
             android:visibility="visible"
             android:background="#ffffff"
             android:adjustViewBounds="false"
-            android:src="@drawable/icon" />
+            android:src="@drawable/sweopen2014" />
 
         <LinearLayout
             android:orientation="vertical"
