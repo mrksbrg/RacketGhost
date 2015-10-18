@@ -13,10 +13,10 @@ android {
     buildToolsVersion "22.0.1"
     defaultConfig {
         applicationId "com.markusborg.test"
-        minSdkVersion 9
+        minSdkVersion 10
         targetSdkVersion 22
         versionCode 8
-        versionName "1.32"
+        versionName "1.33"
     }
     buildTypes {
         release {
