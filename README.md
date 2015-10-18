@@ -66,6 +66,7 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 ## Further Information
 
 - The current version of RacketGhost is tailored for squash. Although it works fine for badminton as well, refering to court positions as volley left/right does obviously not make sense.
+- As the frequent releases suggest, the project relies on continous deployment. 
 - To compensate for the shorter distances, the interval for volley positions is automatically decreased to 2/3 of the setting.
 - In the main screen the last 3 ghosting sessions are listed, but in the summary screen 15 sessions are presented.
 - You can stop an ongoing ghosting session by pressing "Stop". Press "Back" to return to the main screen.
