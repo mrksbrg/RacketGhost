@@ -11,7 +11,7 @@
 
 1.2.0 - Released on Google Play Oct 3, 2015
 - Added picture of squash ball
-- Increased countdown from 3 s to 5 s
+- Increased countdown from 3s to 5s
 - Minor bug fixes
 
 1.2.1 - Released on Google Play Oct 10, 2015
@@ -66,7 +66,7 @@ In the main screen you get to set the following parameters for your next ghostin
 Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 
 - 6 corners: If checked, RacketGhost points you to six court positions, otherwise only the four corners are used.
-- Audio: Play complementing audio
+- Audio: Play complementing audio cues
 
 ## Further Information
 
