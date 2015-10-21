@@ -60,7 +60,7 @@ In the main screen you get to set the following parameters for your next ghostin
 
 - Reps: The number of repetitions per set, i.e., the number of corners to reach. [DEFAULT=15]
 - Sets: The number of sets in the ghosting session. [DEFAULT=3]
-- Interval: The time (in milliseconds) between repetitions in the ghosting session. [DEFAULT=5500]
+- Interval: The time (in milliseconds) between repetitions in the ghosting session. [DEFAULT=5000]
 - Break btw. sets: The time (in seconds) to rest between sets. [DEFAULT=15]
 
 Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
