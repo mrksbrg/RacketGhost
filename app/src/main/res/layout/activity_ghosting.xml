@@ -36,9 +36,9 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:id="@+id/ballLeftMid"
-                android:src="@drawable/squashball"
                 android:visibility="invisible"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:src="@drawable/squashball" />
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -80,9 +80,9 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:id="@+id/ballRightMid"
-                android:src="@drawable/squashball"
                 android:visibility="invisible"
-                android:background="#ffffff" />
+                android:background="#ffffff"
+                android:src="@drawable/squashball" />
 
             <ImageView
                 android:layout_width="fill_parent"

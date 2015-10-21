@@ -13,30 +13,37 @@ import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.markusborg.logic.LogHandler;
-import com.markusborg.logic.Setting;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Main activity that displays the initial settings dialog.
  *
  * @author  Markus Borg
- * @version 0.5
  * @since   2015-07-29
  */
 public class MainActivity extends AppCompatActivity {
 
     private Context mAppContext;
+    private Spinner mSpinner;
+    private SeekBar mSeekBarSets, mSeekBarReps, mSeekBarInterval, mSeekBarBreak;
     private EditText mTxtSets, mTxtReps, mTxtInterval, mTxtBreak, mTxtHistory;
     private CheckBox mChk6Points, mChkAudio;
     private LogHandler mLogger;
     private SharedPreferences mSharedPrefs;
 
-    private static final String PREFERENCES = "GhostingPrefs" ;
+    private static final String PREFERENCES = "GhostingPrefs";
+    public static final String ISSQUASH = "IS_SQUASH";
     public static final String SETS = "NBR_SETS";
     public static final String REPS = "NBR_REPS";
     public static final String INTERVAL = "TIME_INTERVAL";
@@ -64,12 +71,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Perform action on click
                 Intent ghostingIntent = new Intent(mAppContext, GhostingActivity.class);
-                int sets = Integer.parseInt(mTxtSets.getText().toString());
-                int reps = Integer.parseInt(mTxtReps.getText().toString());
-                int interval = Integer.parseInt(mTxtInterval.getText().toString());
-                int breakTime = Integer.parseInt(mTxtBreak.getText().toString());
+
+                boolean squashMode = mSpinner.getSelectedItemPosition() == 0; // squash is the first
+                int sets = mSeekBarSets.getProgress();
+                int reps = mSeekBarReps.getProgress();
+                int interval = mSeekBarInterval.getProgress();
+                int breakTime = mSeekBarBreak.getProgress();
                 boolean is6Points = mChk6Points.isChecked();
                 boolean isAudio = mChkAudio.isChecked();
+
+                ghostingIntent.putExtra(ISSQUASH, squashMode);
                 ghostingIntent.putExtra(SETS, sets);
                 ghostingIntent.putExtra(REPS, reps);
                 ghostingIntent.putExtra(INTERVAL, interval);
@@ -79,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // Save the settings as SharedPreferences
                 SharedPreferences.Editor editor = mSharedPrefs.edit();
+                editor.putBoolean(ISSQUASH, squashMode);
                 editor.putInt(SETS, sets);
                 editor.putInt(REPS, reps);
                 editor.putInt(INTERVAL, interval);
@@ -110,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         final SpannableString s = new SpannableString("github.com/mrksbrg/RacketGhost");
 
         switch (id) {
-            case R.id.action_help :
+            case R.id.action_help:
                 // create help dialog
                 final TextView tx1 = new TextView(this);
                 tx1.setText(getString(R.string.menu_help) + " " + s);
@@ -130,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
                         .setView(tx1).show();
                 break;
-            case R.id.action_about :
+            case R.id.action_about:
                 // create about dialog
                 final TextView tx2 = new TextView(this);
                 tx2.setText(getString(R.string.menu_about) + " " + s);
@@ -164,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Set all GUI components.
      */
-    private void setGUIComponents(){
+    private void setGUIComponents() {
         mTxtSets = (EditText) findViewById(R.id.txtSets);
         mTxtReps = (EditText) findViewById(R.id.txtReps);
         mTxtInterval = (EditText) findViewById(R.id.txtInterval);
@@ -172,20 +184,53 @@ public class MainActivity extends AppCompatActivity {
         mChk6Points = (CheckBox) findViewById(R.id.chk6Point);
         mChkAudio = (CheckBox) findViewById(R.id.chkAudio);
         mTxtHistory = (EditText) findViewById(R.id.txtHistory);
+
+        // Squash/Badminton spinner. No action listener needed.
+        mSpinner = (Spinner) findViewById(R.id.spinner);
+        List<String> list = new ArrayList<String>();
+        list.add("Squash");
+        list.add("Badminton");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(dataAdapter);
+
+        // SeekBars
+        mSeekBarSets = (SeekBar) findViewById(R.id.seekBarSets);
+        mSeekBarSets.setOnSeekBarChangeListener(new SeekBarListener());
+        mSeekBarReps = (SeekBar) findViewById(R.id.seekBarReps);
+        mSeekBarReps.setOnSeekBarChangeListener(new SeekBarListener());
+        mSeekBarInterval = (SeekBar) findViewById(R.id.seekBarInterval);
+        mSeekBarInterval.setOnSeekBarChangeListener(new SeekBarListener());
+        mSeekBarBreak = (SeekBar) findViewById(R.id.seekBarBreak);
+        mSeekBarBreak.setOnSeekBarChangeListener(new SeekBarListener());
     }
 
     /**
      * Load shared preferences containing the previous setting. If none are available, return false.
+     *u
      * @return True if successful, otherwise false.
      */
     private boolean loadSharedPrefs() {
         mSharedPrefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         int prevSets = mSharedPrefs.getInt(SETS, -1);
         if (prevSets != -1) {
-            mTxtSets.setText("" + prevSets);
-            mTxtSets.setText("" + mSharedPrefs.getInt(REPS, 15));
-            mTxtReps.setText("" + mSharedPrefs.getInt(INTERVAL, 5000));
-            mTxtInterval.setText("" + mSharedPrefs.getInt(BREAK, 15));
+            if (mSharedPrefs.getBoolean(ISSQUASH, true)) {
+                mSpinner.setSelection(0);
+            } else {
+                mSpinner.setSelection(1);
+            }
+            mTxtSets.setText("Sets: " + prevSets);
+            mSeekBarSets.setProgress(prevSets);
+            int prevReps = mSharedPrefs.getInt(REPS, 15);
+            mTxtReps.setText("Reps: " + prevReps);
+            mSeekBarReps.setProgress(prevReps);
+            int prevInt = mSharedPrefs.getInt(INTERVAL, 5000);
+            mTxtInterval.setText("Interval (ms): " + prevInt);
+            mSeekBarInterval.setProgress(prevInt);
+            int prevBreak = mSharedPrefs.getInt(BREAK, 15);
+            mTxtBreak.setText("Break btw. sets (s): " + prevBreak);
+            mSeekBarBreak.setProgress(prevBreak);
             mChk6Points.setChecked(mSharedPrefs.getBoolean(IS6POINTS, true));
             mChkAudio.setChecked(mSharedPrefs.getBoolean(ISAUDIO, true));
         }
@@ -199,4 +244,39 @@ public class MainActivity extends AppCompatActivity {
         mTxtHistory.setText("Recent history:\n" + mLogger.getFromLog(3));
     }
 
+
+    private class SeekBarListener implements SeekBar.OnSeekBarChangeListener {
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress,
+                                      boolean fromUser) {
+            TextView tmp = null;
+            switch (seekBar.getId()) {
+                case R.id.seekBarSets:
+                    tmp = (TextView) findViewById(R.id.txtSets);
+                    tmp.setText("Sets: " + seekBar.getProgress());
+                    break;
+                case R.id.seekBarReps:
+                    tmp = (TextView) findViewById(R.id.txtReps);
+                    tmp.setText("Reps: " + seekBar.getProgress());
+                    break;
+                case R.id.seekBarInterval:
+                    tmp = (TextView) findViewById(R.id.txtInterval);
+                    tmp.setText("Interval (ms): " + seekBar.getProgress());
+                    break;
+                case R.id.seekBarBreak:
+                    tmp = (TextView) findViewById(R.id.txtBreak);
+                    tmp.setText("Break btw. sets (s): " + seekBar.getProgress());
+                    break;
+            }
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+        }
+    }
 }

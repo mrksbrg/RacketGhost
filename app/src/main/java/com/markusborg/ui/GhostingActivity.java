@@ -3,10 +3,12 @@ package com.markusborg.ui;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,18 +38,27 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     private int[] mSoundIDs; // six sounds, clockwise from front left
     private boolean mLoaded;
 
+    private final int SQUASH_ICON = 0;
+    private final int BADMINTON_ICON = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
         // Create a new setting - it gets a date
-        mSetting = new Setting(extras.getInt(MainActivity.SETS),
+        mSetting = new Setting(extras.getBoolean(MainActivity.ISSQUASH),
+                extras.getInt(MainActivity.SETS),
                 extras.getInt(MainActivity.REPS),
                 extras.getInt(MainActivity.INTERVAL),
                 extras.getInt(MainActivity.BREAK),
                 extras.getBoolean(MainActivity.IS6POINTS),
                 extras.getBoolean(MainActivity.ISAUDIO));
+
+        // If it is not squash mode, change to badminton shuttlecock
+        if (!mSetting.isSquash()) {
+            setBallIcon(BADMINTON_ICON);
+        }
 
         // Load the sounds if enabled and enough time to play them (2 s)
         if (mSetting.isAudio() && mSetting.getInterval() > 2000) {
@@ -59,7 +70,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             // Take care of the deprecated SoundPool constructor
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                 createNewSoundPool();
-            }else{
+            } else {
                 createOldSoundPool();
             }
 
@@ -92,15 +103,68 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     }
 
     /**
-     * Create a new SoundPool from Lollipop and later Android versions
+     * Switch the icon from squash ball to shuttlecock
+     */
+    private void setBallIcon(int ballType) {
+        Drawable ballIcon = null;
+
+        // getDrawable changed with API 22
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ballIcon = getBallIconNew(ballType);
+        } else {
+            ballIcon = getBallIconOld(ballType);
+        }
+
+        ImageView ball = (ImageView) findViewById(R.id.ballLeftFront);
+        ball.setImageDrawable(ballIcon);
+        ball = (ImageView) findViewById(R.id.ballRightFront);
+        ball.setImageDrawable(ballIcon);
+        ball = (ImageView) findViewById(R.id.ballLeftMid);
+        ball.setImageDrawable(ballIcon);
+        ball = (ImageView) findViewById(R.id.ballRightMid);
+        ball.setImageDrawable(ballIcon);
+        ball = (ImageView) findViewById(R.id.ballLeftBack);
+        ball.setImageDrawable(ballIcon);
+        ball = (ImageView) findViewById(R.id.ballRightBack);
+        ball.setImageDrawable(ballIcon);
+    }
+
+    /**
+     * Return a ball icon from Lollipop and later Android versions
+     *
+     * @param type 0 = squash otherwise = badminton
+     * @return The ball icon
      */
     @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
-    protected void createNewSoundPool(){
-        AudioAttributes attributes = new AudioAttributes.Builder()
-                .setUsage(AudioAttributes.USAGE_GAME)
-                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                .build();
-        mSoundPool = new SoundPool.Builder()
+    private Drawable getBallIconNew(int type) {
+        return type == 0 ? getResources().getDrawable(R.drawable.squashball,
+                getApplicationContext().getTheme()) :
+                getResources().getDrawable(R.drawable.shuttlecock,
+                        getApplicationContext().getTheme());
+    }
+
+    /**
+     * Return a ball icon using deprecated method.
+     *
+     * @param type 0 = squash otherwise = badminton
+     * @return The ball icon
+     */
+    @SuppressWarnings("deprecation")
+    private Drawable getBallIconOld(int type) {
+        return type == 0 ? getResources().getDrawable(R.drawable.squashball) :
+                getResources().getDrawable(R.drawable.shuttlecock);
+    }
+
+    /**
+     * Create a new SoundPool from Lollipop and later Android versions
+     */
+        @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
+        private void createNewSoundPool(){
+            AudioAttributes attributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
+            mSoundPool = new SoundPool.Builder()
                 .setAudioAttributes(attributes)
                 .build();
     }
@@ -121,12 +185,13 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         printSessionToFile();
         Intent summaryIntent = new Intent(this, ResultsActivity.class);
         summaryIntent.putExtra("DATE", mSetting.getDate());
-        summaryIntent.putExtra("NBR_SETS", mSetting.getSets());
-        summaryIntent.putExtra("NBR_REPS", mSetting.getReps());
-        summaryIntent.putExtra("TIME_INTERVAL", mSetting.getInterval());
-        summaryIntent.putExtra("TIME_BREAK", mSetting.getBreakTime());
-        summaryIntent.putExtra("IS_6POINTS", mSetting.isSixPoints());
-        summaryIntent.putExtra("IS_AUDIO", mSetting.isAudio());
+        summaryIntent.putExtra(MainActivity.ISSQUASH, mSetting.isSquash());
+        summaryIntent.putExtra(MainActivity.SETS, mSetting.getSets());
+        summaryIntent.putExtra(MainActivity.REPS, mSetting.getReps());
+        summaryIntent.putExtra(MainActivity.INTERVAL, mSetting.getInterval());
+        summaryIntent.putExtra(MainActivity.BREAK, mSetting.getBreakTime());
+        summaryIntent.putExtra(MainActivity.IS6POINTS, mSetting.isSixPoints());
+        summaryIntent.putExtra(MainActivity.ISAUDIO, mSetting.isAudio());
         startActivity(summaryIntent);
     }
 
@@ -150,7 +215,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         protected String doInBackground(Setting... params) {
             Setting theSetting = params[0];
             GhostPlayer theGhost = new GhostPlayer(theSetting.isSixPoints());
-            clearCorners();
 
             lblProgress = (TextView) findViewById(R.id.lblProgress);
 
@@ -227,7 +291,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 lblProgress.setText(progress[0]);
             }
             else if (progress.length == 2) {
-                clearCorners();
                 lblProgress.setText(progress[0]);
                 String cornerToFlash = progress[1];
                 ImageView ball;
@@ -302,7 +365,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         @Override
         protected void onPostExecute(String result) {
-            clearCorners();
             delegate.notifyGhostingFinished();
         }
 
@@ -348,23 +410,5 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             publishProgress("");
         }
 
-        /**
-         * Remove color from all corners.
-         */
-        private void clearCorners() {
-            /*LinearLayout corner = (LinearLayout) findViewById(R.id.leftFront);
-            corner.setBackgroundColor(Color.DKGRAY);
-            corner = (LinearLayout) findViewById(R.id.rightFront);
-            corner.setBackgroundColor(Color.DKGRAY);
-            corner = (LinearLayout) findViewById(R.id.leftMid);
-            corner.setBackgroundColor(Color.DKGRAY);
-            corner = (LinearLayout) findViewById(R.id.rightMid);
-            corner.setBackgroundColor(Color.DKGRAY);
-            corner = (LinearLayout) findViewById(R.id.leftBack);
-            corner.setBackgroundColor(Color.DKGRAY);
-            corner = (LinearLayout) findViewById(R.id.rightBack);
-            corner.setBackgroundColor(Color.DKGRAY);
-            */
-        }
     }
 }
