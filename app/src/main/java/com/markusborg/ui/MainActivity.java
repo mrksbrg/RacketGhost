@@ -221,9 +221,16 @@ public class MainActivity extends AppCompatActivity {
                 mSpinner.setSelection(1);
             }
             mTxtSets.setText("Sets: " + prevSets);
-            mTxtReps.setText("Reps: " + mSharedPrefs.getInt(REPS, 15));
-            mTxtInterval.setText("Interval (ms): " + mSharedPrefs.getInt(INTERVAL, 5000));
-            mTxtBreak.setText("Break btw. sets (s): " + mSharedPrefs.getInt(BREAK, 15));
+            mSeekBarSets.setProgress(prevSets);
+            int prevReps = mSharedPrefs.getInt(REPS, 15);
+            mTxtReps.setText("Reps: " + prevReps);
+            mSeekBarReps.setProgress(prevReps);
+            int prevInt = mSharedPrefs.getInt(INTERVAL, 5000);
+            mTxtInterval.setText("Interval (ms): " + prevInt);
+            mSeekBarInterval.setProgress(prevInt);
+            int prevBreak = mSharedPrefs.getInt(BREAK, 15);
+            mTxtBreak.setText("Break btw. sets (s): " + prevBreak);
+            mSeekBarBreak.setProgress(prevBreak);
             mChk6Points.setChecked(mSharedPrefs.getBoolean(IS6POINTS, true));
             mChkAudio.setChecked(mSharedPrefs.getBoolean(ISAUDIO, true));
         }
