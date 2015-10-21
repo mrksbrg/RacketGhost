@@ -11,7 +11,7 @@
 
 1.2.0 - Released on Google Play Oct 3, 2015
 - Added picture of squash ball
-- Increased countdown from 3 s to 5 s
+- Increased countdown from 3s to 5s
 - Minor bug fixes
 
 1.2.1 - Released on Google Play Oct 10, 2015
@@ -30,6 +30,11 @@
 
 1.3.2 - Released on Google Play Oct 18, 2015
 - Fixed bug, no squash balls presented on volley left and right
+
+1.4.0 - Released on Google Play Oct 21, 2015
+- A badminton mode has been added.
+- Squash/badminton is chosen using a Spinner.
+- Seek bars replace the edit texts in the main activity.
 
 ## Background
 
@@ -55,13 +60,13 @@ In the main screen you get to set the following parameters for your next ghostin
 
 - Reps: The number of repetitions per set, i.e., the number of corners to reach. [DEFAULT=15]
 - Sets: The number of sets in the ghosting session. [DEFAULT=3]
-- Interval: The time (in milliseconds) between repetitions in the ghosting session. [DEFAULT=5500]
+- Interval: The time (in milliseconds) between repetitions in the ghosting session. [DEFAULT=5000]
 - Break btw. sets: The time (in seconds) to rest between sets. [DEFAULT=15]
 
 Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 
 - 6 corners: If checked, RacketGhost points you to six court positions, otherwise only the four corners are used.
-- Audio: Play complementing audio
+- Audio: Play complementing audio cues
 
 ## Further Information
 
