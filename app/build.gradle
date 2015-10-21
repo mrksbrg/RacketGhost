@@ -15,8 +15,8 @@ android {
         applicationId "com.markusborg.test"
         minSdkVersion 10
         targetSdkVersion 22
-        versionCode 8
-        versionName "1.33"
+        versionCode 9
+        versionName "1.4.0"
     }
     buildTypes {
         release {
