@@ -11,25 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:weightSum="1">
+        android:weightSum="1" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Ghosting Settings"
+            android:paddingBottom="6dp"
             android:id="@+id/textView2"
             android:layout_gravity="center_horizontal" />
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:id="@+id/textView0"
                 android:text="Select Sport:" />
 
@@ -51,7 +52,8 @@
                 android:id="@+id/txtSets"
                 android:text="Sets: 3"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarSets"
@@ -60,7 +62,7 @@
                 android:layout_margin="10dp"
                 android:max="10"
                 android:progress="3"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -75,7 +77,8 @@
                 android:text="Reps: 15"
                 android:id="@+id/txtReps"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarReps"
@@ -84,7 +87,7 @@
                 android:layout_margin="10dp"
                 android:max="50"
                 android:progress="15"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -99,7 +102,8 @@
                 android:text="Interval (ms):"
                 android:id="@+id/txtInterval"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarInterval"
@@ -123,7 +127,8 @@
                 android:text="Break betw. sets (s):"
                 android:id="@+id/txtBreak"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarBreak"
@@ -170,6 +175,8 @@
             android:layout_weight="0.58"
             android:text="Recent history:"
             android:textAlignment="textStart"
+            android:layout_gravity="start"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:enabled="false" />
 
     </LinearLayout>

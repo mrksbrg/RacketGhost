@@ -34,7 +34,11 @@ public class Setting {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer(getDate() + " (SQ): " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
+        String type = "(SQ)";
+        if (!squash) {
+            type = "(BA)";
+        }
+        StringBuffer sb = new StringBuffer(getDate() + " " + type + ": " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
         return sb.toString();
     }
 
