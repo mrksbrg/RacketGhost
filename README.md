@@ -31,6 +31,11 @@
 1.3.2 - Released on Google Play Oct 18, 2015
 - Fixed bug, no squash balls presented on volley left and right
 
+1.4.0 - Released on Google Play Oct 21, 2015
+- A badminton mode has been added.
+- Squash/badminton is chosen using a Spinner.
+- Seek bars replace the edit texts in the main activity.
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
