@@ -33,8 +33,19 @@ public class Setting {
     }
 
     @Override
+    /**
+     * Return a string representation of the ghosting setting.
+     */
     public String toString() {
-        StringBuffer sb = new StringBuffer(getDate() + " (SQ): " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
+        String type = null;
+        if (isSquash()) {
+            type = "SQ";
+        }
+        else {
+            type = "BA";
+        }
+        StringBuffer sb = new StringBuffer(getDate() + " (" + type + "): "
+                + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
         return sb.toString();
     }
 

@@ -54,7 +54,6 @@ public class LogHandler {
      * @param theSetting
      */
     public void addSessionToLog(Setting theSetting) {
-
         // move all history items one position
         if (n == 1) {
             history[1] = history[0];
