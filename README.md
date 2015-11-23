@@ -32,9 +32,9 @@
 - Fixed bug, no squash balls presented on volley left and right
 
 1.4.0 - Released on Google Play Oct 21, 2015
-- A badminton mode has been added.
-- Squash/badminton is chosen using a Spinner.
-- Seek bars replace the edit texts in the main activity.
+- A badminton mode has been added
+- Squash/badminton is chosen using a Spinner
+- Seek bars replace the edit texts in the main activity
 
 1.5.0 - Released on Google Play Nov 23, 2015
 - Added a listview with a custom adapter to the ResultsActivity
