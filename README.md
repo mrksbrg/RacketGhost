@@ -36,6 +36,9 @@
 - Squash/badminton is chosen using a Spinner.
 - Seek bars replace the edit texts in the main activity.
 
+1.5.0 - Released on Google Play Nov 23, 2015
+- Added a listview with a custom adapter to the ResultsActivity
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
