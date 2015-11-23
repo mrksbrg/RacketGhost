@@ -38,26 +38,33 @@ public class Setting {
      * @param string The string from file.
      */
     public Setting(String string) {
-        date = string.substring(0, 10);
-        if (string.substring(12,14).equals("SQ")) {
-            squash = true;
+        // Multiple checks needed to take care of old app versions
+        if (string != null && string.length() > 20) {
+            date = string.substring(0, 10);
+            if (string.substring(12, 14).equals("SQ")) {
+                squash = true;
+            } else {
+                squash = false;
+            }
+            try {
+                String tempSettingSubstring = string.substring(17, string.length());
+                String[] ints = tempSettingSubstring.split(";");
+                if (ints.length == 4) {
+                    sets = Integer.parseInt(ints[0].trim());
+                    reps = Integer.parseInt(ints[1].trim());
+                    interval = Integer.parseInt(ints[2].trim());
+                    breakTime = Integer.parseInt(ints[3].trim());
+                } else {
+                    setDummyData();
+                }
+            } catch (NumberFormatException e) {
+                setDummyData();
+            } catch (ArrayIndexOutOfBoundsException e) {
+                setDummyData();
+            }
         }
         else {
-            squash = false;
-        }
-        try {
-            String tempSettingSubstring = string.substring(17, string.length());
-            String[] ints = tempSettingSubstring.split(";");
-            sets = Integer.parseInt(ints[0].trim());
-            reps = Integer.parseInt(ints[1].trim());
-            interval = Integer.parseInt(ints[2].trim());
-            breakTime = Integer.parseInt(ints[3].trim());
-        }
-        catch (NumberFormatException e) {
-            sets = -1;
-            reps = -1;
-            interval = -1;
-            breakTime = -1;
+            setDummyData();
         }
     }
 
@@ -130,5 +137,12 @@ public class Setting {
 
     public void setAudio(boolean audio) {
         this.audio = audio;
+    }
+
+    private void setDummyData() {
+        sets = -1;
+        reps = -1;
+        interval = -1;
+        breakTime = -1;
     }
 }
