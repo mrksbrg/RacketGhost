@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 /**
  * Created by Markus Borg on 2015-08-08.
@@ -21,12 +22,15 @@ public class LogHandler {
     private Context appContext;
     private static String[] history; // all LogHandlers should share the same history
     private int n;
-    public final int MAX_HISTORY = 20;
+    private ArrayList<Setting> settingList;
+
+    public final int MAX_HISTORY = 100;
 
     public LogHandler(Context appContext) {
         this.appContext = appContext;
         history = new String[MAX_HISTORY];
         n = 0;
+        settingList = new ArrayList<Setting>();
 
         // Try to populate the string array
         try {
@@ -37,6 +41,7 @@ public class LogHandler {
             while ((line = bufferedReader.readLine()) != null) {
                 if (n < MAX_HISTORY) {
                     history[n] = line;
+                    settingList.add(new Setting(line));
                     n++;
                 }
             }
@@ -71,6 +76,7 @@ public class LogHandler {
 
         // add new item
         history[0] = theSetting.toString();
+        settingList.add(new Setting(history[0]));
         if (n < MAX_HISTORY) {
             n++;
         }
@@ -91,7 +97,7 @@ public class LogHandler {
     }
 
     /**
-     * Get lines from the log.
+     * Get lines from the log as strings.
      * @param nbr number of previous sessions to extract
      * @return The String
      */
@@ -101,6 +107,23 @@ public class LogHandler {
             sb.append(history[i] + "\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * Get history as a list of strings.
+     * @param nbr number of previous sessions to extract
+     * @return The list
+     */
+    public ArrayList<String> getArrayList(int nbr) {
+        ArrayList<String> historyList = new ArrayList<String>();
+        for (int i=0; i<n && i<nbr; i++) {
+            historyList.add(history[i]);
+        }
+        return historyList;
+    }
+
+    public ArrayList<Setting> getSettingList() {
+        return settingList;
     }
 
 }

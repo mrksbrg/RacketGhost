@@ -2,7 +2,6 @@ package com.markusborg.ui;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
@@ -14,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -335,7 +333,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             }
             else if (progress.length == 3) {
                 String cornerToTurnOff = progress[1];
-                LinearLayout corner;
                 ImageView ball;
 
                 // Find the current corner

@@ -1,5 +1,6 @@
 package com.markusborg.logic;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,6 +33,34 @@ public class Setting {
         this.audio = audio;
     }
 
+    /**
+     * Create a Setting object from the string stored on file.
+     * @param string The string from file.
+     */
+    public Setting(String string) {
+        date = string.substring(0, 10);
+        if (string.substring(12,14).equals("SQ")) {
+            squash = true;
+        }
+        else {
+            squash = false;
+        }
+        try {
+            String tempSettingSubstring = string.substring(17, string.length());
+            String[] ints = tempSettingSubstring.split(";");
+            sets = Integer.parseInt(ints[0].trim());
+            reps = Integer.parseInt(ints[1].trim());
+            interval = Integer.parseInt(ints[2].trim());
+            breakTime = Integer.parseInt(ints[3].trim());
+        }
+        catch (NumberFormatException e) {
+            sets = -1;
+            reps = -1;
+            interval = -1;
+            breakTime = -1;
+        }
+    }
+
     @Override
     public String toString() {
         String type = "(SQ)";
@@ -39,6 +68,15 @@ public class Setting {
             type = "(BA)";
         }
         StringBuffer sb = new StringBuffer(getDate() + " " + type + ": " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
+        return sb.toString();
+    }
+
+    /**
+     * Return a string without the "(SQ)/(BA)" type.
+     * @return The string.
+     */
+    public String getRestrictedString() {
+        StringBuffer sb = new StringBuffer(getDate() + " - " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
         return sb.toString();
     }
 
