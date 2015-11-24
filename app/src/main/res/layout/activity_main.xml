@@ -46,7 +46,8 @@
                 android:id="@+id/txtSets"
                 android:text="Sets: 3"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarSets"
@@ -70,7 +71,9 @@
                 android:text="Reps: 15"
                 android:id="@+id/txtReps"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:editable="false"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarReps"
@@ -94,7 +97,8 @@
                 android:text="Interval (ms):"
                 android:id="@+id/txtInterval"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarInterval"
@@ -118,7 +122,8 @@
                 android:text="Break betw. sets (s):"
                 android:id="@+id/txtBreak"
                 android:layout_weight="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:enabled="false" />
 
             <SeekBar
                 android:id="@+id/seekBarBreak"
