@@ -94,7 +94,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Interval (ms):"
+                android:text="Interval (ms): 5000"
                 android:id="@+id/txtInterval"
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -119,7 +119,7 @@
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:text="Break betw. sets (s):"
+                android:text="Break btw. sets (s): 15"
                 android:id="@+id/txtBreak"
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
