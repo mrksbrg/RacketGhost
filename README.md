@@ -42,6 +42,10 @@
 1.5.1 - Released on Google Play Nov 24, 2015
 - Bug fix for parsing the history file of early versions of RacketGhost
 
+1.5.2 - Released on Google Play Nov 25, 2015
+- Bug fix for API versions before LOLLIPOP
+- Fixed presentation issue in MainActivity
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
