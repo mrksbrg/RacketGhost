@@ -97,7 +97,7 @@ public class SessionAdapter extends ArrayAdapter<Setting> {
      */
     @SuppressWarnings("deprecation")
     private Drawable getBallIconOld(int type) {
-        return type == 0 ? getContext().getDrawable(R.drawable.squashball) :
-                getContext().getDrawable(R.drawable.shuttlecock);
+        return type == 0 ? getContext().getResources().getDrawable(R.drawable.squashball) :
+                getContext().getResources().getDrawable(R.drawable.shuttlecock);
     }
 }
