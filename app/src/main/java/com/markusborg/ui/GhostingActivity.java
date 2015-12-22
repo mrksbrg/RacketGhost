@@ -30,14 +30,14 @@ import com.markusborg.logic.ThreadControl;
  * @since   2015-07-30
  */
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
-    ThreadControl tControl = new ThreadControl();
 
+    private ThreadControl mControl;
     private Setting mSetting;
     private AudioManager mAudioManager;
     private SoundPool mSoundPool;
     private int[] mSoundIDs; // six sounds, clockwise from front left
     private boolean mLoaded;
-
+    private boolean mSessionCompleted;
     private final int SQUASH_ICON = 0;
     private final int BADMINTON_ICON = 1;
 
@@ -46,6 +46,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
+
+        // Create a ThreadControl object to manage the ASyncTask
+        mControl = new ThreadControl();
+        mSessionCompleted = false;
+
         // Create a new setting - it gets a date
         mSetting = new Setting(extras.getBoolean(MainActivity.ISSQUASH),
                 extras.getInt(MainActivity.SETS),
@@ -93,18 +98,22 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         gTask.delegate = this;
         gTask.execute(mSetting);
 
+        // The stop button lets the user quit a session, identical to clicking back button.
         final Button btnStop = (Button) findViewById(R.id.btnStop);
         btnStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                gTask.onCancelled();
+                mControl.cancel();
             }
         });
     }
 
+    /**
+     * Called when the GhostingActivity no longer has focus: stop button, back button, or multitask.
+     */
     @Override
     protected void onPause() {
-        tControl.cancel();
+        mControl.cancel();
         super.onPause();
     }
 
@@ -188,17 +197,22 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
      */
     @Override
     public void notifyGhostingFinished() {
-        printSessionToFile();
-        Intent summaryIntent = new Intent(this, ResultsActivity.class);
-        summaryIntent.putExtra("DATE", mSetting.getDate());
-        summaryIntent.putExtra(MainActivity.ISSQUASH, mSetting.isSquash());
-        summaryIntent.putExtra(MainActivity.SETS, mSetting.getSets());
-        summaryIntent.putExtra(MainActivity.REPS, mSetting.getReps());
-        summaryIntent.putExtra(MainActivity.INTERVAL, mSetting.getInterval());
-        summaryIntent.putExtra(MainActivity.BREAK, mSetting.getBreakTime());
-        summaryIntent.putExtra(MainActivity.IS6POINTS, mSetting.isSixPoints());
-        summaryIntent.putExtra(MainActivity.ISAUDIO, mSetting.isAudio());
-        startActivity(summaryIntent);
+        // Only log and show ResultsActivity if the session was indeed completed
+        if (mSessionCompleted) {
+            printSessionToFile();
+            Intent summaryIntent = new Intent(this, ResultsActivity.class);
+            summaryIntent.putExtra("DATE", mSetting.getDate());
+            summaryIntent.putExtra(MainActivity.ISSQUASH, mSetting.isSquash());
+            summaryIntent.putExtra(MainActivity.SETS, mSetting.getSets());
+            summaryIntent.putExtra(MainActivity.REPS, mSetting.getReps());
+            summaryIntent.putExtra(MainActivity.INTERVAL, mSetting.getInterval());
+            summaryIntent.putExtra(MainActivity.BREAK, mSetting.getBreakTime());
+            summaryIntent.putExtra(MainActivity.IS6POINTS, mSetting.isSixPoints());
+            summaryIntent.putExtra(MainActivity.ISAUDIO, mSetting.isAudio());
+            startActivity(summaryIntent);
+        }
+        // Reset the finished flag
+        mSessionCompleted = false;
     }
 
     /**
@@ -226,23 +240,14 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
             // Loop the sets
             boolean finalSet = false;
-            for (int i = 1; i <= theSetting.getSets() && !tControl.isCancelled(); i++) {
-
-                if (tControl.isCancelled()) {
-                    return null;
-                }
+            for (int i = 1; i <= theSetting.getSets() && !mControl.isCancelled(); i++) {
 
                 displayCountdown();
 
                 if (i >= theSetting.getSets())
                     finalSet = true;
                 // Loop the reps
-                for (int j = 1; j <= theSetting.getReps(); j++) {
-
-                    // Before each rep, check if it has been canceled
-                    if (tControl.isCancelled()) {
-                        return null;
-                    }
+                for (int j = 1; j <= theSetting.getReps() && !mControl.isCancelled(); j++) {
 
                     CourtPosition pos = theGhost.serve(); // TODO: only serve the first time
 
@@ -273,10 +278,12 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 } // end reps loop
 
                 // Create a toast message when a set is completed
-                publishProgress(null);
+                if (!mControl.isCancelled()) {
+                    publishProgress(null);
+                }
 
                 // No rest between sets if there are none left
-                if (!finalSet) {
+                if (!finalSet && !mControl.isCancelled()) {
                     try {
                         Thread.sleep(theSetting.getBreakTime() * 1000);
                     } catch (InterruptedException e) {
@@ -285,6 +292,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 }
 
             } // end sets loop
+
+            // check if the set was completed, or cancelled somehow
+            if (!mControl.isCancelled()) {
+                mSessionCompleted = true;
+            }
 
             finish();
 
@@ -375,11 +387,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         @Override
         protected void onPostExecute(String result) {
             delegate.notifyGhostingFinished();
-        }
-
-        @Override
-        protected void onCancelled() {
-            cancel(true);
         }
 
         /**
