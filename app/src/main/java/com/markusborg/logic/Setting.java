@@ -14,7 +14,7 @@ public class Setting {
     private boolean squash;
     private int sets;
     private int reps;
-    private int interval;
+    private int interval; // in ms
     private int breakTime;
     private boolean sixPoints;
     private boolean audio;
@@ -54,7 +54,8 @@ public class Setting {
         if (!squash) {
             type = "(BA)";
         }
-        StringBuffer sb = new StringBuffer(getDate() + " " + type + ": " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
+        StringBuffer sb = new StringBuffer(getDate() + " " + type + ": " + getSets() + "; " +
+                getReps() + "; " + getInterval() + "; " + getBreakTime());
         return sb.toString();
     }
 
@@ -63,7 +64,8 @@ public class Setting {
      * @return The string.
      */
     public String getRestrictedString() {
-        StringBuffer sb = new StringBuffer(getDate() + " - " + getSets() + "; " + getReps() + "; " + getInterval() + "; " + getBreakTime());
+        StringBuffer sb = new StringBuffer(getDate() + " - " + getSets() + "; " + getReps() +
+                "; " + ((float) getInterval() / 1000) + "; " + getBreakTime());
         return sb.toString();
     }
 

@@ -103,8 +103,17 @@ public class LogHandler {
      */
     public String getFromLog(int nbr) {
         StringBuffer sb = new StringBuffer();
-        for (int i=0; i<n && i<nbr; i++) {
-            sb.append(history[i] + "\n");
+        try {
+            for (int i = 0; i < n && i < nbr; i++) {
+                String[] split = history[i].split(";");
+                String ms = split[2].trim();
+                int millis = Integer.parseInt(ms);
+                float s = ((float) millis / 1000); // turn ms to s
+                sb.append(split[0] + ";" + split[1] + "; " + s + ";" + split[3] + "\n");
+            }
+        }
+        catch (Exception e) {
+            // TODO: Catch the right type of exception
         }
         return sb.toString();
     }

@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
-                android:max="10"
+                android:max="9"
                 android:progress="3"
                 android:layout_weight="1"/>
 
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
-                android:max="50"
+                android:max="49"
                 android:progress="15"
                 android:layout_weight="1"/>
 
@@ -105,8 +105,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="10dp"
-                android:max="10000"
-                android:progress="5000"
+                android:max="90"
+                android:progress="50"
                 android:layout_weight="1"/>
 
         </LinearLayout>

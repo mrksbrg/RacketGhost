@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent ghostingIntent = new Intent(mAppContext, GhostingActivity.class);
 
                 boolean squashMode = mSpinner.getSelectedItemPosition() == 0; // squash is the first
-                int sets = mSeekBarSets.getProgress();
-                int reps = mSeekBarReps.getProgress();
-                int interval = mSeekBarInterval.getProgress();
+                int sets = mSeekBarSets.getProgress() + 1; // add one, due to slider from 1
+                int reps = mSeekBarReps.getProgress() + 1; // add one, due to slider from 1
+                int interval = (mSeekBarInterval.getProgress() + 10) * 100; // from ds to ms
                 int breakTime = mSeekBarBreak.getProgress();
                 boolean is6Points = mChk6Points.isChecked();
                 boolean isAudio = mChkAudio.isChecked();
@@ -220,14 +220,15 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 mSpinner.setSelection(1);
             }
+            // set all SeekBars, adjusted to take care of non-zero min values
             mTxtSets.setText("Sets: " + prevSets);
-            mSeekBarSets.setProgress(prevSets);
+            mSeekBarSets.setProgress(prevSets-1);
             int prevReps = mSharedPrefs.getInt(REPS, 15);
             mTxtReps.setText("Reps: " + prevReps);
-            mSeekBarReps.setProgress(prevReps);
-            int prevInt = mSharedPrefs.getInt(INTERVAL, 5000);
-            mTxtInterval.setText("Interval (ms): " + prevInt);
-            mSeekBarInterval.setProgress(prevInt);
+            mSeekBarReps.setProgress(prevReps-1);
+            int prevInt = mSharedPrefs.getInt(INTERVAL, 50);
+            mTxtInterval.setText("Interval (s): " + prevInt);
+            mSeekBarInterval.setProgress((prevInt / 100) - 10); // from ms to ds
             int prevBreak = mSharedPrefs.getInt(BREAK, 15);
             mTxtBreak.setText("Break btw. sets (s): " + prevBreak);
             mSeekBarBreak.setProgress(prevBreak);
@@ -244,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
         mTxtHistory.setText("Recent history:\n" + mLogger.getFromLog(3));
     }
 
-
     private class SeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
         @Override
@@ -254,15 +254,15 @@ public class MainActivity extends AppCompatActivity {
             switch (seekBar.getId()) {
                 case R.id.seekBarSets:
                     tmp = (TextView) findViewById(R.id.txtSets);
-                    tmp.setText("Sets: " + seekBar.getProgress());
+                    tmp.setText("Sets: " + (seekBar.getProgress() + 1));
                     break;
                 case R.id.seekBarReps:
                     tmp = (TextView) findViewById(R.id.txtReps);
-                    tmp.setText("Reps: " + seekBar.getProgress());
+                    tmp.setText("Reps: " + (seekBar.getProgress() + 1));
                     break;
                 case R.id.seekBarInterval:
                     tmp = (TextView) findViewById(R.id.txtInterval);
-                    tmp.setText("Interval (ms): " + seekBar.getProgress());
+                    tmp.setText("Interval (s): " + (((float) seekBar.getProgress() / 10.0) + 1));
                     break;
                 case R.id.seekBarBreak:
                     tmp = (TextView) findViewById(R.id.txtBreak);
