@@ -20,6 +20,7 @@ import com.markusborg.logic.CourtPosition;
 import com.markusborg.logic.GhostPlayer;
 import com.markusborg.logic.LogHandler;
 import com.markusborg.logic.Setting;
+import com.markusborg.logic.ThreadControl;
 
 /**
  * The GhostingActivity displays a ghosting session.
@@ -29,6 +30,7 @@ import com.markusborg.logic.Setting;
  * @since   2015-07-30
  */
 public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
+    ThreadControl tControl = new ThreadControl();
 
     private Setting mSetting;
     private AudioManager mAudioManager;
@@ -98,6 +100,12 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 gTask.onCancelled();
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        tControl.cancel();
+        super.onPause();
     }
 
     /**
@@ -218,7 +226,11 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
             // Loop the sets
             boolean finalSet = false;
-            for (int i = 1; i <= theSetting.getSets(); i++) {
+            for (int i = 1; i <= theSetting.getSets() && !tControl.isCancelled(); i++) {
+
+                if (tControl.isCancelled()) {
+                    return null;
+                }
 
                 displayCountdown();
 
@@ -227,8 +239,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 // Loop the reps
                 for (int j = 1; j <= theSetting.getReps(); j++) {
 
-                    // before each rep, check if it has been canceled
-                    if (isCancelled()) {
+                    // Before each rep, check if it has been canceled
+                    if (tControl.isCancelled()) {
                         return null;
                     }
 
