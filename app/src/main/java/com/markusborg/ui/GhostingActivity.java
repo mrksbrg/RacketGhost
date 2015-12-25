@@ -9,6 +9,7 @@ import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -38,8 +39,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     private int[] mSoundIDs; // six sounds, clockwise from front left
     private boolean mLoaded;
     private boolean mSessionCompleted;
-    private final int SQUASH_ICON = 0;
-    private final int BADMINTON_ICON = 1;
+    private final int SQUASH_MODE = 0;
+    private final int BADMINTON_MODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +61,10 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getBoolean(MainActivity.IS6POINTS),
                 extras.getBoolean(MainActivity.ISAUDIO));
 
-        // If it is not squash mode, change to badminton shuttlecock
+        // If it is not squash mode, change to badminton shuttlecock and background
         if (!mSetting.isSquash()) {
-            setBallIcon(BADMINTON_ICON);
+            setBallIcon(BADMINTON_MODE);
+            setBackgroundImage(BADMINTON_MODE);
         }
 
         // Load the sounds if enabled and enough time to play them (2 s)
@@ -145,6 +147,30 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     }
 
     /**
+     * Switch the background from squash court to badminton court
+     */
+    @SuppressWarnings("deprecation")
+    private void setBackgroundImage(int mode) {
+        Drawable d = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            d = getBackgroundImageNew(BADMINTON_MODE);
+        }
+        else {
+            d = getBackgroundImageOld(BADMINTON_MODE);
+        }
+
+        View view = (View) findViewById(R.id.ghosting_layout);
+        if (d != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                view.setBackground(d);
+            }
+            else {
+                view.setBackgroundDrawable(d);
+            }
+        }
+    }
+
+    /**
      * Return a ball icon from Lollipop and later Android versions
      *
      * @param type 0 = squash otherwise = badminton
@@ -168,6 +194,31 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     private Drawable getBallIconOld(int type) {
         return type == 0 ? getResources().getDrawable(R.drawable.squashball) :
                 getResources().getDrawable(R.drawable.shuttlecock);
+    }
+
+
+    /**
+     * Return a ball icon from Lollipop and later Android versions
+     *
+     * @param type 0 = squash otherwise = badminton
+     * @return The ball icon
+     */
+    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
+    private Drawable getBackgroundImageNew(int type) {
+        return type == 0 ? ContextCompat.getDrawable(getApplicationContext(), R.drawable.squashcourt) :
+                ContextCompat.getDrawable(getApplicationContext(), R.drawable.badmintoncourt);
+    }
+
+    /**
+     * Return a badminton court image using deprecated method.
+     *
+     * @param type 0 = squash otherwise = badminton
+     * @return The ball icon
+     */
+    @SuppressWarnings("deprecation")
+    private Drawable getBackgroundImageOld(int type) {
+        return type == 0 ? getResources().getDrawable(R.drawable.squashcourt) :
+                getResources().getDrawable(R.drawable.badmintoncourt);
     }
 
     /**
