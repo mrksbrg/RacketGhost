@@ -1,6 +1,6 @@
 # RacketGhost
 
-- Android Open Source Ghosting Coach for Squash & Badminton 
+- Android Open Source Ghosting Coach for Squash, Badminton, and Racketlon 
 
 ## Version History
 < 1.0.0 - Initial development
@@ -45,6 +45,12 @@
 1.5.2 - Released on Google Play Nov 25, 2015
 - Bug fix for API versions before LOLLIPOP
 - Fixed presentation issue in MainActivity
+
+1.6.0 - Released on Google Play Dec 23, 2015
+- Major changes to the thread model
+
+1.7.0 - Released on Google Play Jan 5, 2016
+- Major changes to the graphics
 
 ## Background
 
