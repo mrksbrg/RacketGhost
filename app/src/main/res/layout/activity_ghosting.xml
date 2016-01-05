@@ -62,7 +62,7 @@
             android:visibility="visible"
             android:background="@android:color/transparent"
             android:adjustViewBounds="false"
-            android:src="@drawable/icon" />
+            android:src="@drawable/ghost" />
 
         <LinearLayout
             android:orientation="vertical"
