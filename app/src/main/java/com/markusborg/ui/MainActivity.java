@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent ghostingIntent = new Intent(mAppContext, GhostingActivity.class);
 
                 boolean squashMode = mSpinner.getSelectedItemPosition() == 0; // squash is the first
-                int sets = mSeekBarSets.getProgress() + 1; // add one, due to slider from 1
-                int reps = mSeekBarReps.getProgress() + 1; // add one, due to slider from 1
+                int sets = mSeekBarSets.getProgress() + 1; // add one, due to slider starts at 1
+                int reps = mSeekBarReps.getProgress() + 1; // add one, due to slider starts at 1
                 int interval = (mSeekBarInterval.getProgress() + 10) * 100; // from ds to ms
                 int breakTime = mSeekBarBreak.getProgress();
                 boolean is6Points = mChk6Points.isChecked();
@@ -118,49 +118,12 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        final SpannableString s = new SpannableString("github.com/mrksbrg/RacketGhost");
-
         switch (id) {
             case R.id.action_help:
-                // create help dialog
-                final TextView tx1 = new TextView(this);
-                tx1.setText(getString(R.string.menu_help) + " " + s);
-                tx1.setAutoLinkMask(RESULT_OK);
-                tx1.setMovementMethod(LinkMovementMethod.getInstance());
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setTitle("Help")
-                        .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                    }
-                                })
-
-                        .setView(tx1).show();
+                HelpBox.Show(MainActivity.this);
                 break;
             case R.id.action_about:
-                // create about dialog
-                final TextView tx2 = new TextView(this);
-                tx2.setText(getString(R.string.menu_about) + " " + s);
-                tx2.setAutoLinkMask(RESULT_OK);
-                tx2.setMovementMethod(LinkMovementMethod.getInstance());
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-                builder2.setTitle("About")
-                        .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                    }
-                                })
-
-                        .setView(tx2).show();
+                AboutBox.Show(MainActivity.this);
                 break;
         }
 
