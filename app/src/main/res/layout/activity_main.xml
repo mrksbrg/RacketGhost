@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/textView0"
-            android:text="Select Sport:" />
+            android:text="Select Sport:"
+            android:textColor="@android:color/black" />
 
         <Spinner
             android:id="@+id/spinner"
@@ -50,7 +51,8 @@
                 android:text="Sets: 3"
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:enabled="false" />
+                android:enabled="false"
+                android:textColor="@android:color/black" />
 
             <SeekBar
                 android:id="@+id/seekBarSets"
@@ -76,7 +78,8 @@
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:editable="false"
-                android:enabled="false" />
+                android:enabled="false"
+                android:textColor="@android:color/black" />
 
             <SeekBar
                 android:id="@+id/seekBarReps"
@@ -101,7 +104,8 @@
                 android:id="@+id/txtInterval"
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:enabled="false" />
+                android:enabled="false"
+                android:textColor="@android:color/black" />
 
             <SeekBar
                 android:id="@+id/seekBarInterval"
@@ -126,7 +130,8 @@
                 android:id="@+id/txtBreak"
                 android:layout_weight="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:enabled="false" />
+                android:enabled="false"
+                android:textColor="@android:color/black" />
 
             <SeekBar
                 android:id="@+id/seekBarBreak"
@@ -173,6 +178,7 @@
             android:layout_weight="0.58"
             android:text="Recent history:"
             android:textAlignment="textStart"
-            android:enabled="false" />
+            android:enabled="false"
+            android:textColor="@android:color/black" />
 
 </LinearLayout>
