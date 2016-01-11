@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:id="@+id/txtLegend" />
+        android:id="@+id/txtLegend"
+        android:textColor="@android:color/black" />
 
     <ListView
         android:layout_width="match_parent"
