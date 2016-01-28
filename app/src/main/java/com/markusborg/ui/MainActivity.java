@@ -1,10 +1,14 @@
 package com.markusborg.ui;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -41,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox mChk6Points, mChkAudio;
     private LogHandler mLogger;
     private SharedPreferences mSharedPrefs;
+    private AudioManager mAudioManager;
+    private SoundPool mSoundPool;
+    private int[] mSoundIDs; // two sounds, squash and badminton
+    private boolean mLoaded;
 
     private static final String PREFERENCES = "GhostingPrefs";
     public static final String ISSQUASH = "IS_SQUASH";
@@ -59,12 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
         mAppContext = getApplicationContext();
         setGUIComponents();
+        initSounds();
 
         // Load previous setting
         loadSharedPrefs();
 
         mLogger = new LogHandler(mAppContext);
         displayHistory();
+
 
         final Button btnGo = (Button) findViewById(R.id.btnGo);
         btnGo.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean(IS6POINTS, is6Points);
                 editor.putBoolean(ISAUDIO, isAudio);
                 editor.apply();
+
+                // Play sound corresponding to selected sport
+                if (mLoaded) {
+                    if (squashMode) {
+                        mSoundPool.play(mSoundIDs[0], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                    else {
+                        mSoundPool.play(mSoundIDs[1], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                }
 
                 startActivity(ghostingIntent);
             }
@@ -206,6 +226,52 @@ public class MainActivity extends AppCompatActivity {
      */
     private void displayHistory() {
         mTxtHistory.setText("Recent history:\n" + mLogger.getFromLog(3));
+    }
+
+    private void initSounds() {
+        mSoundIDs = new int[6];
+        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
+
+        // Take care of the deprecated SoundPool constructor
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            createNewSoundPool();
+        } else {
+            createOldSoundPool();
+        }
+
+        // Load the actual sounds
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                mLoaded = true;
+            }
+        });
+        mSoundIDs[0] = mSoundPool.load(this, R.raw.squash, 1);
+        mSoundIDs[1] = mSoundPool.load(this, R.raw.badminton, 1);
+    }
+
+    /**
+     * Create a new SoundPool from Lollipop and later Android versions
+     */
+    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
+    private void createNewSoundPool(){
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        mSoundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
+    }
+
+    /**
+     * Create a new SoundPool using the deprecated constructor for Android versions before Lollipop.
+     */
+    @SuppressWarnings("deprecation")
+    protected void createOldSoundPool(){
+        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     }
 
     private class SeekBarListener implements SeekBar.OnSeekBarChangeListener {
