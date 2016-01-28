@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,8 +69,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         }
 
         // Load the sounds if enabled and enough time to play them (2 s)
-        if (mSetting.isAudio() && mSetting.getInterval() > 2000) {
-            mSoundIDs = new int[6];
+        if (mSetting.isAudio() && mSetting.getInterval() >= 2000) {
+            mSoundIDs = new int[8];
             mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
             int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
@@ -94,6 +95,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             mSoundIDs[3] = mSoundPool.load(this, R.raw.backright, 1);
             mSoundIDs[4] = mSoundPool.load(this, R.raw.backleft, 1);
             mSoundIDs[5] = mSoundPool.load(this, R.raw.volleyleft, 1);
+            mSoundIDs[6] = mSoundPool.load(this, R.raw.squash, 1);
+            mSoundIDs[7] = mSoundPool.load(this, R.raw.badminton, 1);
         }
 
         final GhostingTask gTask = new GhostingTask();
@@ -105,6 +108,14 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         btnStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                if (mLoaded) {
+                    if (mSetting.isSquash()) {
+                        mSoundPool.play(mSoundIDs[6], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                    else {
+                        mSoundPool.play(mSoundIDs[7], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                }
                 mControl.cancel();
             }
         });
@@ -195,7 +206,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         return type == 0 ? getResources().getDrawable(R.drawable.squashball) :
                 getResources().getDrawable(R.drawable.shuttlecock);
     }
-
 
     /**
      * Return a ball icon from Lollipop and later Android versions
@@ -371,37 +381,37 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 if (cornerToFlash.equals("L_FRONT")) {
                     ball = (ImageView) findViewById(R.id.ballLeftFront);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[0], 1.0f, 1.0f, 1, 0, 1.0f);
+                        mSoundPool.play(mSoundIDs[0], 1.0f, 0.1f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("R_FRONT")) {
                     ball = (ImageView) findViewById(R.id.ballRightFront);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[1], 1.0f, 1.0f, 1, 0, 1.0f);
+                        mSoundPool.play(mSoundIDs[1], 0.1f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("L_BACK")) {
                     ball = (ImageView) findViewById(R.id.ballLeftBack);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[4], 1.0f, 1.0f, 1, 0, 1.0f);
+                        mSoundPool.play(mSoundIDs[4], 1.0f, 0.1f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("R_BACK")) {
                     ball = (ImageView) findViewById(R.id.ballRightBack);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[3], 1.0f, 1.0f, 1, 0, 1.0f);
+                        mSoundPool.play(mSoundIDs[3], 0.1f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 else if (cornerToFlash.equals("L_MID")) {
                     ball = (ImageView) findViewById(R.id.ballLeftMid);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[5], 1.0f, 1.0f, 1, 0, 1.0f);
+                        mSoundPool.play(mSoundIDs[5], 1.0f, 0.1f, 1, 0, 1.0f);
                     }
                 }
                 else {
                     ball = (ImageView) findViewById(R.id.ballRightMid);
                     if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[2], 1.0f, 1.0f, 1, 0, 1.0f);
+                        mSoundPool.play(mSoundIDs[2], 0.1f, 1.0f, 1, 0, 1.0f);
                     }
                 }
                 ball.setVisibility(View.VISIBLE);
