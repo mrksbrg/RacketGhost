@@ -52,6 +52,11 @@
 1.7.0 - Released on Google Play Jan 5, 2016
 - Major changes to the graphics
 
+1.7.1 - Released on Google Play Jan 13, 2016
+- Updated the RacketGhost icon
+- Improved text visibility
+- Updated Help and About dialogs
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
