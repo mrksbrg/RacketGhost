@@ -57,6 +57,10 @@
 - Improved text visibility
 - Updated Help and About dialogs
 
+1.8.0 - Released on Google Play Jan 28, 2016
+- Added sport specific click sounds
+- Added stereo effects during ghosting
+
 ## Background
 
 Ghosting is an established training exercise in racket sports to practice court movement without a ball. Running to the various corners of the court improves both footwork and general stamina. In the best of worlds, your coach or sparring partner will always be ready to point you to random corners at a pace that pushes you to your limits.
