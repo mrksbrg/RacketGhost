@@ -1,10 +1,14 @@
 package com.markusborg.ui;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
@@ -41,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox mChk6Points, mChkAudio;
     private LogHandler mLogger;
     private SharedPreferences mSharedPrefs;
+    private AudioManager mAudioManager;
+    private SoundPool mSoundPool;
+    private int[] mSoundIDs; // two sounds, squash and badminton
+    private boolean mLoaded;
 
     private static final String PREFERENCES = "GhostingPrefs";
     public static final String ISSQUASH = "IS_SQUASH";
@@ -59,12 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
         mAppContext = getApplicationContext();
         setGUIComponents();
+        initSounds();
 
         // Load previous setting
         loadSharedPrefs();
 
         mLogger = new LogHandler(mAppContext);
         displayHistory();
+
 
         final Button btnGo = (Button) findViewById(R.id.btnGo);
         btnGo.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent ghostingIntent = new Intent(mAppContext, GhostingActivity.class);
 
                 boolean squashMode = mSpinner.getSelectedItemPosition() == 0; // squash is the first
-                int sets = mSeekBarSets.getProgress();
-                int reps = mSeekBarReps.getProgress();
-                int interval = mSeekBarInterval.getProgress();
+                int sets = mSeekBarSets.getProgress() + 1; // add one, due to slider starts at 1
+                int reps = mSeekBarReps.getProgress() + 1; // add one, due to slider starts at 1
+                int interval = (mSeekBarInterval.getProgress() + 10) * 100; // from ds to ms
                 int breakTime = mSeekBarBreak.getProgress();
                 boolean is6Points = mChk6Points.isChecked();
                 boolean isAudio = mChkAudio.isChecked();
@@ -99,6 +109,16 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean(ISAUDIO, isAudio);
                 editor.apply();
 
+                // Play sound corresponding to selected sport
+                if (mLoaded) {
+                    if (squashMode) {
+                        mSoundPool.play(mSoundIDs[0], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                    else {
+                        mSoundPool.play(mSoundIDs[1], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                }
+
                 startActivity(ghostingIntent);
             }
         });
@@ -118,49 +138,12 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        final SpannableString s = new SpannableString("github.com/mrksbrg/RacketGhost");
-
         switch (id) {
             case R.id.action_help:
-                // create help dialog
-                final TextView tx1 = new TextView(this);
-                tx1.setText(getString(R.string.menu_help) + " " + s);
-                tx1.setAutoLinkMask(RESULT_OK);
-                tx1.setMovementMethod(LinkMovementMethod.getInstance());
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                builder1.setTitle("Help")
-                        .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                    }
-                                })
-
-                        .setView(tx1).show();
+                HelpBox.Show(MainActivity.this);
                 break;
             case R.id.action_about:
-                // create about dialog
-                final TextView tx2 = new TextView(this);
-                tx2.setText(getString(R.string.menu_about) + " " + s);
-                tx2.setAutoLinkMask(RESULT_OK);
-                tx2.setMovementMethod(LinkMovementMethod.getInstance());
-
-                Linkify.addLinks(s, Linkify.WEB_URLS);
-                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-                builder2.setTitle("About")
-                        .setCancelable(false)
-                        .setPositiveButton("OK",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,
-                                                        int id) {
-                                    }
-                                })
-
-                        .setView(tx2).show();
+                AboutBox.Show(MainActivity.this);
                 break;
         }
 
@@ -220,14 +203,15 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 mSpinner.setSelection(1);
             }
+            // set all SeekBars, adjusted to take care of non-zero min values
             mTxtSets.setText("Sets: " + prevSets);
-            mSeekBarSets.setProgress(prevSets);
+            mSeekBarSets.setProgress(prevSets-1);
             int prevReps = mSharedPrefs.getInt(REPS, 15);
             mTxtReps.setText("Reps: " + prevReps);
-            mSeekBarReps.setProgress(prevReps);
-            int prevInt = mSharedPrefs.getInt(INTERVAL, 5000);
-            mTxtInterval.setText("Interval (ms): " + prevInt);
-            mSeekBarInterval.setProgress(prevInt);
+            mSeekBarReps.setProgress(prevReps-1);
+            int prevInt = mSharedPrefs.getInt(INTERVAL, 50);
+            mTxtInterval.setText("Interval (s): " + prevInt);
+            mSeekBarInterval.setProgress((prevInt / 100) - 10); // from ms to ds
             int prevBreak = mSharedPrefs.getInt(BREAK, 15);
             mTxtBreak.setText("Break btw. sets (s): " + prevBreak);
             mSeekBarBreak.setProgress(prevBreak);
@@ -244,6 +228,51 @@ public class MainActivity extends AppCompatActivity {
         mTxtHistory.setText("Recent history:\n" + mLogger.getFromLog(3));
     }
 
+    private void initSounds() {
+        mSoundIDs = new int[6];
+        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
+
+        // Take care of the deprecated SoundPool constructor
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            createNewSoundPool();
+        } else {
+            createOldSoundPool();
+        }
+
+        // Load the actual sounds
+        mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId, int status) {
+                mLoaded = true;
+            }
+        });
+        mSoundIDs[0] = mSoundPool.load(this, R.raw.squash, 1);
+        mSoundIDs[1] = mSoundPool.load(this, R.raw.badminton, 1);
+    }
+
+    /**
+     * Create a new SoundPool from Lollipop and later Android versions
+     */
+    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
+    private void createNewSoundPool(){
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        mSoundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
+    }
+
+    /**
+     * Create a new SoundPool using the deprecated constructor for Android versions before Lollipop.
+     */
+    @SuppressWarnings("deprecation")
+    protected void createOldSoundPool(){
+        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+    }
 
     private class SeekBarListener implements SeekBar.OnSeekBarChangeListener {
 
@@ -254,15 +283,15 @@ public class MainActivity extends AppCompatActivity {
             switch (seekBar.getId()) {
                 case R.id.seekBarSets:
                     tmp = (TextView) findViewById(R.id.txtSets);
-                    tmp.setText("Sets: " + seekBar.getProgress());
+                    tmp.setText("Sets: " + (seekBar.getProgress() + 1));
                     break;
                 case R.id.seekBarReps:
                     tmp = (TextView) findViewById(R.id.txtReps);
-                    tmp.setText("Reps: " + seekBar.getProgress());
+                    tmp.setText("Reps: " + (seekBar.getProgress() + 1));
                     break;
                 case R.id.seekBarInterval:
                     tmp = (TextView) findViewById(R.id.txtInterval);
-                    tmp.setText("Interval (ms): " + seekBar.getProgress());
+                    tmp.setText("Interval (s): " + (((float) seekBar.getProgress() / 10.0) + 1));
                     break;
                 case R.id.seekBarBreak:
                     tmp = (TextView) findViewById(R.id.txtBreak);

@@ -2,8 +2,12 @@ package com.markusborg.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.widget.ListView;
+
 import com.markusborg.logic.LogHandler;
+import com.markusborg.logic.Setting;
+
+import java.util.ArrayList;
 
 /**
  * @author  Markus Borg
@@ -11,13 +15,14 @@ import com.markusborg.logic.LogHandler;
  */
 public class ResultsActivity extends AppCompatActivity {
 
-    private TextView mTxtHistory;
+    private ListView mLstView;
+    private SessionAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-        mTxtHistory = (TextView) findViewById(R.id.txtHistory);
+        mLstView = (ListView) findViewById(R.id.listView);
         displayHistory();
     }
 
@@ -26,7 +31,9 @@ public class ResultsActivity extends AppCompatActivity {
      */
     private void displayHistory() {
         LogHandler logger = new LogHandler(getApplicationContext());
-        // Display MAX_HISTORY previous ghosting sessions
-        mTxtHistory.setText("History:\n" + logger.getFromLog(logger.MAX_HISTORY));
+        ArrayList<Setting> theList = logger.getSettingList();
+        mAdapter = new SessionAdapter(this, R.layout.list_item, theList);
+        mLstView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 }
