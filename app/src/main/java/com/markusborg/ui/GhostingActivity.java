@@ -215,8 +215,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
      */
     @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
     private Drawable getBackgroundImageNew(int type) {
-        return type == 0 ? ContextCompat.getDrawable(getApplicationContext(), R.drawable.squashcourt) :
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.badmintoncourt);
+        return type == 0 ? ContextCompat.getDrawable(getApplicationContext(), R.drawable.squashcourt_sweopen) :
+                ContextCompat.getDrawable(getApplicationContext(), R.drawable.badmintoncourt_sweopen);
     }
 
     /**
@@ -227,8 +227,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
      */
     @SuppressWarnings("deprecation")
     private Drawable getBackgroundImageOld(int type) {
-        return type == 0 ? getResources().getDrawable(R.drawable.squashcourt) :
-                getResources().getDrawable(R.drawable.badmintoncourt);
+        return type == 0 ? getResources().getDrawable(R.drawable.squashcourt_sweopen) :
+                getResources().getDrawable(R.drawable.badmintoncourt_sweopen);
     }
 
     /**

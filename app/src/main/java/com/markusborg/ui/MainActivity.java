@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         mLogger = new LogHandler(mAppContext);
         displayHistory();
 
-
         final Button btnGo = (Button) findViewById(R.id.btnGo);
         btnGo.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
