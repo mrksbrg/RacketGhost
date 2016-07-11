@@ -9,14 +9,14 @@ android {
             storePassword 'XXXXXXXX'
         }
     }
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "24"
     defaultConfig {
         applicationId "com.markusborg.test"
         minSdkVersion 10
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 17
-        versionName "1.8.2"
+        versionName "1.8.1"
     }
     buildTypes {
         release {
@@ -29,5 +29,5 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
 }
