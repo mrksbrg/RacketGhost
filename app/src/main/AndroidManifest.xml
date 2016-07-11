@@ -6,25 +6,30 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
-            android:name="com.markusborg.ui.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".SplashScreenActivity"
+            android:label="@string/title_activity_splash_screen"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.markusborg.ui.GhostingActivity"
+            android:name=".MainActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".GhostingActivity"
             android:label="@string/title_activity_ghosting"
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.markusborg.ui.ResultsActivity"
-            android:label="@string/title_activity_results" >
+            android:name=".ResultsActivity"
+            android:label="@string/title_activity_results">
         </activity>
+
     </application>
 
 </manifest>
