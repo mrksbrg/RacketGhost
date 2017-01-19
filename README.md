@@ -101,3 +101,8 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 1.8.0 - Released on Google Play Jan 28, 2016
 - Added sport specific click sounds
 - Added stereo effects during ghosting
+
+1.8.1 - Released on Google Play Jul 11, 2016
+- Updated and tested for Marshmallow
+- Improved in-app help
+- Added a splash screen
