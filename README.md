@@ -106,3 +106,7 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Updated and tested for Marshmallow
 - Improved in-app help
 - Added a splash screen
+
+1.8.2 - Released on Google Play Sep 24, 2018
+- Meets Google Play's new requirements for target API 26
+- Updated and tested for Pie (API 28)
