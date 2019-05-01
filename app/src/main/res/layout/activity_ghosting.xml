@@ -101,13 +101,14 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/lblProgress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="2 / 15 (Set 1)"
-        android:id="@+id/lblProgress"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="0.2" />
+        android:layout_weight="0.2"
+        android:text="2 / 15 (Set 1)"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="36sp" />
 
     <Button
         android:layout_width="wrap_content"
