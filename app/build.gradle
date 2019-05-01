@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'mrksbrg_AndroidKey'
             keyPassword 'XXXXXXXX'
-            storeFile file('C:/Users/Markus/Dropbox/_Repo/android.jks')
+            storeFile file('F:/Code/android.jks')
             storePassword 'XXXXXXXX'
         }
     }
@@ -15,8 +15,8 @@ android {
         applicationId "com.markusborg.test"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 18
-        versionName "1.8.2"
+        versionCode 19
+        versionName "1.8.3"
     }
     buildTypes {
         release {
