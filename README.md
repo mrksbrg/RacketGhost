@@ -101,7 +101,7 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Updated Help and About dialogs
 
 1.8.0 - Released on Google Play Jan 28, 2016
-- Added sport specific click sounds
+- Added sport-specific click sounds
 - Added stereo effects during ghosting
 
 1.8.1 - Released on Google Play Jul 11, 2016
@@ -112,3 +112,11 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 1.8.2 - Released on Google Play Sep 24, 2018
 - Meets Google Play's new requirements for target API 26
 - Updated and tested for Pie (API 28)
+
+1.8.3 - Released on Google Play May 1, 2019
+- Increased font size (user request)
+
+1.8.4 - Submitted to Google Play Aug 18, 2023
+- Meets Google Play's new requirements for target API 33
+- Migrated to AndroidX
+- Updated Gradle
