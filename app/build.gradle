@@ -9,12 +9,12 @@ android {
             storePassword 'XXXXXXXX'
         }
     }
-    compileSdkVersion 33
+    compileSdk 33
     defaultConfig {
         applicationId "com.markusborg.test"
         minSdkVersion 14
         targetSdkVersion 33
-        versionCode 19
+        versionCode 20
         versionName "1.8.4"
     }
     buildTypes {
