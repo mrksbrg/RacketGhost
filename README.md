@@ -1,6 +1,5 @@
 # RacketGhost
-[![Maintainability](https://api.codeclimate.com/v1/badges/f3a9451fd9eb4bd03b40/maintainability)](https://codeclimate.com/github/mrksbrg/RacketGhost/maintainability)
-[![CodeScene Code Health](https://codescene.io/projects/43388/status-badges/code-health)](https://codescene.io/projects/43388)
+[![CodeScene Average Code Health](https://codescene.io/projects/43388/status-badges/average-code-health)](https://codescene.io/projects/43388)
 
 - Android Open Source Ghosting Coach for Squash, Badminton, and Racketlon 
 
@@ -120,3 +119,7 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Meets Google Play's new requirements for target API 33
 - Migrated to AndroidX
 - Updated Gradle
+
+1.8.5 - Submitted to Google Play Aug 18, 2023
+- Updated copyright years to include 2025
+- Increased CodeHealth using CodeScene ACE 
