@@ -68,6 +68,31 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             setBackgroundImage(BADMINTON_MODE);
         }
 
+        loadSoundsIfEnabled();
+
+        final GhostingTask gTask = new GhostingTask();
+        gTask.delegate = this;
+        gTask.execute(mSetting);
+
+        // The stop button lets the user quit a session, identical to clicking back button.
+        final Button btnStop = (Button) findViewById(R.id.btnStop);
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Perform action on click
+                if (mLoaded) {
+                    if (mSetting.isSquash()) {
+                        mSoundPool.play(mSoundIDs[6], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                    else {
+                        mSoundPool.play(mSoundIDs[7], 1.0f, 1.0f, 1, 0, 1.0f);
+                    }
+                }
+                mControl.cancel();
+            }
+        });
+    }
+
+    private void loadSoundsIfEnabled() {
         // Load the sounds if enabled and enough time to play them (2 s)
         if (mSetting.isAudio() && mSetting.getInterval() >= 2000) {
             mSoundIDs = new int[8];
@@ -98,27 +123,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             mSoundIDs[6] = mSoundPool.load(this, R.raw.squash, 1);
             mSoundIDs[7] = mSoundPool.load(this, R.raw.badminton, 1);
         }
-
-        final GhostingTask gTask = new GhostingTask();
-        gTask.delegate = this;
-        gTask.execute(mSetting);
-
-        // The stop button lets the user quit a session, identical to clicking back button.
-        final Button btnStop = (Button) findViewById(R.id.btnStop);
-        btnStop.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                if (mLoaded) {
-                    if (mSetting.isSquash()) {
-                        mSoundPool.play(mSoundIDs[6], 1.0f, 1.0f, 1, 0, 1.0f);
-                    }
-                    else {
-                        mSoundPool.play(mSoundIDs[7], 1.0f, 1.0f, 1, 0, 1.0f);
-                    }
-                }
-                mControl.cancel();
-            }
-        });
     }
 
     /**
@@ -321,21 +325,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                         sleepTime = (sleepTime * 2) / 3;
                     }
 
-                    // Turn on corner
-                    publishProgress(progress, pos.toString());
-                    try {
-                        Thread.sleep((sleepTime / 2));
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    runGhostBallIteration(progress, pos, sleepTime);
 
-                    // Turn off corner
-                    publishProgress(progress, pos.toString(), "OFF");
-                    try {
-                        Thread.sleep((sleepTime / 2) );
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 } // end reps loop
 
                 // Create a toast message when a set is completed
@@ -362,6 +353,24 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             finish();
 
             return "Done";
+        }
+
+        private void runGhostBallIteration(String progress, CourtPosition pos, int sleepTime) {
+            // Turn on corner
+            publishProgress(progress, pos.toString());
+            try {
+                Thread.sleep((sleepTime / 2));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            // Turn off corner
+            publishProgress(progress, pos.toString(), "OFF");
+            try {
+                Thread.sleep((sleepTime / 2) );
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
