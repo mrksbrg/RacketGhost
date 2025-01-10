@@ -28,46 +28,63 @@ public class GhostPlayer {
      */
     public CourtPosition serve()
     {
+        CourtPosition servePos = getServePosition();
+        prevPos = servePos;
+        return servePos;
+    }
+
+    private CourtPosition getServePosition() {
         CourtPosition servePos = null;
         if (sixPoint) {
-            switch (rand.nextInt(6)) {
-                case 0:
-                    servePos = new CourtPosition(CourtPosition.L_FRONT);
-                    break;
-                case 1:
-                    servePos = new CourtPosition(CourtPosition.R_FRONT);
-                    break;
-                case 2:
-                    servePos = new CourtPosition(CourtPosition.L_BACK);
-                    break;
-                case 3:
-                    servePos = new CourtPosition(CourtPosition.R_BACK);
-                    break;
-                case 4:
-                    servePos = new CourtPosition(CourtPosition.L_MID);
-                    break;
-                case 5:
-                    servePos = new CourtPosition(CourtPosition.R_MID);
-                    break;
-            }
+            servePos = getServePositionFromSixPoint();
         }
         else {
-            switch (rand.nextInt(4)) {
-                case 0:
-                    servePos = new CourtPosition(CourtPosition.L_FRONT);
-                    break;
-                case 1:
-                    servePos = new CourtPosition(CourtPosition.R_FRONT);
-                    break;
-                case 2:
-                    servePos = new CourtPosition(CourtPosition.L_BACK);
-                    break;
-                case 3:
-                    servePos = new CourtPosition(CourtPosition.R_BACK);
-                    break;
-            }
+            servePos = getServePositionFromFourPoint();
         }
-        prevPos = servePos;
+        return servePos;
+    }
+
+    private CourtPosition getServePositionFromSixPoint() {
+        CourtPosition servePos = null;
+        switch (rand.nextInt(6)) {
+            case 0:
+                servePos = new CourtPosition(CourtPosition.L_FRONT);
+                break;
+            case 1:
+                servePos = new CourtPosition(CourtPosition.R_FRONT);
+                break;
+            case 2:
+                servePos = new CourtPosition(CourtPosition.L_BACK);
+                break;
+            case 3:
+                servePos = new CourtPosition(CourtPosition.R_BACK);
+                break;
+            case 4:
+                servePos = new CourtPosition(CourtPosition.L_MID);
+                break;
+            case 5:
+                servePos = new CourtPosition(CourtPosition.R_MID);
+                break;
+        }
+        return servePos;
+    }
+
+    private CourtPosition getServePositionFromFourPoint() {
+        CourtPosition servePos = null;
+        switch (rand.nextInt(4)) {
+            case 0:
+                servePos = new CourtPosition(CourtPosition.L_FRONT);
+                break;
+            case 1:
+                servePos = new CourtPosition(CourtPosition.R_FRONT);
+                break;
+            case 2:
+                servePos = new CourtPosition(CourtPosition.L_BACK);
+                break;
+            case 3:
+                servePos = new CourtPosition(CourtPosition.R_BACK);
+                break;
+        }
         return servePos;
     }
 
@@ -81,46 +98,63 @@ public class GhostPlayer {
      */
     public CourtPosition nextStrike()
     {
+        CourtPosition strikePos = getStrikePosition();
+        prevPos = strikePos;
+        return strikePos;
+    }
+
+    private CourtPosition getStrikePosition() {
         CourtPosition strikePos = null;
         if (sixPoint) {
-            switch (rand.nextInt(6)) {
-                case 0:
-                    strikePos = new CourtPosition(CourtPosition.L_FRONT);
-                    break;
-                case 1:
-                    strikePos = new CourtPosition(CourtPosition.R_FRONT);
-                    break;
-                case 2:
-                    strikePos = new CourtPosition(CourtPosition.L_BACK);
-                    break;
-                case 3:
-                    strikePos = new CourtPosition(CourtPosition.R_BACK);
-                    break;
-                case 4:
-                    strikePos = new CourtPosition(CourtPosition.L_MID);
-                    break;
-                case 5:
-                    strikePos = new CourtPosition(CourtPosition.R_MID);
-                    break;
-            }
+            strikePos = getSixPointStrikePosition();
         }
         else {
-            switch (rand.nextInt(4)) {
-                case 0:
-                    strikePos = new CourtPosition(CourtPosition.L_FRONT);
-                    break;
-                case 1:
-                    strikePos = new CourtPosition(CourtPosition.R_FRONT);
-                    break;
-                case 2:
-                    strikePos = new CourtPosition(CourtPosition.L_BACK);
-                    break;
-                case 3:
-                    strikePos = new CourtPosition(CourtPosition.R_BACK);
-                    break;
-            }
+            strikePos = getFourPointStrikePosition();
         }
-        prevPos = strikePos;
+        return strikePos;
+    }
+
+    private CourtPosition getSixPointStrikePosition() {
+        CourtPosition strikePos = null;
+        switch (rand.nextInt(6)) {
+            case 0:
+                strikePos = new CourtPosition(CourtPosition.L_FRONT);
+                break;
+            case 1:
+                strikePos = new CourtPosition(CourtPosition.R_FRONT);
+                break;
+            case 2:
+                strikePos = new CourtPosition(CourtPosition.L_BACK);
+                break;
+            case 3:
+                strikePos = new CourtPosition(CourtPosition.R_BACK);
+                break;
+            case 4:
+                strikePos = new CourtPosition(CourtPosition.L_MID);
+                break;
+            case 5:
+                strikePos = new CourtPosition(CourtPosition.R_MID);
+                break;
+        }
+        return strikePos;
+    }
+
+    private CourtPosition getFourPointStrikePosition() {
+        CourtPosition strikePos = null;
+        switch (rand.nextInt(4)) {
+            case 0:
+                strikePos = new CourtPosition(CourtPosition.L_FRONT);
+                break;
+            case 1:
+                strikePos = new CourtPosition(CourtPosition.R_FRONT);
+                break;
+            case 2:
+                strikePos = new CourtPosition(CourtPosition.L_BACK);
+                break;
+            case 3:
+                strikePos = new CourtPosition(CourtPosition.R_BACK);
+                break;
+        }
         return strikePos;
     }
 
