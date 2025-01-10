@@ -303,6 +303,19 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
             lblProgress = (TextView) findViewById(R.id.lblProgress);
 
+            runSetsLoop(theSetting, theGhost);
+
+            // check if the set was completed, or cancelled somehow
+            if (!mControl.isCancelled()) {
+                mSessionCompleted = true;
+            }
+
+            finish();
+
+            return "Done";
+        }
+
+        private void runSetsLoop(Setting theSetting, GhostPlayer theGhost) {
             // Loop the sets
             boolean finalSet = false;
             for (int i = 1; i <= theSetting.getSets() && !mControl.isCancelled(); i++) {
@@ -312,22 +325,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 if (i >= theSetting.getSets())
                     finalSet = true;
                 // Loop the reps
-                for (int j = 1; j <= theSetting.getReps() && !mControl.isCancelled(); j++) {
-
-                    CourtPosition pos = theGhost.serve(); // TODO: only serve the first time
-
-                    String progress = new String(j + " / " + theSetting.getReps() +
-                            " (Set " + i + ")");
-
-                    // increase the speed if the ghost ball didn't go to a corner
-                    int sleepTime = theSetting.getInterval();
-                    if (!pos.isCornerPos()) {
-                        sleepTime = (sleepTime * 2) / 3;
-                    }
-
-                    runGhostBallIteration(progress, pos, sleepTime);
-
-                } // end reps loop
+                runRepsLoop(theSetting, theGhost, i, finalSet);
 
                 // Create a toast message when a set is completed
                 if (!mControl.isCancelled()) {
@@ -344,15 +342,25 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 }
 
             } // end sets loop
+        }
 
-            // check if the set was completed, or cancelled somehow
-            if (!mControl.isCancelled()) {
-                mSessionCompleted = true;
-            }
+        private void runRepsLoop(Setting theSetting, GhostPlayer theGhost, int i, boolean finalSet) {
+            for (int j = 1; j <= theSetting.getReps() && !mControl.isCancelled(); j++) {
 
-            finish();
+                CourtPosition pos = theGhost.serve(); // TODO: only serve the first time
 
-            return "Done";
+                String progress = new String(j + " / " + theSetting.getReps() +
+                        " (Set " + i + ")");
+
+                // increase the speed if the ghost ball didn't go to a corner
+                int sleepTime = theSetting.getInterval();
+                if (!pos.isCornerPos()) {
+                    sleepTime = (sleepTime * 2) / 3;
+                }
+
+                runGhostBallIteration(progress, pos, sleepTime);
+
+            } // end reps loop
         }
 
         private void runGhostBallIteration(String progress, CourtPosition pos, int sleepTime) {
