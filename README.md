@@ -119,3 +119,7 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Meets Google Play's new requirements for target API 33
 - Migrated to AndroidX
 - Updated Gradle
+
+1.8.5 - Submitted to Google Play Aug 18, 2023
+- Updated copyright years to include 2025
+- Increased CodeHealth using CodeScene ACE 
