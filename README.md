@@ -120,6 +120,6 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Migrated to AndroidX
 - Updated Gradle
 
-1.8.5 - Submitted to Google Play Aug 18, 2023
+1.8.5 - Submitted to Google Play Jan 11, 2025
 - Updated copyright years to include 2025
 - Increased CodeHealth using CodeScene ACE 
