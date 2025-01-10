@@ -1,5 +1,5 @@
 # RacketGhost
-[![CodeScene Code Health](https://codescene.io/projects/43388/status-badges/code-health)](https://codescene.io/projects/43388)
+[![CodeScene Average Code Health](https://codescene.io/projects/43388/status-badges/average-code-health)](https://codescene.io/projects/43388)
 
 - Android Open Source Ghosting Coach for Squash, Badminton, and Racketlon 
 
