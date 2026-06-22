@@ -128,3 +128,4 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Updated target API level to 35 for Google Play, including Android 15 edge-to-edge handling (#64)
 - Added a back arrow to the summary screen (#65)
 - Added a regression test suite with JaCoCo coverage and GitHub Actions CI (#22)
+- Updated copyright years to include 2026
