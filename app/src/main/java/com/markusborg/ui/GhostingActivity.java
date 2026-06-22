@@ -294,6 +294,9 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         @Override
         protected String doInBackground(Setting... params) {
+            // Register this worker so a Stop/Back can interrupt our Thread.sleep() calls.
+            mControl.setWorker(Thread.currentThread());
+
             Setting theSetting = params[0];
             GhostPlayer theGhost = new GhostPlayer(theSetting.isSixPoints());
 
@@ -326,7 +329,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     try {
                         Thread.sleep((sleepTime / 2));
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        // Interrupted by cancel(); the loop conditions below will exit.
+                        break;
                     }
 
                     // Turn off corner
@@ -334,7 +338,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     try {
                         Thread.sleep((sleepTime / 2) );
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        // Interrupted by cancel(); the loop conditions below will exit.
+                        break;
                     }
                 } // end reps loop
 
@@ -348,7 +353,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                     try {
                         Thread.sleep(theSetting.getBreakTime() * 1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        // Interrupted by cancel(); the outer loop condition will exit.
+                        break;
                     }
                 }
 
@@ -451,38 +457,20 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         }
 
         /**
-         * Display a countdown from 5 s.
+         * Display a countdown from 5 s. Honors cancellation so that pressing Stop
+         * during the countdown returns immediately. Note that InterruptedException
+         * clears the thread's interrupt flag, so we rely on the isCancelled() check
+         * to break out rather than on the flag itself.
          */
         private void displayCountdown() {
-            publishProgress("5");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            publishProgress("4");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            publishProgress("3");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            publishProgress("2");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            publishProgress("1");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            for (int c = 5; c > 0 && !mControl.isCancelled(); c--) {
+                publishProgress(String.valueOf(c));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    // Interrupted by cancel(); stop counting down.
+                    return;
+                }
             }
             publishProgress("");
         }

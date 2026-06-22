@@ -24,6 +24,22 @@ public class ThreadControl {
     private final Lock lock = new ReentrantLock();
     private Condition pauseCondition = lock.newCondition();
     private boolean paused = false, cancelled = false;
+    private Thread worker;
+
+    /**
+     * Register the worker thread driving the session, so that cancel() can
+     * interrupt it and wake it immediately from a blocking Thread.sleep().
+     *
+     * @param worker the secondary worker thread
+     */
+    public void setWorker(Thread worker) {
+        lock.lock();
+        try {
+            this.worker = worker;
+        } finally {
+            lock.unlock();
+        }
+    }
 
     /**
      * Sets the control status to paused. Any thread that calls
@@ -66,6 +82,11 @@ public class ThreadControl {
                 return;
             }
             cancelled = true;
+            // Interrupt the worker so a blocking Thread.sleep() returns immediately
+            // instead of having to run to completion before the loop re-checks.
+            if (worker != null) {
+                worker.interrupt();
+            }
             pauseCondition.signalAll();
         } finally {
             lock.unlock();
