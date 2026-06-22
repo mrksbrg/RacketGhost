@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
 
 android {
     // Release signing is configured only when the keystore details are supplied
@@ -31,11 +32,52 @@ android {
                 signingConfig signingConfigs.config
             }
         }
+        debug {
+            // Collect JaCoCo coverage data when running local unit tests.
+            enableUnitTestCoverage true
+        }
+    }
+    testOptions {
+        // The logic layer (e.g. ThreadControl) references android.util.Log; returning
+        // default values lets those calls no-op in plain JVM unit tests.
+        unitTests.returnDefaultValues = true
     }
     namespace 'com.markusborg.ui'
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+// Generate an HTML + XML coverage report from the local unit tests.
+//   ./gradlew jacocoTestReport
+// Report: app/build/reports/jacoco/jacocoTestReport/html/index.html
+tasks.register('jacocoTestReport', JacocoReport) {
+    dependsOn 'testDebugUnitTest'
+    group = 'verification'
+    description = 'Generates a JaCoCo coverage report for the debug unit tests.'
+
+    reports {
+        html.required = true
+        xml.required = true
+    }
+
+    // Exclude generated/framework classes that should not count toward coverage.
+    def excludes = [
+            '**/R.class', '**/R$*.class', '**/BuildConfig.*',
+            '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*'
+    ]
+    def javaClasses = fileTree(dir: "$buildDir/intermediates/javac/debug",
+            includes: ['**/*.class'], excludes: excludes)
+
+    sourceDirectories.setFrom(files(["$projectDir/src/main/java"]))
+    classDirectories.setFrom(files([javaClasses]))
+    executionData.setFrom(fileTree(dir: buildDir, includes: ['**/*.exec', '**/*.ec']))
 }
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'androidx.appcompat:appcompat:1.0.0'
+
+    testImplementation 'junit:junit:4.13.2'
 }
