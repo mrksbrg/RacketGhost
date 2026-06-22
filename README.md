@@ -1,6 +1,5 @@
 # RacketGhost
-[![Maintainability](https://api.codeclimate.com/v1/badges/f3a9451fd9eb4bd03b40/maintainability)](https://codeclimate.com/github/mrksbrg/RacketGhost/maintainability)
-[![CodeScene Code Health](https://codescene.io/projects/43388/status-badges/code-health)](https://codescene.io/projects/43388)
+[![CodeScene Average Code Health](https://codescene.io/projects/43388/status-badges/average-code-health)](https://codescene.io/projects/43388)
 
 - Android Open Source Ghosting Coach for Squash, Badminton, and Racketlon 
 
@@ -39,7 +38,6 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 ## Further Information
 
 - The current version of RacketGhost is tailored for squash. Although it works fine for badminton as well, refering to court positions as volley left/right does obviously not make sense.
-- As the frequent releases suggest, the project relies on continous deployment. 
 - To compensate for the shorter distances, the interval for volley positions is automatically decreased to 2/3 of the setting.
 - In the main screen the last 3 ghosting sessions are listed, but in the summary screen 15 sessions are presented.
 - You can stop an ongoing ghosting session by pressing "Stop". Press "Back" to return to the main screen.
@@ -121,7 +119,11 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Migrated to AndroidX
 - Updated Gradle
 
-1.8.5 - 2026 summer update
+1.8.5 - Submitted to Google Play Jan 11, 2025
+- Updated copyright years to include 2025
+- Increased CodeHealth using CodeScene ACE
+
+1.8.6 - 2026 summer update
 - Fixed unresponsive Stop button (#63)
 - Updated target API level to 35 for Google Play, including Android 15 edge-to-edge handling (#64)
 - Added a back arrow to the summary screen (#65)
