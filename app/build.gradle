@@ -1,27 +1,35 @@
 apply plugin: 'com.android.application'
 
 android {
+    // Release signing is configured only when the keystore details are supplied
+    // externally (e.g. in local.properties or via -P/ORG_GRADLE_PROJECT_* env vars),
+    // so the project still builds debug on any machine and no secrets live in git:
+    //   RELEASE_STORE_FILE, RELEASE_STORE_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD
     signingConfigs {
         config {
-            keyAlias 'mrksbrg_AndroidKey'
-            keyPassword 'XXXXXXXX'
-            storeFile file('F:/Code/android.jks')
-            storePassword 'XXXXXXXX'
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
+                storeFile file(project.property('RELEASE_STORE_FILE'))
+                storePassword project.property('RELEASE_STORE_PASSWORD')
+                keyAlias project.property('RELEASE_KEY_ALIAS')
+                keyPassword project.property('RELEASE_KEY_PASSWORD')
+            }
         }
     }
-    compileSdk 33
+    compileSdk 35
     defaultConfig {
         applicationId "com.markusborg.test"
         minSdkVersion 14
-        targetSdkVersion 33
-        versionCode 20
-        versionName "1.8.4"
+        targetSdkVersion 35
+        versionCode 21
+        versionName "1.8.5"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
+                signingConfig signingConfigs.config
+            }
         }
     }
     namespace 'com.markusborg.ui'
