@@ -120,3 +120,9 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Meets Google Play's new requirements for target API 33
 - Migrated to AndroidX
 - Updated Gradle
+
+1.8.5 - 2026 summer update
+- Fixed unresponsive Stop button (#63)
+- Updated target API level to 35 for Google Play, including Android 15 edge-to-edge handling (#64)
+- Added a back arrow to the summary screen (#65)
+- Added a regression test suite with JaCoCo coverage and GitHub Actions CI (#22)
