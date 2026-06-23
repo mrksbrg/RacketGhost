@@ -1,33 +1,83 @@
 apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
 
 android {
+    // Release signing is configured only when the keystore details are supplied
+    // externally (e.g. in local.properties or via -P/ORG_GRADLE_PROJECT_* env vars),
+    // so the project still builds debug on any machine and no secrets live in git:
+    //   RELEASE_STORE_FILE, RELEASE_STORE_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD
     signingConfigs {
         config {
-            keyAlias 'mrksbrg_AndroidKey'
-            keyPassword 'XXXXXXXX'
-            storeFile file('F:/Code/android.jks')
-            storePassword 'XXXXXXXX'
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
+                storeFile file(project.property('RELEASE_STORE_FILE'))
+                storePassword project.property('RELEASE_STORE_PASSWORD')
+                keyAlias project.property('RELEASE_KEY_ALIAS')
+                keyPassword project.property('RELEASE_KEY_PASSWORD')
+            }
         }
     }
-    compileSdk 34
+    compileSdk 35
     defaultConfig {
         applicationId "com.markusborg.test"
         minSdkVersion 14
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode 22
-        versionName "1.8.5"
+        versionName "1.8.6"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+            if (project.hasProperty('RELEASE_STORE_FILE')) {
+                signingConfig signingConfigs.config
+            }
+        }
+        debug {
+            // Collect JaCoCo coverage data when running local unit tests.
+            enableUnitTestCoverage true
         }
     }
+    testOptions {
+        // The logic layer (e.g. ThreadControl) references android.util.Log; returning
+        // default values lets those calls no-op in plain JVM unit tests.
+        unitTests.returnDefaultValues = true
+    }
     namespace 'com.markusborg.ui'
+}
+
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+// Generate an HTML + XML coverage report from the local unit tests.
+//   ./gradlew jacocoTestReport
+// Report: app/build/reports/jacoco/jacocoTestReport/html/index.html
+tasks.register('jacocoTestReport', JacocoReport) {
+    dependsOn 'testDebugUnitTest'
+    group = 'verification'
+    description = 'Generates a JaCoCo coverage report for the debug unit tests.'
+
+    reports {
+        html.required = true
+        xml.required = true
+    }
+
+    // Exclude generated/framework classes that should not count toward coverage.
+    def excludes = [
+            '**/R.class', '**/R$*.class', '**/BuildConfig.*',
+            '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*'
+    ]
+    def javaClasses = fileTree(dir: "$buildDir/intermediates/javac/debug",
+            includes: ['**/*.class'], excludes: excludes)
+
+    sourceDirectories.setFrom(files(["$projectDir/src/main/java"]))
+    classDirectories.setFrom(files([javaClasses]))
+    executionData.setFrom(fileTree(dir: buildDir, includes: ['**/*.exec', '**/*.ec']))
 }
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'androidx.appcompat:appcompat:1.0.0'
+
+    testImplementation 'junit:junit:4.13.2'
 }

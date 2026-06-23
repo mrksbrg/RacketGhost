@@ -1,0 +1,14 @@
+<resources>
+
+    <!--
+      On Android 15 (API 35) apps that target SDK 35 are forced edge-to-edge,
+      which makes the dark action bar and content draw behind the status bar.
+      This app uses classic fixed layouts, so we opt out of the enforcement.
+      NOTE: this is a temporary escape hatch; it is ignored once the app
+      targets API 36, at which point insets must be handled properly.
+    -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+    </style>
+
+</resources>

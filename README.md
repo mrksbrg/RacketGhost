@@ -121,4 +121,11 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 
 1.8.5 - Submitted to Google Play Jan 11, 2025
 - Updated copyright years to include 2025
-- Increased CodeHealth using CodeScene ACE 
+- Increased CodeHealth using CodeScene ACE
+
+1.8.6 - 2026 summer update
+- Fixed unresponsive Stop button (#63)
+- Updated target API level to 35 for Google Play, including Android 15 edge-to-edge handling (#64)
+- Added a back arrow to the summary screen (#65)
+- Added a regression test suite with JaCoCo coverage and GitHub Actions CI (#22)
+- Updated copyright years to include 2026
