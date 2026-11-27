@@ -1,4 +1,22 @@
+# Gradle
+.gradle/
+build/
 
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local configuration (SDK path, signing details)
 local.properties
 
-app/release/app-release.apk
+# Build outputs
+app/release/
+*.apk
+*.aab
+
+# OS / tool clutter
+.DS_Store
+.Rhistory
