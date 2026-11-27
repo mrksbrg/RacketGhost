@@ -36,6 +36,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     private ThreadControl mControl;
     private Setting mSetting;
     private AudioManager mAudioManager;
+    private int mOriginalVolume = -1; // user's volume before the session, restored on exit
     private SoundPool mSoundPool;
     private int[] mSoundIDs; // six sounds, clockwise from front left
     private boolean mLoaded;
@@ -98,6 +99,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             mSoundIDs = new int[8];
             mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
             int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            mOriginalVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
 
             // Take care of the deprecated SoundPool constructor
@@ -131,7 +133,18 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     @Override
     protected void onPause() {
         mControl.cancel();
+        restoreOriginalVolume();
         super.onPause();
+    }
+
+    /**
+     * Give the user back the volume they had before the session raised it to max.
+     */
+    private void restoreOriginalVolume() {
+        if (mAudioManager != null && mOriginalVolume >= 0) {
+            mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mOriginalVolume, 0);
+            mOriginalVolume = -1;
+        }
     }
 
     /**
