@@ -1,13 +1,11 @@
 package com.markusborg.ui;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -100,12 +98,7 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
             int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
             mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
 
-            // Take care of the deprecated SoundPool constructor
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                createNewSoundPool();
-            } else {
-                createOldSoundPool();
-            }
+            createSoundPool();
 
             // Load the actual sounds
             mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -138,14 +131,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
      * Switch the icon from squash ball to shuttlecock
      */
     private void setBallIcon(int ballType) {
-        Drawable ballIcon = null;
-
-        // getDrawable changed with API 22
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ballIcon = getBallIconNew(ballType);
-        } else {
-            ballIcon = getBallIconOld(ballType);
-        }
+        Drawable ballIcon = ContextCompat.getDrawable(this,
+                ballType == SQUASH_MODE ? R.drawable.squashball : R.drawable.shuttlecock);
 
         ImageView ball = (ImageView) findViewById(R.id.ballLeftFront);
         ball.setImageDrawable(ballIcon);
@@ -164,97 +151,22 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     /**
      * Switch the background from squash court to badminton court
      */
-    @SuppressWarnings("deprecation")
     private void setBackgroundImage(int mode) {
-        Drawable d = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            d = getBackgroundImageNew(BADMINTON_MODE);
-        }
-        else {
-            d = getBackgroundImageOld(BADMINTON_MODE);
-        }
-
-        View view = (View) findViewById(R.id.ghosting_layout);
+        Drawable d = ContextCompat.getDrawable(this,
+                mode == SQUASH_MODE ? R.drawable.squashcourt : R.drawable.badmintoncourt);
         if (d != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                view.setBackground(d);
-            }
-            else {
-                view.setBackgroundDrawable(d);
-            }
+            findViewById(R.id.ghosting_layout).setBackground(d);
         }
     }
 
-    /**
-     * Return a ball icon from Lollipop and later Android versions
-     *
-     * @param type 0 = squash otherwise = badminton
-     * @return The ball icon
-     */
-    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
-    private Drawable getBallIconNew(int type) {
-        return type == 0 ? getResources().getDrawable(R.drawable.squashball,
-                getApplicationContext().getTheme()) :
-                getResources().getDrawable(R.drawable.shuttlecock,
-                        getApplicationContext().getTheme());
-    }
-
-    /**
-     * Return a ball icon using deprecated method.
-     *
-     * @param type 0 = squash otherwise = badminton
-     * @return The ball icon
-     */
-    @SuppressWarnings("deprecation")
-    private Drawable getBallIconOld(int type) {
-        return type == 0 ? getResources().getDrawable(R.drawable.squashball) :
-                getResources().getDrawable(R.drawable.shuttlecock);
-    }
-
-    /**
-     * Return a ball icon from Lollipop and later Android versions
-     *
-     * @param type 0 = squash otherwise = badminton
-     * @return The ball icon
-     */
-    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
-    private Drawable getBackgroundImageNew(int type) {
-        return type == 0 ? ContextCompat.getDrawable(getApplicationContext(), R.drawable.squashcourt) :
-                ContextCompat.getDrawable(getApplicationContext(), R.drawable.badmintoncourt);
-    }
-
-    /**
-     * Return a badminton court image using deprecated method.
-     *
-     * @param type 0 = squash otherwise = badminton
-     * @return The ball icon
-     */
-    @SuppressWarnings("deprecation")
-    private Drawable getBackgroundImageOld(int type) {
-        return type == 0 ? getResources().getDrawable(R.drawable.squashcourt) :
-                getResources().getDrawable(R.drawable.badmintoncourt);
-    }
-
-    /**
-     * Create a new SoundPool from Lollipop and later Android versions
-     */
-        @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
-        private void createNewSoundPool(){
-            AudioAttributes attributes = new AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_GAME)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                    .build();
-            mSoundPool = new SoundPool.Builder()
+    private void createSoundPool() {
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+        mSoundPool = new SoundPool.Builder()
                 .setAudioAttributes(attributes)
                 .build();
-    }
-
-    /**
-     * Create a new SoundPool using the deprecated constructor for Android versions before Lollipop.
-     */
-    @SuppressWarnings("deprecation")
-    protected void createOldSoundPool(){
-        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     }
 
     /**

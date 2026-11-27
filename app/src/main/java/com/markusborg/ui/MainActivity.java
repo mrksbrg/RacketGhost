@@ -1,6 +1,5 @@
 package com.markusborg.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -230,12 +229,7 @@ public class MainActivity extends AppCompatActivity {
         int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
         mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
 
-        // Take care of the deprecated SoundPool constructor
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            createNewSoundPool();
-        } else {
-            createOldSoundPool();
-        }
+        createSoundPool();
 
         // Load the actual sounds
         mSoundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
@@ -248,11 +242,7 @@ public class MainActivity extends AppCompatActivity {
         mSoundIDs[1] = mSoundPool.load(this, R.raw.badminton, 1);
     }
 
-    /**
-     * Create a new SoundPool from Lollipop and later Android versions
-     */
-    @TargetApi(android.os.Build.VERSION_CODES.LOLLIPOP)
-    private void createNewSoundPool(){
+    private void createSoundPool() {
         AudioAttributes attributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_GAME)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -260,14 +250,6 @@ public class MainActivity extends AppCompatActivity {
         mSoundPool = new SoundPool.Builder()
                 .setAudioAttributes(attributes)
                 .build();
-    }
-
-    /**
-     * Create a new SoundPool using the deprecated constructor for Android versions before Lollipop.
-     */
-    @SuppressWarnings("deprecation")
-    protected void createOldSoundPool(){
-        mSoundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
     }
 
     private class SeekBarListener implements SeekBar.OnSeekBarChangeListener {
