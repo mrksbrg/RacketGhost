@@ -132,13 +132,11 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch (id) {
-            case R.id.action_help:
-                HelpBox.Show(MainActivity.this);
-                break;
-            case R.id.action_about:
-                AboutBox.Show(MainActivity.this);
-                break;
+        // Resource IDs are not compile-time constants (AGP 8+), so no switch here.
+        if (id == R.id.action_help) {
+            HelpBox.Show(MainActivity.this);
+        } else if (id == R.id.action_about) {
+            AboutBox.Show(MainActivity.this);
         }
 
         return super.onOptionsItemSelected(item);
@@ -253,24 +251,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress,
                                       boolean fromUser) {
-            TextView tmp = null;
-            switch (seekBar.getId()) {
-                case R.id.seekBarSets:
-                    tmp = (TextView) findViewById(R.id.txtSets);
-                    tmp.setText("Sets: " + (seekBar.getProgress() + 1));
-                    break;
-                case R.id.seekBarReps:
-                    tmp = (TextView) findViewById(R.id.txtReps);
-                    tmp.setText("Reps: " + (seekBar.getProgress() + 1));
-                    break;
-                case R.id.seekBarInterval:
-                    tmp = (TextView) findViewById(R.id.txtInterval);
-                    tmp.setText("Interval (s): " + (((float) seekBar.getProgress() / 10.0) + 1));
-                    break;
-                case R.id.seekBarBreak:
-                    tmp = (TextView) findViewById(R.id.txtBreak);
-                    tmp.setText("Break btw. sets (s): " + seekBar.getProgress());
-                    break;
+            int id = seekBar.getId();
+            if (id == R.id.seekBarSets) {
+                mTxtSets.setText("Sets: " + (seekBar.getProgress() + 1));
+            } else if (id == R.id.seekBarReps) {
+                mTxtReps.setText("Reps: " + (seekBar.getProgress() + 1));
+            } else if (id == R.id.seekBarInterval) {
+                mTxtInterval.setText("Interval (s): " + (((float) seekBar.getProgress() / 10.0) + 1));
+            } else if (id == R.id.seekBarBreak) {
+                mTxtBreak.setText("Break btw. sets (s): " + seekBar.getProgress());
             }
         }
 

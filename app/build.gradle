@@ -1,5 +1,7 @@
-apply plugin: 'com.android.application'
-apply plugin: 'jacoco'
+plugins {
+    id 'com.android.application'
+    id 'jacoco'
+}
 
 android {
     // Release signing is configured only when the keystore details are supplied
@@ -9,40 +11,40 @@ android {
     signingConfigs {
         config {
             if (project.hasProperty('RELEASE_STORE_FILE')) {
-                storeFile file(project.property('RELEASE_STORE_FILE'))
-                storePassword project.property('RELEASE_STORE_PASSWORD')
-                keyAlias project.property('RELEASE_KEY_ALIAS')
-                keyPassword project.property('RELEASE_KEY_PASSWORD')
+                storeFile = file(project.property('RELEASE_STORE_FILE'))
+                storePassword = project.property('RELEASE_STORE_PASSWORD')
+                keyAlias = project.property('RELEASE_KEY_ALIAS')
+                keyPassword = project.property('RELEASE_KEY_PASSWORD')
             }
         }
     }
-    compileSdk 36
+    compileSdk = 36
     defaultConfig {
-        applicationId "com.markusborg.test"
-        minSdkVersion 23
-        targetSdkVersion 35
-        versionCode 22
-        versionName "1.8.6"
+        applicationId = "com.markusborg.test"
+        minSdk = 23
+        targetSdk = 35
+        versionCode = 22
+        versionName = "1.8.6"
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             if (project.hasProperty('RELEASE_STORE_FILE')) {
-                signingConfig signingConfigs.config
+                signingConfig = signingConfigs.config
             }
         }
         debug {
             // Collect JaCoCo coverage data when running local unit tests.
-            enableUnitTestCoverage true
+            enableUnitTestCoverage = true
         }
     }
     testOptions {
-        // The logic layer (e.g. ThreadControl) references android.util.Log; returning
-        // default values lets those calls no-op in plain JVM unit tests.
+        // Let any android.* calls reached from plain JVM unit tests return default values
+        // instead of throwing.
         unitTests.returnDefaultValues = true
     }
-    namespace 'com.markusborg.ui'
+    namespace = 'com.markusborg.ui'
 }
 
 jacoco {
@@ -67,7 +69,8 @@ tasks.register('jacocoTestReport', JacocoReport) {
             '**/R.class', '**/R$*.class', '**/BuildConfig.*',
             '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*'
     ]
-    def javaClasses = fileTree(dir: "$buildDir/intermediates/javac/debug",
+    def buildDir = layout.buildDirectory
+    def javaClasses = fileTree(dir: buildDir.dir('intermediates/javac/debug'),
             includes: ['**/*.class'], excludes: excludes)
 
     sourceDirectories.setFrom(files(["$projectDir/src/main/java"]))
@@ -75,7 +78,7 @@ tasks.register('jacocoTestReport', JacocoReport) {
     // Point at the unit-test coverage file only. Scanning all of buildDir overlaps other
     // tasks' outputs and fails Gradle's validation when run together with e.g. assembleDebug.
     executionData.setFrom(files(
-            "$buildDir/outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"))
+            buildDir.file('outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec')))
 }
 
 dependencies {
