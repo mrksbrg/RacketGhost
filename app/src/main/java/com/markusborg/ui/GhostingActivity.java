@@ -5,8 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,27 +19,30 @@ import android.widget.Toast;
 
 import com.markusborg.logic.CourtPosition;
 import com.markusborg.logic.GhostPlayer;
+import com.markusborg.logic.GhostingSession;
 import com.markusborg.logic.LogHandler;
 import com.markusborg.logic.Setting;
-import com.markusborg.logic.ThreadControl;
 
 /**
  * The GhostingActivity displays a ghosting session.
- * The actual ghosting session is implemented as an AsyncTask.
+ * The session's timing is run by a {@link GhostingSession} on the main thread.
  *
  * @author  Markus Borg
  * @since   2015-07-30
  */
-public class GhostingActivity extends AppCompatActivity implements GhostingFinishedListener {
+public class GhostingActivity extends AppCompatActivity implements GhostingSession.Listener {
 
-    private ThreadControl mControl;
+    private static final float PAN_FULL = 1.0f;
+    private static final float PAN_QUIET = 0.1f;
+
+    private GhostingSession mSession;
     private Setting mSetting;
+    private TextView mLblProgress;
     private AudioManager mAudioManager;
     private int mOriginalVolume = -1; // user's volume before the session, restored on exit
     private SoundPool mSoundPool;
     private int[] mSoundIDs; // six sounds, clockwise from front left
     private boolean mLoaded;
-    private boolean mSessionCompleted;
     private final int SQUASH_MODE = 0;
     private final int BADMINTON_MODE = 1;
 
@@ -47,10 +51,6 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ghosting);
         Bundle extras = getIntent().getExtras();
-
-        // Create a ThreadControl object to manage the ASyncTask
-        mControl = new ThreadControl();
-        mSessionCompleted = false;
 
         // Create a new setting - it gets a date
         mSetting = new Setting(extras.getBoolean(MainActivity.ISSQUASH),
@@ -61,6 +61,8 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 extras.getBoolean(MainActivity.IS6POINTS),
                 extras.getBoolean(MainActivity.ISAUDIO));
 
+        mLblProgress = (TextView) findViewById(R.id.lblProgress);
+
         // If it is not squash mode, change to badminton shuttlecock and background
         if (!mSetting.isSquash()) {
             setBallIcon(BADMINTON_MODE);
@@ -69,24 +71,19 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
         loadSoundsIfEnabled();
 
-        final GhostingTask gTask = new GhostingTask();
-        gTask.delegate = this;
-        gTask.execute(mSetting);
+        mSession = new GhostingSession(mSetting, new GhostPlayer(mSetting.isSixPoints()),
+                new MainThreadScheduler(), this);
+        mSession.start();
 
         // The stop button lets the user quit a session, identical to clicking back button.
         final Button btnStop = (Button) findViewById(R.id.btnStop);
         btnStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
                 if (mLoaded) {
-                    if (mSetting.isSquash()) {
-                        mSoundPool.play(mSoundIDs[6], 1.0f, 1.0f, 1, 0, 1.0f);
-                    }
-                    else {
-                        mSoundPool.play(mSoundIDs[7], 1.0f, 1.0f, 1, 0, 1.0f);
-                    }
+                    int sound = mSetting.isSquash() ? mSoundIDs[6] : mSoundIDs[7];
+                    mSoundPool.play(sound, PAN_FULL, PAN_FULL, 1, 0, 1.0f);
                 }
-                mControl.cancel();
+                stopSession();
             }
         });
     }
@@ -122,12 +119,21 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
 
     /**
      * Called when the GhostingActivity no longer has focus: stop button, back button, or multitask.
+     * A session never continues in the background, so leaving the screen ends it.
      */
     @Override
     protected void onPause() {
-        mControl.cancel();
+        stopSession();
         restoreOriginalVolume();
         super.onPause();
+    }
+
+    /**
+     * End the session (if still running) and close this screen.
+     */
+    private void stopSession() {
+        mSession.cancel();
+        finish();
     }
 
     /**
@@ -182,27 +188,79 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
                 .build();
     }
 
-    /**
-     * Notify that a ghosting session has been completed.
-     */
+    // ---- GhostingSession.Listener: all called on the main thread ----
+
     @Override
-    public void notifyGhostingFinished() {
-        // Only log and show ResultsActivity if the session was indeed completed
-        if (mSessionCompleted) {
-            printSessionToFile();
-            Intent summaryIntent = new Intent(this, ResultsActivity.class);
-            summaryIntent.putExtra("DATE", mSetting.getDate());
-            summaryIntent.putExtra(MainActivity.ISSQUASH, mSetting.isSquash());
-            summaryIntent.putExtra(MainActivity.SETS, mSetting.getSets());
-            summaryIntent.putExtra(MainActivity.REPS, mSetting.getReps());
-            summaryIntent.putExtra(MainActivity.INTERVAL, mSetting.getInterval());
-            summaryIntent.putExtra(MainActivity.BREAK, mSetting.getBreakTime());
-            summaryIntent.putExtra(MainActivity.IS6POINTS, mSetting.isSixPoints());
-            summaryIntent.putExtra(MainActivity.ISAUDIO, mSetting.isAudio());
-            startActivity(summaryIntent);
+    public void onCountdown(String text) {
+        mLblProgress.setText(text);
+    }
+
+    @Override
+    public void onPositionOn(String progress, CourtPosition pos) {
+        mLblProgress.setText(progress);
+        ballViewFor(pos).setVisibility(View.VISIBLE);
+        playCue(pos);
+    }
+
+    @Override
+    public void onPositionOff(CourtPosition pos) {
+        ballViewFor(pos).setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onSetCompleted() {
+        Toast.makeText(getApplicationContext(), "Set completed!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSessionCompleted() {
+        printSessionToFile();
+        Intent summaryIntent = new Intent(this, ResultsActivity.class);
+        summaryIntent.putExtra("DATE", mSetting.getDate());
+        summaryIntent.putExtra(MainActivity.ISSQUASH, mSetting.isSquash());
+        summaryIntent.putExtra(MainActivity.SETS, mSetting.getSets());
+        summaryIntent.putExtra(MainActivity.REPS, mSetting.getReps());
+        summaryIntent.putExtra(MainActivity.INTERVAL, mSetting.getInterval());
+        summaryIntent.putExtra(MainActivity.BREAK, mSetting.getBreakTime());
+        summaryIntent.putExtra(MainActivity.IS6POINTS, mSetting.isSixPoints());
+        summaryIntent.putExtra(MainActivity.ISAUDIO, mSetting.isAudio());
+        startActivity(summaryIntent);
+        finish();
+    }
+
+    private ImageView ballViewFor(CourtPosition pos) {
+        int id;
+        switch (pos.getPosition()) {
+            case CourtPosition.L_FRONT: id = R.id.ballLeftFront; break;
+            case CourtPosition.R_FRONT: id = R.id.ballRightFront; break;
+            case CourtPosition.L_BACK:  id = R.id.ballLeftBack; break;
+            case CourtPosition.R_BACK:  id = R.id.ballRightBack; break;
+            case CourtPosition.L_MID:   id = R.id.ballLeftMid; break;
+            default:                    id = R.id.ballRightMid; break;
         }
-        // Reset the finished flag
-        mSessionCompleted = false;
+        return (ImageView) findViewById(id);
+    }
+
+    /**
+     * Play the spoken cue for a position, panned to the side of the court it is on.
+     */
+    private void playCue(CourtPosition pos) {
+        if (!mLoaded) {
+            return;
+        }
+        int soundIndex;
+        boolean left;
+        switch (pos.getPosition()) {
+            case CourtPosition.L_FRONT: soundIndex = 0; left = true; break;
+            case CourtPosition.R_FRONT: soundIndex = 1; left = false; break;
+            case CourtPosition.L_BACK:  soundIndex = 4; left = true; break;
+            case CourtPosition.R_BACK:  soundIndex = 3; left = false; break;
+            case CourtPosition.L_MID:   soundIndex = 5; left = true; break;
+            default:                    soundIndex = 2; left = false; break;
+        }
+        float leftVolume = left ? PAN_FULL : PAN_QUIET;
+        float rightVolume = left ? PAN_QUIET : PAN_FULL;
+        mSoundPool.play(mSoundIDs[soundIndex], leftVolume, rightVolume, 1, 0, 1.0f);
     }
 
     /**
@@ -214,208 +272,19 @@ public class GhostingActivity extends AppCompatActivity implements GhostingFinis
     }
 
     /**
-     * Parallel task that manages the actual ghosting session.
+     * Runs session steps on the main thread, so they can update the UI directly.
      */
-    public class GhostingTask extends AsyncTask<Setting, String, String> {
-
-        public GhostingFinishedListener delegate = null;
-        private TextView lblProgress;
+    private static class MainThreadScheduler implements GhostingSession.Scheduler {
+        private final Handler mHandler = new Handler(Looper.getMainLooper());
 
         @Override
-        protected String doInBackground(Setting... params) {
-            // Register this worker so a Stop/Back can interrupt our Thread.sleep() calls.
-            mControl.setWorker(Thread.currentThread());
-
-            Setting theSetting = params[0];
-            GhostPlayer theGhost = new GhostPlayer(theSetting.isSixPoints());
-
-            lblProgress = (TextView) findViewById(R.id.lblProgress);
-
-            runSetsLoop(theSetting, theGhost);
-
-            // check if the set was completed, or cancelled somehow
-            if (!mControl.isCancelled()) {
-                mSessionCompleted = true;
-            }
-
-            finish();
-
-            return "Done";
-        }
-
-        private void runSetsLoop(Setting theSetting, GhostPlayer theGhost) {
-            // Loop the sets
-            boolean finalSet = false;
-            for (int i = 1; i <= theSetting.getSets() && !mControl.isCancelled(); i++) {
-
-                displayCountdown();
-
-                if (i >= theSetting.getSets())
-                    finalSet = true;
-                // Loop the reps
-                runRepsLoop(theSetting, theGhost, i, finalSet);
-
-                // Create a toast message when a set is completed
-                if (!mControl.isCancelled()) {
-                    publishProgress(null);
-                }
-
-                // No rest between sets if there are none left
-                if (!finalSet && !mControl.isCancelled()) {
-                    try {
-                        Thread.sleep(theSetting.getBreakTime() * 1000);
-                    } catch (InterruptedException e) {
-                        // Interrupted by cancel(); the outer loop condition will exit.
-                        break;
-                    }
-                }
-
-            } // end sets loop
-        }
-
-        private void runRepsLoop(Setting theSetting, GhostPlayer theGhost, int i, boolean finalSet) {
-            for (int j = 1; j <= theSetting.getReps() && !mControl.isCancelled(); j++) {
-
-                CourtPosition pos = theGhost.serve(); // TODO: only serve the first time
-
-                String progress = new String(j + " / " + theSetting.getReps() +
-                        " (Set " + i + ")");
-
-                // increase the speed if the ghost ball didn't go to a corner
-                int sleepTime = theSetting.getInterval();
-                if (!pos.isCornerPos()) {
-                    sleepTime = (sleepTime * 2) / 3;
-                }
-
-                runGhostBallIteration(progress, pos, sleepTime);
-
-            } // end reps loop
-        }
-
-        private void runGhostBallIteration(String progress, CourtPosition pos, int sleepTime) {
-            // Turn on corner
-            publishProgress(progress, pos.toString());
-            try {
-                Thread.sleep((sleepTime / 2));
-            } catch (InterruptedException e) {
-                // Interrupted by cancel(); skip the rest, the calling loops will exit.
-                return;
-            }
-
-            // Turn off corner
-            publishProgress(progress, pos.toString(), "OFF");
-            try {
-                Thread.sleep((sleepTime / 2) );
-            } catch (InterruptedException e) {
-                // Interrupted by cancel(); the calling loops will exit.
-                return;
-            }
+        public void schedule(Runnable task, long delayMs) {
+            mHandler.postDelayed(task, delayMs);
         }
 
         @Override
-        protected void onProgressUpdate(String... progress) {
-            if (progress == null) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Set completed!", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-            else if (progress.length == 1) {
-                lblProgress.setText(progress[0]);
-            }
-            else if (progress.length == 2) {
-                lblProgress.setText(progress[0]);
-                String cornerToFlash = progress[1];
-                ImageView ball;
-
-                if (cornerToFlash.equals("L_FRONT")) {
-                    ball = (ImageView) findViewById(R.id.ballLeftFront);
-                    if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[0], 1.0f, 0.1f, 1, 0, 1.0f);
-                    }
-                }
-                else if (cornerToFlash.equals("R_FRONT")) {
-                    ball = (ImageView) findViewById(R.id.ballRightFront);
-                    if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[1], 0.1f, 1.0f, 1, 0, 1.0f);
-                    }
-                }
-                else if (cornerToFlash.equals("L_BACK")) {
-                    ball = (ImageView) findViewById(R.id.ballLeftBack);
-                    if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[4], 1.0f, 0.1f, 1, 0, 1.0f);
-                    }
-                }
-                else if (cornerToFlash.equals("R_BACK")) {
-                    ball = (ImageView) findViewById(R.id.ballRightBack);
-                    if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[3], 0.1f, 1.0f, 1, 0, 1.0f);
-                    }
-                }
-                else if (cornerToFlash.equals("L_MID")) {
-                    ball = (ImageView) findViewById(R.id.ballLeftMid);
-                    if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[5], 1.0f, 0.1f, 1, 0, 1.0f);
-                    }
-                }
-                else {
-                    ball = (ImageView) findViewById(R.id.ballRightMid);
-                    if (mLoaded) {
-                        mSoundPool.play(mSoundIDs[2], 0.1f, 1.0f, 1, 0, 1.0f);
-                    }
-                }
-                ball.setVisibility(View.VISIBLE);
-            }
-            else if (progress.length == 3) {
-                String cornerToTurnOff = progress[1];
-                ImageView ball;
-
-                // Find the current corner
-                if (cornerToTurnOff.equals("L_FRONT")) {
-                    ball = (ImageView) findViewById(R.id.ballLeftFront);
-                }
-                else if (cornerToTurnOff.equals("R_FRONT")) {
-                    ball = (ImageView) findViewById(R.id.ballRightFront);
-                }
-                else if (cornerToTurnOff.equals("L_BACK")) {
-                    ball = (ImageView) findViewById(R.id.ballLeftBack);
-                }
-                else if (cornerToTurnOff.equals("R_BACK")) {
-                    ball = (ImageView) findViewById(R.id.ballRightBack);
-                }
-                else if (cornerToTurnOff.equals("L_MID")) {
-                    ball = (ImageView) findViewById(R.id.ballLeftMid);
-                }
-                else {
-                    ball = (ImageView) findViewById(R.id.ballRightMid);
-                }
-
-                // Reset the current corner
-                ball.setVisibility(View.INVISIBLE);
-            }
+        public void cancelAll() {
+            mHandler.removeCallbacksAndMessages(null);
         }
-
-        @Override
-        protected void onPostExecute(String result) {
-            delegate.notifyGhostingFinished();
-        }
-
-        /**
-         * Display a countdown from 5 s. Honors cancellation so that pressing Stop
-         * during the countdown returns immediately. Note that InterruptedException
-         * clears the thread's interrupt flag, so we rely on the isCancelled() check
-         * to break out rather than on the flag itself.
-         */
-        private void displayCountdown() {
-            for (int c = 5; c > 0 && !mControl.isCancelled(); c--) {
-                publishProgress(String.valueOf(c));
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    // Interrupted by cancel(); stop counting down.
-                    return;
-                }
-            }
-            publishProgress("");
-        }
-
     }
 }
