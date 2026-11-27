@@ -77,7 +77,7 @@ tasks.register('jacocoTestReport', JacocoReport) {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'androidx.appcompat:appcompat:1.6.1'
+    api 'androidx.appcompat:appcompat:1.8.0'
 
     testImplementation 'junit:junit:4.13.2'
 }
