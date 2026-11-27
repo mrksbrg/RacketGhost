@@ -19,7 +19,7 @@ android {
     compileSdk 35
     defaultConfig {
         applicationId "com.markusborg.test"
-        minSdkVersion 14
+        minSdkVersion 23
         targetSdkVersion 35
         versionCode 22
         versionName "1.8.6"
