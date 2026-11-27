@@ -1,7 +1,6 @@
 package com.markusborg.ui;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  * @author  Markus Borg
  * @since   2015-07-30
  */
-public class ResultsActivity extends AppCompatActivity {
+public class ResultsActivity extends SystemBarsActivity {
 
     private ListView mLstView;
     private SessionAdapter mAdapter;

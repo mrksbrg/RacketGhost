@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +29,7 @@ import com.markusborg.logic.Setting;
  * @author  Markus Borg
  * @since   2015-07-30
  */
-public class GhostingActivity extends AppCompatActivity implements GhostingSession.Listener {
+public class GhostingActivity extends SystemBarsActivity implements GhostingSession.Listener {
 
     private static final float PAN_FULL = 1.0f;
     private static final float PAN_QUIET = 0.1f;
