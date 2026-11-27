@@ -129,3 +129,11 @@ Furthermore, there are two checkboxes [DEFAULT=CHECKED]:
 - Added a back arrow to the summary screen (#65)
 - Added a regression test suite with JaCoCo coverage and GitHub Actions CI (#22)
 - Updated copyright years to include 2026
+
+1.9.0 - 2026 autumn update
+- Requires Android 6.0 (API 23) or later
+- Updated target API level to 36 (Android 16): edge-to-edge layout handling, and on tablets a session now keeps running when the screen is rotated
+- The app no longer leaves the media volume at max: the main screen no longer changes it, and a session restores your volume when it ends (#66)
+- Ghosting sessions now run on the main thread instead of a deprecated AsyncTask, so Stop always responds immediately (#68)
+- Updated dependencies and build tools: AppCompat 1.8.0, compile SDK 36, Android Gradle Plugin 9.5 and Gradle 9.9 (#68, #75)
+- Smaller app: unused resources removed and images converted to lossless WebP (#79)
