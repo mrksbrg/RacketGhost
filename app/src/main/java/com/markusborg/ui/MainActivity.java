@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox mChk6Points, mChkAudio;
     private LogHandler mLogger;
     private SharedPreferences mSharedPrefs;
-    private AudioManager mAudioManager;
     private SoundPool mSoundPool;
     private int[] mSoundIDs; // two sounds, squash and badminton
     private boolean mLoaded;
@@ -226,9 +225,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSounds() {
         mSoundIDs = new int[6];
-        mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
-        int maxVolume = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, 0);
 
         // Take care of the deprecated SoundPool constructor
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
