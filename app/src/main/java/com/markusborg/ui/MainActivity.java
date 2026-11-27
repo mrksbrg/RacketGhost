@@ -7,7 +7,6 @@ import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +30,7 @@ import java.util.List;
  * @author  Markus Borg
  * @since   2015-07-29
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SystemBarsActivity {
 
     private Context mAppContext;
     private Spinner mSpinner;
