@@ -46,7 +46,7 @@ android {
 }
 
 jacoco {
-    toolVersion = "0.8.12"
+    toolVersion = "0.8.16"
 }
 
 // Generate an HTML + XML coverage report from the local unit tests.
@@ -72,7 +72,10 @@ tasks.register('jacocoTestReport', JacocoReport) {
 
     sourceDirectories.setFrom(files(["$projectDir/src/main/java"]))
     classDirectories.setFrom(files([javaClasses]))
-    executionData.setFrom(fileTree(dir: buildDir, includes: ['**/*.exec', '**/*.ec']))
+    // Point at the unit-test coverage file only. Scanning all of buildDir overlaps other
+    // tasks' outputs and fails Gradle's validation when run together with e.g. assembleDebug.
+    executionData.setFrom(files(
+            "$buildDir/outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec"))
 }
 
 dependencies {

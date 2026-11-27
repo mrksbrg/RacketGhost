@@ -42,7 +42,7 @@ public class AboutBox {
         //Set the about text
         tvAbout.setText(aboutText);
         // Now Linkify the text
-        Linkify.addLinks(tvAbout, Linkify.ALL);
+        Linkify.addLinks(tvAbout, Linkify.WEB_URLS | Linkify.EMAIL_ADDRESSES | Linkify.PHONE_NUMBERS);
         //Build and show the dialog
         new AlertDialog.Builder(callingActivity)
                 .setTitle(callingActivity.getString(R.string.action_about) + " " + callingActivity.getString(R.string.app_name))
